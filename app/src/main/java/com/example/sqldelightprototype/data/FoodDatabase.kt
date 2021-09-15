@@ -7,7 +7,7 @@ import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlDriver
 
 
-class database(val context: Context) {
+class FoodDatabase(private val context: Context) {
 
     companion object {
         private const val DB_NAME = "food.db"
