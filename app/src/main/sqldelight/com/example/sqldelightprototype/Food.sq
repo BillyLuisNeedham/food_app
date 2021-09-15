@@ -1,0 +1,40 @@
+CREATE TABLE food (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    quantity INTEGER NOT NULL
+);
+
+selectAll:
+SELECT *
+FROM food
+ORDER BY name;
+
+insertOrReplace:
+INSERT OR REPLACE INTO food
+VALUES (?, ?, ?);
+
+selectByName:
+SELECT *
+FROM food
+WHERE name = ?;
+
+selectById:
+SELECT *
+FROM food
+WHERE id = ?;
+
+deleteAll:
+DELETE FROM food;
+
+deleteByName:
+DELETE
+FROM food
+WHERE name = ?;
+
+deleteById:
+DELETE
+FROM food
+WHERE id = ?;
+
+
+
