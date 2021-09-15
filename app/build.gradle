@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'com.squareup.sqldelight'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 
@@ -68,5 +70,13 @@ dependencies {
     // SQLDelight
     implementation "com.squareup.sqldelight:android-driver:$sqldelight_version"
     testImplementation "com.squareup.sqldelight:sqlite-driver:$sqldelight_version"
+
+    // Hilt
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0-alpha03'
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+
+
+
 }
 

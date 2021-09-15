@@ -12,8 +12,10 @@ import androidx.lifecycle.lifecycleScope
 import com.example.sqldelightprototype.Food
 import com.example.sqldelightprototype.data.FoodDatabase
 import com.example.sqldelightprototype.ui.theme.SqlDelightPrototypeTheme
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     //TODO REMOVE when done testing
