@@ -1,15 +1,19 @@
 package com.example.sqldelightprototype.data
 
+import android.app.Application
 import android.content.Context
+import com.example.sqldelightprototype.Database
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlDriver
 
 
-class database() {
+class database(val context: Context) {
 
     companion object {
-        private const val DB_NAME = "test.db"
-        private const val DB_SCHEMA = 1
+        private const val DB_NAME = "food.db"
+
     }
-//    val driver: SqlDriver = AndroidSqliteDriver(Database.Schema.create(this), applicationContext, DB_NAME)
+
+    private val driver = AndroidSqliteDriver(Database.Schema, context, DB_NAME)
+    val queries = Database(driver)
 }
