@@ -3,4 +3,6 @@
     <string name="name">Name</string>
     <string name="amount">Amount</string>
     <string name="add_food">Add Food</string>
+    <string name="add_food_description">Click to navigate to add food screen</string>
+    <string name="error_getting_list">Error getting food list, please try again</string>
 </resources>
