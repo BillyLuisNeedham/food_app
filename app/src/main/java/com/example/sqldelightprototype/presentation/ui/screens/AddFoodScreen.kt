@@ -34,7 +34,10 @@ import com.example.sqldelightprototype.presentation.ui.theme.SqlDelightPrototype
 
 @ExperimentalComposeUiApi
 @Composable
-fun AddFoodScreen(modifier: Modifier = Modifier, addFood: (Food) -> ResultOf<Unit>) {
+fun AddFoodScreen(
+    modifier: Modifier = Modifier,
+    addFood: (Food) -> ResultOf<Unit>
+) {
     val (name, setName) = remember { mutableStateOf("") }
     val (amount, setAmount) = remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -65,8 +68,7 @@ fun AddFoodScreen(modifier: Modifier = Modifier, addFood: (Food) -> ResultOf<Uni
         ButtonBase(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp)
-            ,
+                .padding(top = 16.dp),
             onClick = { onDone() },
         ) {
             Text(text = stringResource(R.string.add_food))
