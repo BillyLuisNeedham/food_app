@@ -30,14 +30,22 @@ class FoodRepositoryImpl @Inject constructor(
                     emit(ResultOf.Success(data = it))
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "error in getAllFoods: $e")
+                Log.e(TAG, "exception in getAllFoods: $e")
                 emit(ResultOf.Error(exception = e))
             }
 
         }
     }
 
-    override suspend fun addFood(food: Food) {
-        TODO("Not yet implemented")
-    }
+    override suspend fun addFood(food: Food): ResultOf<Unit> =
+        withContext(Dispatchers.IO) {
+            try {
+                foodLocalDataSource.add(food)
+                ResultOf.Success(data = Unit)
+            } catch (e: Exception) {
+                Log.e(TAG, "exception within addFood: $e")
+                ResultOf.Error(exception = e)
+            }
+        }
+
 }
