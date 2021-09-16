@@ -1,5 +1,6 @@
 package com.example.sqldelightprototype.presentation.ui.components
 
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
@@ -10,9 +11,10 @@ import com.example.sqldelightprototype.presentation.ui.theme.SqlDelightPrototype
 @Composable
 fun TextInput(
     modifier: Modifier = Modifier,
-    label: String? = null,
     text: String,
     onTextChange: (String) -> Unit,
+    label: String? = null,
+    keyboardOptions: KeyboardOptions = KeyboardOptions()
 ) {
     TextField(
         modifier = modifier,
@@ -22,7 +24,8 @@ fun TextInput(
             label?.let {
                 Text(it)
             }
-        }
+        },
+        keyboardOptions = keyboardOptions
     )
 }
 
