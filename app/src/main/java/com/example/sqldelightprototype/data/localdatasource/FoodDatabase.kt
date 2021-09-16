@@ -1,10 +1,8 @@
-package com.example.sqldelightprototype.data
+package com.example.sqldelightprototype.data.localdatasource
 
-import android.app.Application
 import android.content.Context
 import com.example.sqldelightprototype.Database
 import com.squareup.sqldelight.android.AndroidSqliteDriver
-import com.squareup.sqldelight.db.SqlDriver
 
 
 class FoodDatabase(private val context: Context) {

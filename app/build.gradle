@@ -69,6 +69,7 @@ dependencies {
 
     // SQLDelight
     implementation "com.squareup.sqldelight:android-driver:$sqldelight_version"
+    implementation "com.squareup.sqldelight:coroutines-extensions:$sqldelight_version"
     testImplementation "com.squareup.sqldelight:sqlite-driver:$sqldelight_version"
 
     // Hilt

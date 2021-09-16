@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.lifecycleScope
 import com.example.sqldelightprototype.FoodData
-import com.example.sqldelightprototype.data.FoodDatabase
+import com.example.sqldelightprototype.data.localdatasource.FoodDatabase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
