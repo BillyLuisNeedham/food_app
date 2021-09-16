@@ -63,7 +63,10 @@ fun AddFoodScreen(modifier: Modifier = Modifier, addFood: (Food) -> ResultOf<Uni
             onDone = { onDone() }
         )
         ButtonBase(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp)
+            ,
             onClick = { onDone() },
         ) {
             Text(text = stringResource(R.string.add_food))
