@@ -18,4 +18,5 @@ class DatabaseModule {
     fun provideFoodDatabase(@ApplicationContext appContext: Context): FoodDatabase {
         return FoodDatabase(context = appContext)
     }
+
 }
