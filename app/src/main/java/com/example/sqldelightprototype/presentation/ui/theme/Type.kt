@@ -1,4 +1,4 @@
-package com.example.sqldelightprototype.ui.theme
+package com.example.sqldelightprototype.presentation.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

@@ -1,4 +1,4 @@
-package com.example.sqldelightprototype.ui
+package com.example.sqldelightprototype.presentation.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -12,14 +12,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.sqldelightprototype.Food
-import com.example.sqldelightprototype.ui.theme.SqlDelightPrototypeTheme
+import com.example.sqldelightprototype.FoodData
+import com.example.sqldelightprototype.presentation.ui.theme.SqlDelightPrototypeTheme
 
 @Composable
 //TODO remove db and implement properly using MVVM and DI
 fun FoodApp(
     addFood: () -> Unit,
-    listOfFood: List<Food>
+    listOfFood: List<FoodData>
 ) {
     SqlDelightPrototypeTheme {
         Scaffold(
@@ -56,6 +56,6 @@ fun FoodApp(
 fun FoodAppPreview() {
     FoodApp(
         addFood = {},
-        listOfFood = listOf(Food(id = 1, name = "YUMMY", quantity = 1))
+        listOfFood = listOf(FoodData(id = 1, name = "YUMMY", quantity = 1))
     )
 }

@@ -1,17 +1,11 @@
-package com.example.sqldelightprototype.ui
+package com.example.sqldelightprototype.presentation.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.lifecycleScope
-import com.example.sqldelightprototype.Food
+import com.example.sqldelightprototype.FoodData
 import com.example.sqldelightprototype.data.FoodDatabase
-import com.example.sqldelightprototype.ui.theme.SqlDelightPrototypeTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -20,7 +14,7 @@ class MainActivity : ComponentActivity() {
 
     //TODO REMOVE when done testing
     private var count = 0L
-    private var foods: List<Food>? = null
+    private var foods: List<FoodData>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +31,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun getFoods(database: FoodDatabase): List<Food>? {
+    private fun getFoods(database: FoodDatabase): List<FoodData> {
         return database.queries.foodQueries.selectAll().executeAsList()
     }
 

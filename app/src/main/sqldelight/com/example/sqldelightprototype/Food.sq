@@ -1,4 +1,4 @@
-CREATE TABLE food (
+CREATE TABLE foodData (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     quantity INTEGER NOT NULL
@@ -6,34 +6,34 @@ CREATE TABLE food (
 
 selectAll:
 SELECT *
-FROM food
+FROM foodData
 ORDER BY name;
 
 insertOrReplace:
-INSERT OR REPLACE INTO food
+INSERT OR REPLACE INTO foodData
 VALUES (?, ?, ?);
 
 selectByName:
 SELECT *
-FROM food
+FROM foodData
 WHERE name = ?;
 
 selectById:
 SELECT *
-FROM food
+FROM foodData
 WHERE id = ?;
 
 deleteAll:
-DELETE FROM food;
+DELETE FROM foodData;
 
 deleteByName:
 DELETE
-FROM food
+FROM foodData
 WHERE name = ?;
 
 deleteById:
 DELETE
-FROM food
+FROM foodData
 WHERE id = ?;
 
 

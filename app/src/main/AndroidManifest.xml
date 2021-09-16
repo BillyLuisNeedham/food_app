@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SqlDelightPrototype">
         <activity
-            android:name=".ui.MainActivity"
+            android:name="com.example.sqldelightprototype.presentation.ui.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.SqlDelightPrototype.NoActionBar">
