@@ -9,5 +9,5 @@ import javax.inject.Inject
 class GetAllFoodsUseCase @Inject constructor(
     private val foodRepository: FoodRepository
 ){
-    fun get(): ResultOf<Flow<List<Food>>> = foodRepository.getAllFoods()
+    fun get(): Flow<ResultOf<List<Food>>> = foodRepository.getAllFoods()
 }

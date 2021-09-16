@@ -20,7 +20,7 @@ class FoodLocalDataSourceImpl @Inject constructor(
         }).asFlow().mapToList()
 
 
-    override fun add(food: Food) =
+    override suspend fun add(food: Food) =
         foodDatabase
             .queries.foodQueries.insertOrReplace(
                 id = food.id,

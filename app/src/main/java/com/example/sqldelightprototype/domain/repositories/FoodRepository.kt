@@ -5,6 +5,6 @@ import com.example.sqldelightprototype.domain.models.Food
 import kotlinx.coroutines.flow.Flow
 
 interface FoodRepository {
-    fun getAllFoods(): ResultOf<Flow<List<Food>>>
-    fun addFood(food: Food)
+    fun getAllFoods(): Flow<ResultOf<List<Food>>>
+    suspend fun addFood(food: Food)
 }
