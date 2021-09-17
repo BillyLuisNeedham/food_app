@@ -12,6 +12,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Snackbar
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -38,13 +39,22 @@ import com.example.sqldelightprototype.presentation.ui.theme.SqlDelightPrototype
 @Composable
 fun AddFoodScreen(
     modifier: Modifier = Modifier,
-    addFood: (Food) -> ResultOf<Unit>,
-    navigateBack: () -> Unit
+    addFood: (Food) -> Unit,
+    navigateBack: () -> Unit,
+    uploadState: ResultOf<Unit>?
 ) {
     val (name, setName) = remember { mutableStateOf("") }
     val (amount, setAmount) = remember { mutableStateOf("") }
     val (error, setError) = remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
+
+    LaunchedEffect(key1 = uploadState) {
+        handleActionsOnUploadState(
+            uploadState = uploadState,
+            onError = { setError(true) },
+            onSuccess = navigateBack
+        )
+    }
 
     Column(
         modifier = modifier.fillMaxSize()
@@ -61,12 +71,11 @@ fun AddFoodScreen(
                 amount = amount,
                 setAmount = setAmount,
                 onDone = {
-                    onDone(
+                    onAddFood(
                         name = name,
                         amount = amount,
                         keyboardController = keyboardController,
                         addFood = addFood,
-                        navigateBack = navigateBack,
                         showError = setError
                     )
                 }
@@ -77,12 +86,11 @@ fun AddFoodScreen(
                     .wrapContentHeight()
                     .padding(top = 16.dp),
                 onClick = {
-                    onDone(
+                    onAddFood(
                         name = name,
                         amount = amount,
                         keyboardController = keyboardController,
                         addFood = addFood,
-                        navigateBack = navigateBack,
                         showError = setError
                     )
                 },
@@ -98,32 +106,40 @@ fun AddFoodScreen(
     }
 }
 
+fun handleActionsOnUploadState(
+    uploadState: ResultOf<Unit>?,
+    onError: () -> Unit,
+    onSuccess: () -> Unit
+) {
+    when (uploadState) {
+        is ResultOf.Error -> {
+            onError()
+        }
+        ResultOf.Loading -> {
+            // TODO write
+        }
+        is ResultOf.Success -> {
+            onSuccess()
+        }
+    }
+}
+
 @ExperimentalComposeUiApi
-private fun onDone(
+private fun onAddFood(
     name: String,
     amount: String,
     keyboardController: SoftwareKeyboardController?,
-    addFood: (Food) -> ResultOf<Unit>,
-    navigateBack: () -> Unit,
+    addFood: (Food) -> Unit,
     showError: (Boolean) -> Unit
 ) {
     showError(false)
     keyboardController?.hide()
-    val result = addFood(
+    addFood(
         Food(
             name = name,
             quantity = amount.toInt()
         )
     )
-    when (result) {
-        is ResultOf.Error -> {
-            showError(true)
-        }
-        ResultOf.Loading -> TODO()
-        is ResultOf.Success -> {
-            navigateBack()
-        }
-    }
 }
 
 @ExperimentalComposeUiApi
@@ -144,7 +160,7 @@ private fun TextInputRow(
         TextInput(
             modifier = Modifier
                 .padding(end = 8.dp)
-                .weight(3f),
+                .weight(2f),
             label = stringResource(R.string.name),
             text = name,
             onTextChange = setName,
@@ -185,8 +201,9 @@ private fun TextInputRow(
 fun AddFoodScreenPreview() {
     SqlDelightPrototypeTheme {
         AddFoodScreen(
-            addFood = { ResultOf.Success(data = Unit) },
-            navigateBack = {}
+            addFood = { TODO() },
+            navigateBack = {},
+            uploadState = null
         )
     }
 }

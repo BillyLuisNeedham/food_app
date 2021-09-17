@@ -1,5 +1,6 @@
 package com.example.sqldelightprototype.presentation.ui.navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -53,9 +54,10 @@ private fun NavGraphBuilder.addFoodScreen(navController: NavHostController) {
     composable(Screens.AddFoodScreen.route) {
 
         val viewModel: AddFoodScreenViewModel = hiltViewModel()
-
+        val uploadState = viewModel.uploadState.collectAsState(null)
         AddFoodScreen(
             addFood = viewModel::addFood,
+            uploadState = uploadState.value,
             navigateBack = { navController.navigateUp() }
         )
     }
