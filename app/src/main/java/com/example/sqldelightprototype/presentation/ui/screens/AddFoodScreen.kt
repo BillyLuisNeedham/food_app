@@ -45,6 +45,7 @@ fun AddFoodScreen(
 ) {
     val (name, setName) = remember { mutableStateOf("") }
     val (amount, setAmount) = remember { mutableStateOf("") }
+    val (expiryInDays, setExpiryInDays) = remember { mutableStateOf("") }
     val (error, setError) = remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -63,13 +64,15 @@ fun AddFoodScreen(
         verticalArrangement = Arrangement.Top
     ) {
         Column(modifier = Modifier.weight(1f)) {
-            TextInputRow(
+            TextInputs(
                 modifier = Modifier
                     .padding(top = 72.dp),
                 name = name,
                 setName = setName,
                 amount = amount,
                 setAmount = setAmount,
+                expiryInDays = expiryInDays,
+                setExpiryInDays = setExpiryInDays,
                 onDone = {
                     onAddFood(
                         name = name,
@@ -128,6 +131,8 @@ fun handleActionsOnUploadState(
 private fun onAddFood(
     name: String,
     amount: String,
+    //TODO REMOVE DEFAULT WHEN BUILT
+    expiryDate: Long = 0L,
     keyboardController: SoftwareKeyboardController?,
     addFood: (Food) -> Unit,
     showError: (Boolean) -> Unit
@@ -137,30 +142,30 @@ private fun onAddFood(
     addFood(
         Food(
             name = name,
-            quantity = amount.toInt()
+            quantity = amount.toInt(),
+            expirationDate = expiryDate
         )
     )
 }
 
 @ExperimentalComposeUiApi
 @Composable
-private fun TextInputRow(
+private fun TextInputs(
     modifier: Modifier = Modifier,
     name: String,
     setName: (String) -> Unit,
     amount: String,
     setAmount: (String) -> Unit,
     onDone: () -> Unit,
+    expiryInDays: String,
+    setExpiryInDays: (String) -> Unit,
 ) {
-    val (focusRequester) = FocusRequester.createRefs()
+    val (focusRequesterAmount, focusRequesterExpiry) = FocusRequester.createRefs()
 
-    Row(
-        modifier = modifier
-    ) {
+    Column(modifier = modifier) {
         TextInput(
             modifier = Modifier
-                .padding(end = 8.dp)
-                .weight(2f),
+                .fillMaxWidth(),
             label = stringResource(R.string.name),
             text = name,
             onTextChange = setName,
@@ -171,27 +176,49 @@ private fun TextInputRow(
                 imeAction = ImeAction.Next
             ),
             keyboardActions = KeyboardActions(
-                onNext = { focusRequester.requestFocus() }
+                onNext = { focusRequesterAmount.requestFocus() }
             )
         )
-        TextInput(
-            modifier = Modifier
-                .focusRequester(focusRequester)
-                .weight(1f),
-            label = stringResource(R.string.amount),
-            text = amount,
-            onTextChange = setAmount,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Number,
-                imeAction = ImeAction.Done
-            ),
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    focusRequester.freeFocus()
-                    onDone()
-                }
+
+        Row(modifier = Modifier.padding(top = 12.dp)) {
+            TextInput(
+                modifier = Modifier
+                    .focusRequester(focusRequesterAmount)
+                    .padding(end = 4.dp)
+                    .weight(1f),
+                label = stringResource(R.string.amount),
+                text = amount,
+                onTextChange = setAmount,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        focusRequesterExpiry.requestFocus()
+                    }
+                )
             )
-        )
+            TextInput(
+                modifier = Modifier
+                    .focusRequester(focusRequesterExpiry)
+                    .padding(start = 4.dp)
+                    .weight(1f),
+                label = stringResource(R.string.expires_days_from_now),
+                text = expiryInDays,
+                onTextChange = setExpiryInDays,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        focusRequesterExpiry.freeFocus()
+                        onDone()
+                    }
+                )
+            )
+        }
     }
 }
 
