@@ -1,5 +1,6 @@
 package com.example.sqldelightprototype.presentation.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,6 +30,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.sqldelightprototype.R
+import com.example.sqldelightprototype.data.utils.time.TimeManager
+import com.example.sqldelightprototype.data.utils.time.TimeManagerImpl
 import com.example.sqldelightprototype.domain.ResultOf
 import com.example.sqldelightprototype.domain.models.Food
 import com.example.sqldelightprototype.presentation.ui.components.ButtonBase
@@ -41,7 +44,8 @@ fun AddFoodScreen(
     modifier: Modifier = Modifier,
     addFood: (Food) -> Unit,
     navigateBack: () -> Unit,
-    uploadState: ResultOf<Unit>?
+    uploadState: ResultOf<Unit>?,
+    timeManager: TimeManager
 ) {
     val (name, setName) = remember { mutableStateOf("") }
     val (amount, setAmount) = remember { mutableStateOf("") }
@@ -79,7 +83,10 @@ fun AddFoodScreen(
                         amount = amount,
                         keyboardController = keyboardController,
                         addFood = addFood,
-                        showError = setError
+                        showError = setError,
+                        expiryInDaysFromNow = expiryInDays.toLong(),
+                        timeManager = timeManager
+
                     )
                 }
             )
@@ -94,7 +101,9 @@ fun AddFoodScreen(
                         amount = amount,
                         keyboardController = keyboardController,
                         addFood = addFood,
-                        showError = setError
+                        showError = setError,
+                        expiryInDaysFromNow = expiryInDays.toLong(),
+                        timeManager = timeManager
                     )
                 },
             ) {
@@ -131,19 +140,27 @@ fun handleActionsOnUploadState(
 private fun onAddFood(
     name: String,
     amount: String,
-    //TODO REMOVE DEFAULT WHEN BUILT
-    expiryDate: Long = 0L,
+    expiryInDaysFromNow: Long,
     keyboardController: SoftwareKeyboardController?,
     addFood: (Food) -> Unit,
-    showError: (Boolean) -> Unit
+    showError: (Boolean) -> Unit,
+    timeManager: TimeManager
 ) {
+    val expirationDate = timeManager.getCurrentTimeStampWithDaysAdded(days = expiryInDaysFromNow)
+
+    // TODO Remove when done testing
+    val now = timeManager.getCurrentTimeStamp()
+    Log.d("billytest", "now: $now\n" +
+            "expirationDate: $expirationDate")
+
+
     showError(false)
     keyboardController?.hide()
     addFood(
         Food(
             name = name,
             quantity = amount.toInt(),
-            expirationDate = expiryDate
+            expirationDate = expirationDate
         )
     )
 }
@@ -230,7 +247,8 @@ fun AddFoodScreenPreview() {
         AddFoodScreen(
             addFood = { TODO() },
             navigateBack = {},
-            uploadState = null
+            uploadState = null,
+            timeManager = TimeManagerImpl()
         )
     }
 }

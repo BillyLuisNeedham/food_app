@@ -58,7 +58,8 @@ private fun NavGraphBuilder.addFoodScreen(navController: NavHostController) {
         AddFoodScreen(
             addFood = viewModel::addFood,
             uploadState = uploadState.value,
-            navigateBack = { navController.navigateUp() }
+            navigateBack = { navController.navigateUp() },
+            timeManager = viewModel.timeManager
         )
     }
 }
