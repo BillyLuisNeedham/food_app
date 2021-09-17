@@ -148,12 +148,6 @@ private fun onAddFood(
 ) {
     val expirationDate = timeManager.getCurrentTimeStampWithDaysAdded(days = expiryInDaysFromNow)
 
-    // TODO Remove when done testing
-    val now = timeManager.getCurrentTimeStamp()
-    Log.d("billytest", "now: $now\n" +
-            "expirationDate: $expirationDate")
-
-
     showError(false)
     keyboardController?.hide()
     addFood(

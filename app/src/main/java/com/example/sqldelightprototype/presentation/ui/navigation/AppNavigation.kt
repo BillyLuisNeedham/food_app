@@ -1,6 +1,5 @@
 package com.example.sqldelightprototype.presentation.ui.navigation
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
