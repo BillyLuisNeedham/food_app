@@ -28,7 +28,7 @@ fun AppNavigation(
         navController = navController,
         startDestination = Screens.FoodListScreen.route
     ) {
-        addFoodScreen()
+        addFoodScreen(navController = navController)
         foodListScreen(navController = navController)
     }
 }
@@ -49,11 +49,15 @@ private fun NavGraphBuilder.foodListScreen(navController: NavHostController) {
 }
 
 @ExperimentalComposeUiApi
-private fun NavGraphBuilder.addFoodScreen() {
+private fun NavGraphBuilder.addFoodScreen(navController: NavHostController) {
     composable(Screens.AddFoodScreen.route) {
 
         val viewModel: AddFoodScreenViewModel = hiltViewModel()
 
-        AddFoodScreen(addFood = viewModel::addFood)
+        AddFoodScreen(
+            addFood = viewModel::addFood,
+            navigateBack = { navController.navigateUp() }
+        )
     }
 }
+

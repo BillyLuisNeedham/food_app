@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.withContext
 import java.lang.Exception
 import javax.inject.Inject
@@ -21,21 +22,16 @@ class FoodRepositoryImpl @Inject constructor(
         private const val TAG = "FoodRepositoryImpl"
     }
 
-    override fun getAllFoods(): Flow<ResultOf<List<Food>>> {
-        return flow {
-            emit(ResultOf.Loading)
-
-            try {
-                foodLocalDataSource.getAll().collect {
-                    emit(ResultOf.Success(data = it))
-                }
-            } catch (e: Exception) {
-                Log.e(TAG, "exception in getAllFoods: $e")
-                emit(ResultOf.Error(exception = e))
+    override fun getAllFoods(): Flow<ResultOf<List<Food>>> =
+        try {
+            foodLocalDataSource.getAll().mapNotNull {
+                ResultOf.Success(it)
             }
-
+        } catch (e: Exception) {
+            Log.e(TAG, "exception in getAllFoods: $e")
+            flow { emit(ResultOf.Error(exception = e)) }
         }
-    }
+
 
     override suspend fun addFood(food: Food): ResultOf<Unit> =
         withContext(Dispatchers.IO) {
