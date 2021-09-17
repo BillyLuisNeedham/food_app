@@ -11,11 +11,12 @@ class FoodLocalDataSourceImpl @Inject constructor(
 ) : FoodLocalDataSource {
 
     override fun getAll(): Flow<List<Food>> =
-        foodDatabase.queries.foodQueries.selectAll(mapper = { id, name, quantity ->
+        foodDatabase.queries.foodQueries.selectAll(mapper = { id, name, quantity, expirationDate ->
             Food(
                 id = id,
                 name = name,
-                quantity = quantity.toInt()
+                quantity = quantity.toInt(),
+                expirationDate = expirationDate
             )
         }).asFlow().mapToList()
 
@@ -25,6 +26,7 @@ class FoodLocalDataSourceImpl @Inject constructor(
             .queries.foodQueries.insertOrReplace(
                 id = food.id,
                 name = food.name,
-                quantity = food.quantity.toLong()
+                quantity = food.quantity.toLong(),
+                expiry_date = food.expirationDate
             )
 }
