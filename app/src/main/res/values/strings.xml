@@ -12,4 +12,8 @@
     <string name="days">Days</string>
     <string name="has_expired">Has expired</string>
     <string name="today">Today</string>
+    <string name="reduce_amount_content_description">Reduce quantity of food</string>
+    <string name="increase_amount_content_description">Increase amount of food</string>
+    <string name="expires_in">Expires in:</string>
+    <string name="delete_food_content_description">Delete the food</string>
 </resources>
