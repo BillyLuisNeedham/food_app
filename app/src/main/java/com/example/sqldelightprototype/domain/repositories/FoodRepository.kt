@@ -7,4 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface FoodRepository {
     fun getAllFoods(): Flow<ResultOf<List<Food>>>
     suspend fun addFood(food: Food): ResultOf<Unit>
+    suspend fun deleteFood(food: Food): ResultOf<Unit>
 }
