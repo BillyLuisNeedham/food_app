@@ -82,7 +82,7 @@ private fun FoodListContent(
     setFoodQuantity: (food: FoodUi) -> Unit,
     deleteFood: (food: FoodUi) -> Unit,
 ) {
-    LazyColumn(modifier = modifier) {
+    LazyColumn(modifier = modifier.padding(bottom = 48.dp)) {
         items(foodList) { food ->
             FoodListItem(
                 modifier = Modifier
