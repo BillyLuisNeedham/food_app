@@ -1,5 +1,6 @@
 package com.example.sqldelightprototype.presentation.mappers
 
+import android.content.Context
 import com.example.sqldelightprototype.domain.models.Food
 import com.example.sqldelightprototype.presentation.models.FoodUi
 import com.example.sqldelightprototype.presentation.util.ExpirationMessage
@@ -14,9 +15,12 @@ class FoodUiMapper @Inject constructor(
         private const val TAG = "FoodUiMapper"
     }
 
-    fun Food.toFoodUi(): FoodUi {
+    fun Food.toFoodUi(context: Context): FoodUi {
         val expirationMessage =
-            expirationMessage.getMessageForTimeStamp(timeStampInMilliSeconds = expirationDate)
+            expirationMessage.getMessageForTimeStamp(
+                timeStampInMilliSeconds = expirationDate,
+                context = context
+            )
 
         return FoodUi(
             id = id ?: throw IllegalStateException("$TAG: food.id is null and must not be"),
