@@ -20,13 +20,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.sqldelightprototype.R
 import com.example.sqldelightprototype.domain.ResultOf
-import com.example.sqldelightprototype.domain.models.Food
+import com.example.sqldelightprototype.presentation.models.FoodUi
+import com.example.sqldelightprototype.presentation.ui.components.FoodListItem
 import com.example.sqldelightprototype.presentation.ui.theme.SqlDelightPrototypeTheme
 
 @Composable
 fun FoodListScreen(
-    foodList: ResultOf<List<Food>>,
-    onClickFab: () -> Unit
+    foodList: ResultOf<List<FoodUi>>,
+    onClickFab: () -> Unit,
+    setFoodQuantity: (Int) -> Unit,
+    deleteFood: (foodId: Long) -> Unit,
 ) {
     Scaffold(
         floatingActionButtonPosition = FabPosition.End,
@@ -41,16 +44,26 @@ fun FoodListScreen(
             }
         }
     ) {
-        UiDisplayHandler(foodList = foodList)
+        UiDisplayHandler(
+            foodList = foodList,
+            setFoodQuantity = setFoodQuantity,
+            deleteFood = deleteFood
+        )
     }
 }
 
 @Composable
-private fun UiDisplayHandler(foodList: ResultOf<List<Food>>) {
+private fun UiDisplayHandler(
+    foodList: ResultOf<List<FoodUi>>,
+    setFoodQuantity: (Int) -> Unit,
+    deleteFood: (foodId: Long) -> Unit,
+) {
     return when (foodList) {
         is ResultOf.Success -> FoodListContent(
             modifier = Modifier.fillMaxSize(),
-            foodList = foodList.data
+            foodList = foodList.data,
+            setFoodQuantity = setFoodQuantity,
+            deleteFood = deleteFood
         )
         is ResultOf.Error -> ErrorUi()
         ResultOf.Loading -> LoadingUi()
@@ -60,14 +73,16 @@ private fun UiDisplayHandler(foodList: ResultOf<List<Food>>) {
 @Composable
 private fun FoodListContent(
     modifier: Modifier = Modifier,
-    foodList: List<Food>
+    foodList: List<FoodUi>,
+    setFoodQuantity: (Int) -> Unit,
+    deleteFood: (foodId: Long) -> Unit,
 ) {
     LazyColumn(modifier = modifier) {
         items(foodList) { food ->
-            Text(
-                text = "id: ${food.id}\n" +
-                        "name: ${food.name}\n" +
-                        "quantity: ${food.quantity}"
+            FoodListItem(
+                food = food,
+                setQuantity = setFoodQuantity,
+                deleteFood = deleteFood
             )
         }
     }
@@ -105,7 +120,9 @@ fun FoodListScreenPreview() {
     SqlDelightPrototypeTheme {
         FoodListScreen(
             foodList = ResultOf.Error(),
-            onClickFab = {}
+            onClickFab = {},
+            setFoodQuantity = {},
+            deleteFood = {}
         )
     }
 }
