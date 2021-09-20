@@ -26,7 +26,15 @@ class FoodUiMapper @Inject constructor(
             id = id ?: throw IllegalStateException("$TAG: food.id is null and must not be"),
             name = name,
             quantity = quantity,
+            expirationDate = expirationDate,
             expirationMessage = expirationMessage
         )
     }
+
+    fun FoodUi.toFood() = Food(
+        id = id,
+        name = name,
+        quantity = quantity,
+        expirationDate = expirationDate
+    )
 }

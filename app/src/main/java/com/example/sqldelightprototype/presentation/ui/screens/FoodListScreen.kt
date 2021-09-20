@@ -29,7 +29,7 @@ fun FoodListScreen(
     foodList: ResultOf<List<FoodUi>>,
     onClickFab: () -> Unit,
     setFoodQuantity: (Int) -> Unit,
-    deleteFood: (foodId: Long) -> Unit,
+    deleteFood: (food: FoodUi) -> Unit,
 ) {
     Scaffold(
         floatingActionButtonPosition = FabPosition.End,
@@ -56,7 +56,7 @@ fun FoodListScreen(
 private fun UiDisplayHandler(
     foodList: ResultOf<List<FoodUi>>,
     setFoodQuantity: (Int) -> Unit,
-    deleteFood: (foodId: Long) -> Unit,
+    deleteFood: (food: FoodUi) -> Unit,
 ) {
     return when (foodList) {
         is ResultOf.Success -> FoodListContent(
@@ -75,7 +75,7 @@ private fun FoodListContent(
     modifier: Modifier = Modifier,
     foodList: List<FoodUi>,
     setFoodQuantity: (Int) -> Unit,
-    deleteFood: (foodId: Long) -> Unit,
+    deleteFood: (food: FoodUi) -> Unit,
 ) {
     LazyColumn(modifier = modifier) {
         items(foodList) { food ->

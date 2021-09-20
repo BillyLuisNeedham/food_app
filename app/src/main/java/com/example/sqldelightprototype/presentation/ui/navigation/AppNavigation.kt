@@ -1,8 +1,11 @@
 package com.example.sqldelightprototype.presentation.ui.navigation
 
+import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -13,6 +16,7 @@ import com.example.sqldelightprototype.presentation.ui.screens.AddFoodScreen
 import com.example.sqldelightprototype.presentation.ui.screens.FoodListScreen
 import com.example.sqldelightprototype.presentation.viewmodels.AddFoodScreenViewModel
 import com.example.sqldelightprototype.presentation.viewmodels.FoodListScreenViewModel
+import kotlinx.coroutines.flow.map
 
 sealed class Screens(val route: String) {
     object FoodListScreen : Screens("foodList")
@@ -24,25 +28,42 @@ sealed class Screens(val route: String) {
 fun AppNavigation(
     navController: NavHostController
 ) {
+    val context = LocalContext.current
+
     NavHost(
         navController = navController,
         startDestination = Screens.FoodListScreen.route
     ) {
         addFoodScreen(navController = navController)
-        foodListScreen(navController = navController)
+        foodListScreen(
+            navController = navController,
+            context = context
+        )
     }
 }
 
-private fun NavGraphBuilder.foodListScreen(navController: NavHostController) {
+private fun NavGraphBuilder.foodListScreen(
+    navController: NavHostController,
+    context: Context
+) {
     composable(Screens.FoodListScreen.route) {
 
         val viewModel: FoodListScreenViewModel = hiltViewModel()
-        val foodList = viewModel.getAllFoods().collectAsState(ResultOf.Success(listOf()))
+        val foodList =
+            viewModel.getAllFoods(context = context)
+                .collectAsState(ResultOf.Success(listOf()))
 
         FoodListScreen(
             foodList = foodList.value,
             onClickFab = {
                 navController.navigate(Screens.AddFoodScreen.route)
+            },
+            setFoodQuantity = {
+                //TODO write
+                Log.d("foodListScreen", "setFoodQuantity fired with: $it")
+            },
+            deleteFood = {
+                viewModel.deleteFood(foodUi = it)
             }
         )
     }

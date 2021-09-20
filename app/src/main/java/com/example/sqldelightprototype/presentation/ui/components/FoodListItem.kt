@@ -27,8 +27,7 @@ fun FoodListItem(
     modifier: Modifier = Modifier,
     food: FoodUi,
     setQuantity: (Int) -> Unit,
-    deleteFood: (foodId: Long) -> Unit
-
+    deleteFood: (food: FoodUi) -> Unit,
 ) {
     Row(
         modifier = modifier,
@@ -54,11 +53,11 @@ fun FoodListItem(
 private fun DeleteFood(
     modifier: Modifier = Modifier,
     food: FoodUi,
-    deleteFood: (foodId: Long) -> Unit
+    deleteFood: (food: FoodUi) -> Unit,
 ) {
     IconButton(
         modifier = modifier,
-        onClick = { deleteFood(food.id) }
+        onClick = { deleteFood(food) }
     ) {
         Icon(Icons.Filled.Delete, contentDescription = stringResource(R.string.delete_food_content_description))
     }
@@ -119,7 +118,8 @@ private fun FoodListItemPreview() {
         id = 1L,
         name = "Apples",
         quantity = 3,
-        expirationMessage = "4 Days"
+        expirationMessage = "4 Days",
+        expirationDate = 10L
     )
 
     SqlDelightPrototypeTheme {
