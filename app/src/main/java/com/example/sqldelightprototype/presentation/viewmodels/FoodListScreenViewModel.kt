@@ -47,7 +47,7 @@ class FoodListScreenViewModel @Inject constructor(
             }
             is ResultOf.Success -> {
                 _state.value = ResultOf.Success(data = Unit)
-                handleMappingSuccessToUiModel(
+                mapSuccessToUiModel(
                     models = it,
                     context = context
                 )
@@ -88,7 +88,7 @@ class FoodListScreenViewModel @Inject constructor(
             this@mapFoodUiToFood.toFood()
         }
 
-    private fun handleMappingSuccessToUiModel(
+    private fun mapSuccessToUiModel(
         models: ResultOf.Success<List<Food>>,
         context: Context
     ) = models.data.map { food ->
