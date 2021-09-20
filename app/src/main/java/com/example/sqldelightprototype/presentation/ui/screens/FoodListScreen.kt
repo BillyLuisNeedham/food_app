@@ -28,10 +28,11 @@ import com.example.sqldelightprototype.presentation.ui.theme.SqlDelightPrototype
 
 @Composable
 fun FoodListScreen(
-    foodList: ResultOf<List<FoodUi>>,
+    foodList: List<FoodUi>,
     onClickFab: () -> Unit,
     setFoodQuantity: (food: FoodUi) -> Unit,
     deleteFood: (food: FoodUi) -> Unit,
+    screenState: ResultOf<Unit>
 ) {
     Scaffold(
         floatingActionButtonPosition = FabPosition.End,
@@ -49,21 +50,23 @@ fun FoodListScreen(
         UiDisplayHandler(
             foodList = foodList,
             setFoodQuantity = setFoodQuantity,
-            deleteFood = deleteFood
+            deleteFood = deleteFood,
+            screenState = screenState
         )
     }
 }
 
 @Composable
 private fun UiDisplayHandler(
-    foodList: ResultOf<List<FoodUi>>,
+    foodList: List<FoodUi>,
     setFoodQuantity: (food: FoodUi) -> Unit,
     deleteFood: (food: FoodUi) -> Unit,
+    screenState: ResultOf<Unit>
 ) {
-    return when (foodList) {
+    return when (screenState) {
         is ResultOf.Success -> FoodListContent(
             modifier = Modifier.fillMaxSize(),
-            foodList = foodList.data,
+            foodList = foodList,
             setFoodQuantity = setFoodQuantity,
             deleteFood = deleteFood
         )
@@ -125,10 +128,11 @@ private fun CenteredContent(content: @Composable () -> Unit) {
 fun FoodListScreenPreview() {
     SqlDelightPrototypeTheme {
         FoodListScreen(
-            foodList = ResultOf.Error(),
+            foodList = listOf(),
             onClickFab = {},
             setFoodQuantity = {},
-            deleteFood = {}
+            deleteFood = {},
+            screenState = ResultOf.Success(data = Unit)
         )
     }
 }

@@ -12,6 +12,8 @@ import com.example.sqldelightprototype.domain.usecases.UpdateFoodUseCase
 import com.example.sqldelightprototype.presentation.mappers.FoodUiMapper
 import com.example.sqldelightprototype.presentation.models.FoodUi
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -29,25 +31,40 @@ class FoodListScreenViewModel @Inject constructor(
         private const val TAG = "FoodListScreenViewModel"
     }
 
+    private val _state = MutableStateFlow<ResultOf<Unit>>(ResultOf.Success(data = Unit))
+    val state: StateFlow<ResultOf<Unit>>
+        get() = _state
+
     fun getAllFoods(context: Context) = getAllFoodsUseCase.get().map {
         when (it) {
-            is ResultOf.Error -> handleMappingErrorToUiModel(error = it)
-            ResultOf.Loading -> ResultOf.Loading
-            is ResultOf.Success -> handleMappingSuccessToUiModel(
-                models = it,
-                context = context
-            )
+            is ResultOf.Error -> {
+                _state.value = it
+                listOf()
+            }
+            ResultOf.Loading -> {
+                _state.value = ResultOf.Loading
+                listOf()
+            }
+            is ResultOf.Success -> {
+                _state.value = ResultOf.Success(data = Unit)
+                handleMappingSuccessToUiModel(
+                    models = it,
+                    context = context
+                )
+            }
         }
     }
 
     fun deleteFood(foodUi: FoodUi) {
         viewModelScope.launch {
             try {
+                _state.value = ResultOf.Loading
                 val food = foodUi.mapFoodUiToFood()
-                deleteFoodUseCase.delete(food = food)
+                val result = deleteFoodUseCase.delete(food = food)
+                _state.value = result
             } catch (e: Exception) {
                 Log.e(TAG, "exception within deleteFood: $e")
-                //TODO display error to user
+                _state.value = ResultOf.Error(exception = e)
             }
         }
     }
@@ -55,11 +72,13 @@ class FoodListScreenViewModel @Inject constructor(
     fun updateFood(foodUi: FoodUi) {
         viewModelScope.launch {
             try {
+                _state.value = ResultOf.Loading
                 val food = foodUi.mapFoodUiToFood()
-                updateFoodUseCase.update(food = food)
+                val result = updateFoodUseCase.update(food = food)
+                _state.value = result
             } catch (e: Exception) {
                 Log.e(TAG, "exception within setFoodQuantity: $e")
-                //TODO display error to user
+                _state.value = ResultOf.Error(exception = e)
             }
         }
     }
@@ -69,15 +88,12 @@ class FoodListScreenViewModel @Inject constructor(
             this@mapFoodUiToFood.toFood()
         }
 
-    private fun handleMappingErrorToUiModel(error: ResultOf.Error) =
-        ResultOf.Error(message = error.message, exception = error.exception)
-
     private fun handleMappingSuccessToUiModel(
         models: ResultOf.Success<List<Food>>,
         context: Context
-    ) = ResultOf.Success(data = models.data.map { food ->
+    ) = models.data.map { food ->
         with(foodUiMapper) {
             food.toFoodUi(context = context)
         }
-    })
+    }
 }

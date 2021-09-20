@@ -1,7 +1,6 @@
 package com.example.sqldelightprototype.presentation.ui.navigation
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -11,12 +10,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.sqldelightprototype.domain.ResultOf
 import com.example.sqldelightprototype.presentation.ui.screens.AddFoodScreen
 import com.example.sqldelightprototype.presentation.ui.screens.FoodListScreen
 import com.example.sqldelightprototype.presentation.viewmodels.AddFoodScreenViewModel
 import com.example.sqldelightprototype.presentation.viewmodels.FoodListScreenViewModel
-import kotlinx.coroutines.flow.map
 
 sealed class Screens(val route: String) {
     object FoodListScreen : Screens("foodList")
@@ -51,7 +48,8 @@ private fun NavGraphBuilder.foodListScreen(
         val viewModel: FoodListScreenViewModel = hiltViewModel()
         val foodList =
             viewModel.getAllFoods(context = context)
-                .collectAsState(ResultOf.Success(listOf()))
+                .collectAsState(listOf())
+        val screenState = viewModel.state.collectAsState()
 
         FoodListScreen(
             foodList = foodList.value,
@@ -63,7 +61,8 @@ private fun NavGraphBuilder.foodListScreen(
             },
             deleteFood = {
                 viewModel.deleteFood(foodUi = it)
-            }
+            },
+            screenState = screenState.value
         )
     }
 }
