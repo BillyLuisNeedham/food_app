@@ -37,6 +37,8 @@ class FoodLocalDataSourceImpl @Inject constructor(
                 expiry_date = food.expirationDate
             )
 
+    override suspend fun update(food: Food) = add(food = food)
+
     override suspend fun delete(food: Food) {
         food.id?.let {
             foodDatabase

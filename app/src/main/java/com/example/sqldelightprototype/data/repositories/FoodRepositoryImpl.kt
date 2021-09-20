@@ -44,6 +44,21 @@ class FoodRepositoryImpl @Inject constructor(
             }
         }
 
+    override suspend fun updateFood(food: Food): ResultOf<Unit> =
+        withContext(Dispatchers.IO) {
+            try {
+                val foodToUpdate = when {
+                    food.quantity < 0 -> food.copy(quantity = 0)
+                    else -> food
+                }
+                foodLocalDataSource.update(food = foodToUpdate)
+                ResultOf.Success(data = Unit)
+            } catch (e: Exception) {
+                Log.e(TAG, "exception within updateFood: $e")
+                ResultOf.Error(exception = e)
+            }
+        }
+
     override suspend fun deleteFood(food: Food): ResultOf<Unit> =
         withContext(Dispatchers.IO) {
             try {

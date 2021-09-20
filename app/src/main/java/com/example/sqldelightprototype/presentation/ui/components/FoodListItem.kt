@@ -29,7 +29,7 @@ import com.example.sqldelightprototype.presentation.ui.theme.SqlDelightPrototype
 fun FoodListItem(
     modifier: Modifier = Modifier,
     food: FoodUi,
-    setQuantity: (Int) -> Unit,
+    setFoodQuantity: (food: FoodUi) -> Unit,
     deleteFood: (food: FoodUi) -> Unit,
 ) {
     Card(
@@ -40,7 +40,7 @@ fun FoodListItem(
         FoodListItemContent(
             modifier = Modifier.padding(vertical = 8.dp),
             food = food,
-            setQuantity = setQuantity,
+            setFoodQuantity = setFoodQuantity,
             deleteFood = deleteFood
         )
     }
@@ -51,7 +51,7 @@ fun FoodListItem(
 private fun FoodListItemContent(
     modifier: Modifier = Modifier,
     food: FoodUi,
-    setQuantity: (Int) -> Unit,
+    setFoodQuantity: (food: FoodUi) -> Unit,
     deleteFood: (food: FoodUi) -> Unit,
 ) {
     Row(
@@ -69,7 +69,10 @@ private fun FoodListItemContent(
         ExpiresDisplay(expiresMessage = food.expirationMessage)
         QuantityDisplay(
             quantity = food.quantity,
-            setQuantity = setQuantity
+            setQuantity = {
+                val newFood = food.copy(quantity = it)
+                setFoodQuantity(newFood)
+            }
         )
         DeleteFood(food = food, deleteFood = deleteFood)
     }
@@ -154,7 +157,7 @@ private fun FoodListItemPreview() {
     SqlDelightPrototypeTheme {
         FoodListItem(
             food = food,
-            setQuantity = {},
+            setFoodQuantity = {},
             deleteFood = {}
         )
     }

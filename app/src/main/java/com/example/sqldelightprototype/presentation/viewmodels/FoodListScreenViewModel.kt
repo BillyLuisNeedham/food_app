@@ -8,6 +8,7 @@ import com.example.sqldelightprototype.domain.ResultOf
 import com.example.sqldelightprototype.domain.models.Food
 import com.example.sqldelightprototype.domain.usecases.DeleteFoodUseCase
 import com.example.sqldelightprototype.domain.usecases.GetAllFoodsUseCase
+import com.example.sqldelightprototype.domain.usecases.UpdateFoodUseCase
 import com.example.sqldelightprototype.presentation.mappers.FoodUiMapper
 import com.example.sqldelightprototype.presentation.models.FoodUi
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,6 +21,7 @@ import javax.inject.Inject
 class FoodListScreenViewModel @Inject constructor(
     private val getAllFoodsUseCase: GetAllFoodsUseCase,
     private val deleteFoodUseCase: DeleteFoodUseCase,
+    private val updateFoodUseCase: UpdateFoodUseCase,
     private val foodUiMapper: FoodUiMapper
 ) : ViewModel() {
 
@@ -41,16 +43,31 @@ class FoodListScreenViewModel @Inject constructor(
     fun deleteFood(foodUi: FoodUi) {
         viewModelScope.launch {
             try {
-            val food = with(foodUiMapper) {
-                foodUi.toFood()
-            }
-            deleteFoodUseCase.delete(food = food)
+                val food = foodUi.mapFoodUiToFood()
+                deleteFoodUseCase.delete(food = food)
             } catch (e: Exception) {
                 Log.e(TAG, "exception within deleteFood: $e")
                 //TODO display error to user
             }
         }
     }
+
+    fun updateFood(foodUi: FoodUi) {
+        viewModelScope.launch {
+            try {
+                val food = foodUi.mapFoodUiToFood()
+                updateFoodUseCase.update(food = food)
+            } catch (e: Exception) {
+                Log.e(TAG, "exception within setFoodQuantity: $e")
+                //TODO display error to user
+            }
+        }
+    }
+
+    private fun FoodUi.mapFoodUiToFood(): Food =
+        with(foodUiMapper) {
+            this@mapFoodUiToFood.toFood()
+        }
 
     private fun handleMappingErrorToUiModel(error: ResultOf.Error) =
         ResultOf.Error(message = error.message, exception = error.exception)

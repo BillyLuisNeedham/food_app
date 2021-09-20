@@ -59,8 +59,7 @@ private fun NavGraphBuilder.foodListScreen(
                 navController.navigate(Screens.AddFoodScreen.route)
             },
             setFoodQuantity = {
-                //TODO write
-                Log.d("foodListScreen", "setFoodQuantity fired with: $it")
+                viewModel.updateFood(foodUi = it)
             },
             deleteFood = {
                 viewModel.deleteFood(foodUi = it)

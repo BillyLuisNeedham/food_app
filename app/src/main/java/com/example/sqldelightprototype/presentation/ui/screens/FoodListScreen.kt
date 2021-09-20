@@ -30,7 +30,7 @@ import com.example.sqldelightprototype.presentation.ui.theme.SqlDelightPrototype
 fun FoodListScreen(
     foodList: ResultOf<List<FoodUi>>,
     onClickFab: () -> Unit,
-    setFoodQuantity: (Int) -> Unit,
+    setFoodQuantity: (food: FoodUi) -> Unit,
     deleteFood: (food: FoodUi) -> Unit,
 ) {
     Scaffold(
@@ -57,7 +57,7 @@ fun FoodListScreen(
 @Composable
 private fun UiDisplayHandler(
     foodList: ResultOf<List<FoodUi>>,
-    setFoodQuantity: (Int) -> Unit,
+    setFoodQuantity: (food: FoodUi) -> Unit,
     deleteFood: (food: FoodUi) -> Unit,
 ) {
     return when (foodList) {
@@ -76,7 +76,7 @@ private fun UiDisplayHandler(
 private fun FoodListContent(
     modifier: Modifier = Modifier,
     foodList: List<FoodUi>,
-    setFoodQuantity: (Int) -> Unit,
+    setFoodQuantity: (food: FoodUi) -> Unit,
     deleteFood: (food: FoodUi) -> Unit,
 ) {
     LazyColumn(modifier = modifier) {
@@ -87,7 +87,7 @@ private fun FoodListContent(
                     .padding(8.dp)
                 ,
                 food = food,
-                setQuantity = setFoodQuantity,
+                setFoodQuantity = setFoodQuantity,
                 deleteFood = deleteFood
             )
         }
