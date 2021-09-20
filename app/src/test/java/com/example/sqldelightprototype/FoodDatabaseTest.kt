@@ -21,7 +21,8 @@ class FoodDatabaseTest {
         queries.insertOrReplace(
             id = null,
             name = "test",
-            quantity = 1
+            quantity = 1,
+            expiry_date = 10L
         )
 
         val items = queries.selectAll().executeAsList()

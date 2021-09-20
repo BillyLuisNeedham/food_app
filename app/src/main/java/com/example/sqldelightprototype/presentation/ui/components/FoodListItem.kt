@@ -1,8 +1,11 @@
 package com.example.sqldelightprototype.presentation.ui.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -29,9 +32,32 @@ fun FoodListItem(
     setQuantity: (Int) -> Unit,
     deleteFood: (food: FoodUi) -> Unit,
 ) {
-    Row(
+    Card(
         modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically
+        elevation = 2.dp,
+        backgroundColor = MaterialTheme.colors.surface
+    ) {
+        FoodListItemContent(
+            modifier = Modifier.padding(vertical = 8.dp),
+            food = food,
+            setQuantity = setQuantity,
+            deleteFood = deleteFood
+        )
+    }
+
+}
+
+@Composable
+private fun FoodListItemContent(
+    modifier: Modifier = Modifier,
+    food: FoodUi,
+    setQuantity: (Int) -> Unit,
+    deleteFood: (food: FoodUi) -> Unit,
+) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
             modifier = Modifier.padding(horizontal = 16.dp),
@@ -59,7 +85,10 @@ private fun DeleteFood(
         modifier = modifier,
         onClick = { deleteFood(food) }
     ) {
-        Icon(Icons.Filled.Delete, contentDescription = stringResource(R.string.delete_food_content_description))
+        Icon(
+            Icons.Filled.Delete,
+            contentDescription = stringResource(R.string.delete_food_content_description)
+        )
     }
 }
 
