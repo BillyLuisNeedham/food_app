@@ -5,7 +5,7 @@
     <string name="add_food">Add Food</string>
     <string name="add_food_description">Click to navigate to add food screen</string>
     <string name="error_getting_list">Error getting food list, please try again</string>
-    <string name="error_adding_food">An error occured while attempting to add food. Please try again</string>
+    <string name="error_adding_food">An error occurred while attempting to add food. Please try again</string>
     <string name="expires_days_from_now">Expires in days</string>
 
     <string name="one_day">One Day</string>
