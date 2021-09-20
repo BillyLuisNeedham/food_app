@@ -7,4 +7,9 @@
     <string name="error_getting_list">Error getting food list, please try again</string>
     <string name="error_adding_food">An error occured while attempting to add food. Please try again</string>
     <string name="expires_days_from_now">Expires in days</string>
+
+    <string name="one_day">One Day</string>
+    <string name="days">Days</string>
+    <string name="has_expired">Has expired</string>
+    <string name="today">Today</string>
 </resources>
