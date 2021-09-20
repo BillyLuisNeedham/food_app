@@ -87,8 +87,7 @@ private fun FoodListContent(
             FoodListItem(
                 modifier = Modifier
                     .fillParentMaxWidth()
-                    .padding(8.dp)
-                ,
+                    .padding(top = 16.dp),
                 food = food,
                 setFoodQuantity = setFoodQuantity,
                 deleteFood = deleteFood
