@@ -36,10 +36,21 @@ class FoodRepositoryImpl @Inject constructor(
     override suspend fun addFood(food: Food): ResultOf<Unit> =
         withContext(Dispatchers.IO) {
             try {
-                foodLocalDataSource.add(food)
+                foodLocalDataSource.add(food = food)
                 ResultOf.Success(data = Unit)
             } catch (e: Exception) {
                 Log.e(TAG, "exception within addFood: $e")
+                ResultOf.Error(exception = e)
+            }
+        }
+
+    override suspend fun deleteFood(food: Food): ResultOf<Unit> =
+        withContext(Dispatchers.IO) {
+            try {
+                foodLocalDataSource.delete(food = food)
+                ResultOf.Success(data = Unit)
+            } catch (e: Exception) {
+                Log.e(TAG, "exception within deleteFood: $e")
                 ResultOf.Error(exception = e)
             }
         }

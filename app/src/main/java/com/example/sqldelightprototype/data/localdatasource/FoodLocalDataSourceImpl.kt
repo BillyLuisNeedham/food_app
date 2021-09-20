@@ -4,21 +4,28 @@ import com.example.sqldelightprototype.domain.models.Food
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.flow.Flow
+import java.lang.IllegalStateException
 import javax.inject.Inject
 
 class FoodLocalDataSourceImpl @Inject constructor(
     private val foodDatabase: FoodDatabase
 ) : FoodLocalDataSource {
 
+    companion object {
+        private const val TAG = "FoodLocalDataSourceImpl"
+    }
+
     override fun getAll(): Flow<List<Food>> =
-        foodDatabase.queries.foodQueries.selectAll(mapper = { id, name, quantity, expirationDate ->
-            Food(
-                id = id,
-                name = name,
-                quantity = quantity.toInt(),
-                expirationDate = expirationDate
-            )
-        }).asFlow().mapToList()
+        foodDatabase
+            .queries.foodQueries.selectAll(
+                mapper = { id, name, quantity, expirationDate ->
+                    Food(
+                        id = id,
+                        name = name,
+                        quantity = quantity.toInt(),
+                        expirationDate = expirationDate
+                    )
+                }).asFlow().mapToList()
 
 
     override suspend fun add(food: Food) =
@@ -29,4 +36,11 @@ class FoodLocalDataSourceImpl @Inject constructor(
                 quantity = food.quantity.toLong(),
                 expiry_date = food.expirationDate
             )
+
+    override suspend fun delete(food: Food) {
+        food.id?.let {
+            foodDatabase
+                .queries.foodQueries.deleteById(id = food.id)
+        } ?: throw IllegalStateException("$TAG: food.id is null and must not be")
+    }
 }
