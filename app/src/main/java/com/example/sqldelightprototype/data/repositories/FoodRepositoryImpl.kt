@@ -1,6 +1,5 @@
 package com.example.sqldelightprototype.data.repositories
 
-import android.nfc.Tag
 import android.util.Log
 import com.example.sqldelightprototype.data.localdatasource.FoodLocalDataSource
 import com.example.sqldelightprototype.domain.ResultOf
@@ -8,11 +7,9 @@ import com.example.sqldelightprototype.domain.models.Food
 import com.example.sqldelightprototype.domain.repositories.FoodRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.withContext
-import java.lang.Exception
 import javax.inject.Inject
 
 class FoodRepositoryImpl @Inject constructor(
