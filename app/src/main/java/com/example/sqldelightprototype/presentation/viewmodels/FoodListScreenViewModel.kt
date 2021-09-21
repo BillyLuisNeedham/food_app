@@ -1,6 +1,5 @@
 package com.example.sqldelightprototype.presentation.viewmodels
 
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,6 +7,7 @@ import com.example.sqldelightprototype.domain.ResultOf
 import com.example.sqldelightprototype.domain.models.Food
 import com.example.sqldelightprototype.domain.usecases.DeleteAllFoodsUseCase
 import com.example.sqldelightprototype.domain.usecases.DeleteFoodUseCase
+import com.example.sqldelightprototype.domain.usecases.GetAllFoodsSortedByAmountUseCase
 import com.example.sqldelightprototype.domain.usecases.GetAllFoodsSortedByExpiryUseCase
 import com.example.sqldelightprototype.domain.usecases.GetAllFoodsSortedByNameUseCase
 import com.example.sqldelightprototype.domain.usecases.UpdateFoodUseCase
@@ -20,13 +20,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
 class FoodListScreenViewModel @Inject constructor(
     private val getAllFoodsSortedByNameUseCase: GetAllFoodsSortedByNameUseCase,
     private val getAllFoodsSortedByExpiryUseCase: GetAllFoodsSortedByExpiryUseCase,
+    private val getAllFoodsSortedByAmountUseCase: GetAllFoodsSortedByAmountUseCase,
     private val deleteFoodUseCase: DeleteFoodUseCase,
     private val updateFoodUseCase: UpdateFoodUseCase,
     private val deleteAllFoodsUseCase: DeleteAllFoodsUseCase,
@@ -52,7 +52,6 @@ class FoodListScreenViewModel @Inject constructor(
         get() = _foodList
 
 
-
     init {
         getAllFoods()
     }
@@ -64,12 +63,9 @@ class FoodListScreenViewModel @Inject constructor(
 
             val foodMap = getFoodHandler {
                 when (sortBy) {
-                    SortFoods.ByName ->                 getAllFoodsSortedByNameUseCase.get()
-
-                    SortFoods.ByExpiry ->                 getAllFoodsSortedByExpiryUseCase.get()
-
-                    SortFoods.ByAmount ->                 getAllFoodsSortedByNameUseCase.get() // TODO update
-
+                    SortFoods.ByName -> getAllFoodsSortedByNameUseCase.get()
+                    SortFoods.ByExpiry -> getAllFoodsSortedByExpiryUseCase.get()
+                    SortFoods.ByAmount -> getAllFoodsSortedByAmountUseCase.get()
                 }
             }
 

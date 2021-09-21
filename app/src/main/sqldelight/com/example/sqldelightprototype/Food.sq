@@ -15,6 +15,11 @@ SELECT *
 FROM food_data
 ORDER BY expiry_date;
 
+selectAllSortByAmount:
+SELECT *
+FROM food_data
+ORDER BY quantity;
+
 insertOrReplace:
 INSERT OR REPLACE INTO food_data
 VALUES (?, ?, ?, ?);

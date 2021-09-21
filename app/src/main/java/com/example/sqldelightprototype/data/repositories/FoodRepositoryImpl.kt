@@ -30,6 +30,11 @@ class FoodRepositoryImpl @Inject constructor(
             foodLocalDataSource.getAllSortedByExpiry()
         }
 
+    override fun getAllFoodsSortedByAmount(): Flow<ResultOf<List<Food>>> =
+        getAll {
+            foodLocalDataSource.getAllSortedByAmount()
+        }
+
     private fun getAll(getCallback: () -> Flow<List<Food>>): Flow<ResultOf<List<Food>>> =
         try {
             getCallback().mapNotNull {

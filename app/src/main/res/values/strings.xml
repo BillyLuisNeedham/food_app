@@ -32,4 +32,7 @@
     <string name="sort_food_by_name">Sort foods by name</string>
     <string name="sort_food_by_expiry">Sort foods by expiry</string>
     <string name="sort_food_by_amount">Sort foods by amount</string>
+    <string name="error_blank_name">Name must not be empty</string>
+    <string name="error_blank_amount">Amount must not be empty</string>
+    <string name="error_blank_expiry">Expiry must not be empty</string>
 </resources>

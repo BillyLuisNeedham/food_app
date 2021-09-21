@@ -7,6 +7,8 @@ import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.sqldelightprototype.R
+import com.example.sqldelightprototype.presentation.models.ErrorState
 import com.example.sqldelightprototype.presentation.ui.theme.SqlDelightPrototypeTheme
 
 @Composable
@@ -16,7 +18,8 @@ fun TextInput(
     onTextChange: (String) -> Unit,
     label: String? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions(),
-    keyboardActions: KeyboardActions = KeyboardActions {  }
+    keyboardActions: KeyboardActions = KeyboardActions {  },
+    errorState: ErrorState = ErrorState(error = false)
 ) {
     TextField(
         modifier = modifier,
@@ -28,7 +31,8 @@ fun TextInput(
             }
         },
         keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions
+        keyboardActions = keyboardActions,
+        isError = errorState.error
     )
 }
 
@@ -36,6 +40,6 @@ fun TextInput(
 @Composable
 fun TextInputPreview() {
     SqlDelightPrototypeTheme {
-        TextInput(text = "Test", onTextChange = {}, label = "label")
+        TextInput(text = "Test", onTextChange = {}, label = "label", errorState = ErrorState(error = true, messageResource = R.string.error_blank_name))
     }
 }

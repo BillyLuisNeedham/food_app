@@ -17,7 +17,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -40,6 +39,7 @@ import com.example.sqldelightprototype.data.utils.time.TimeManager
 import com.example.sqldelightprototype.data.utils.time.TimeManagerImpl
 import com.example.sqldelightprototype.domain.ResultOf
 import com.example.sqldelightprototype.domain.models.Food
+import com.example.sqldelightprototype.presentation.models.ErrorState
 import com.example.sqldelightprototype.presentation.ui.components.ButtonBase
 import com.example.sqldelightprototype.presentation.ui.components.TextInput
 import com.example.sqldelightprototype.presentation.ui.theme.SqlDelightPrototypeTheme
@@ -57,6 +57,9 @@ fun AddFoodScreen(
     val (amount, setAmount) = remember { mutableStateOf("") }
     val (expiryInDays, setExpiryInDays) = remember { mutableStateOf("") }
     val (error, setError) = remember { mutableStateOf(false) }
+    val (nameError, setNameError) = remember { mutableStateOf(ErrorState(error = false)) }
+    val (amountError, setAmountError) = remember { mutableStateOf(ErrorState(error = false)) }
+    val (expiryError, setExpiryError) = remember { mutableStateOf(ErrorState(error = false)) }
     val keyboardController = LocalSoftwareKeyboardController.current
 
     LaunchedEffect(key1 = uploadState) {
@@ -81,7 +84,7 @@ fun AddFoodScreen(
                 }
             },
 
-        )
+            )
     }) {
         AddFoodScreenContent(
             modifier = modifier,
@@ -95,7 +98,13 @@ fun AddFoodScreen(
             addFood = addFood,
             setError = setError,
             timeManager = timeManager,
-            error = error
+            error = error,
+            nameError = nameError,
+            amountError = amountError,
+            expiryError = expiryError,
+            setNameError = setNameError,
+            setAmountError = setAmountError,
+            setExpiryError = setExpiryError,
         )
     }
 
@@ -107,15 +116,21 @@ fun AddFoodScreenContent(
     modifier: Modifier = Modifier,
     name: String,
     setName: (String) -> Unit,
+    nameError: ErrorState,
     amount: String,
     setAmount: (String) -> Unit,
+    amountError: ErrorState,
     expiryInDays: String,
     setExpiryInDays: (String) -> Unit,
+    expiryError: ErrorState,
     keyboardController: SoftwareKeyboardController?,
     addFood: (Food) -> Unit,
     setError: (Boolean) -> Unit,
     timeManager: TimeManager,
-    error: Boolean
+    error: Boolean,
+    setNameError: (ErrorState) -> Unit,
+    setAmountError: (ErrorState) -> Unit,
+    setExpiryError: (ErrorState) -> Unit
 ) {
     Column(
         modifier = modifier.fillMaxSize()
@@ -140,11 +155,16 @@ fun AddFoodScreenContent(
                         keyboardController = keyboardController,
                         addFood = addFood,
                         showError = setError,
-                        expiryInDaysFromNow = expiryInDays.toLong(),
-                        timeManager = timeManager
-
+                        expiryInDaysFromNow = expiryInDays,
+                        timeManager = timeManager,
+                        setNameError = setNameError,
+                        setAmountError = setAmountError,
+                        setExpiryError = setExpiryError,
                     )
-                }
+                },
+                nameError = nameError,
+                amountError = amountError,
+                expiryError = expiryError
             )
             ButtonBase(
                 modifier = Modifier
@@ -158,8 +178,11 @@ fun AddFoodScreenContent(
                         keyboardController = keyboardController,
                         addFood = addFood,
                         showError = setError,
-                        expiryInDaysFromNow = expiryInDays.toLong(),
-                        timeManager = timeManager
+                        expiryInDaysFromNow = expiryInDays,
+                        timeManager = timeManager,
+                        setNameError = setNameError,
+                        setAmountError = setAmountError,
+                        setExpiryError = setExpiryError,
                     )
                 },
             ) {
@@ -196,23 +219,53 @@ private fun handleActionsOnUploadState(
 private fun onAddFood(
     name: String,
     amount: String,
-    expiryInDaysFromNow: Long,
+    expiryInDaysFromNow: String,
     keyboardController: SoftwareKeyboardController?,
     addFood: (Food) -> Unit,
     showError: (Boolean) -> Unit,
-    timeManager: TimeManager
+    timeManager: TimeManager,
+    setNameError: (ErrorState) -> Unit,
+    setAmountError: (ErrorState) -> Unit,
+    setExpiryError: (ErrorState) -> Unit
 ) {
-    val expirationDate = timeManager.getCurrentTimeStampWithDaysAdded(days = expiryInDaysFromNow)
-
-    showError(false)
-    keyboardController?.hide()
-    addFood(
-        Food(
-            name = name,
-            quantity = amount.toInt(),
-            expirationDate = expirationDate
+    setNameError(ErrorState(error = false))
+    setAmountError(ErrorState(error = false))
+    setExpiryError(ErrorState(error = false))
+    when {
+        name.isEmpty() -> setNameError(
+            ErrorState(
+                error = true,
+                messageResource = R.string.error_blank_name
+            )
         )
-    )
+
+        amount.isEmpty() -> setAmountError(
+            ErrorState(
+                error = true,
+                messageResource = R.string.error_blank_amount
+            )
+        )
+        expiryInDaysFromNow.isEmpty() -> setExpiryError(
+            ErrorState(
+                error = true,
+                messageResource = R.string.error_blank_expiry
+            )
+        )
+        else -> {
+            val expirationDate =
+                timeManager.getCurrentTimeStampWithDaysAdded(days = expiryInDaysFromNow.toLong())
+
+            showError(false)
+            keyboardController?.hide()
+            addFood(
+                Food(
+                    name = name,
+                    quantity = amount.toInt(),
+                    expirationDate = expirationDate
+                )
+            )
+        }
+    }
 }
 
 @ExperimentalComposeUiApi
@@ -221,11 +274,14 @@ private fun TextInputs(
     modifier: Modifier = Modifier,
     name: String,
     setName: (String) -> Unit,
+    nameError: ErrorState,
     amount: String,
     setAmount: (String) -> Unit,
+    amountError: ErrorState,
     onDone: () -> Unit,
     expiryInDays: String,
     setExpiryInDays: (String) -> Unit,
+    expiryError: ErrorState
 ) {
     val (focusRequesterAmount, focusRequesterExpiry) = FocusRequester.createRefs()
 
@@ -244,7 +300,8 @@ private fun TextInputs(
             ),
             keyboardActions = KeyboardActions(
                 onNext = { focusRequesterAmount.requestFocus() }
-            )
+            ),
+            errorState = nameError
         )
 
         Row(modifier = Modifier.padding(top = 12.dp)) {
@@ -264,7 +321,8 @@ private fun TextInputs(
                     onNext = {
                         focusRequesterExpiry.requestFocus()
                     }
-                )
+                ),
+                errorState = amountError
             )
             TextInput(
                 modifier = Modifier
@@ -283,7 +341,8 @@ private fun TextInputs(
                         focusRequesterExpiry.freeFocus()
                         onDone()
                     }
-                )
+                ),
+                errorState = expiryError
             )
         }
     }

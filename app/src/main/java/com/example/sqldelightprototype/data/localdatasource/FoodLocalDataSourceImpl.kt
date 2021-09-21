@@ -39,8 +39,19 @@ class FoodLocalDataSourceImpl @Inject constructor(
                     )
                 }).asFlow().mapToList()
 
+    override fun getAllSortedByAmount(): Flow<List<Food>> =
+        foodDatabase
+            .queries.foodQueries.selectAllSortByAmount(
+                mapper = { id, name, quantity, expirationDate ->
+                    Food(
+                        id = id,
+                        name = name,
+                        quantity = quantity.toInt(),
+                        expirationDate = expirationDate
+                    )
+                }).asFlow().mapToList()
 
-    override suspend fun add(food: Food) =
+        override suspend fun add(food: Food) =
         foodDatabase
             .queries.foodQueries.insertOrReplace(
                 id = food.id,
