@@ -1,5 +1,6 @@
 package com.example.sqldelightprototype.data.repositories
 
+import android.nfc.Tag
 import android.util.Log
 import com.example.sqldelightprototype.data.localdatasource.FoodLocalDataSource
 import com.example.sqldelightprototype.domain.ResultOf
@@ -70,4 +71,14 @@ class FoodRepositoryImpl @Inject constructor(
             }
         }
 
+    override suspend fun deleteAllFoods(): ResultOf<Unit> =
+        withContext(Dispatchers.IO) {
+            try {
+                foodLocalDataSource.deleteAll()
+                ResultOf.Success(data = Unit)
+            } catch (e: Exception) {
+                Log.e(TAG, "exception within deleteAllFoods: $e")
+                ResultOf.Error(exception = e)
+            }
+        }
 }

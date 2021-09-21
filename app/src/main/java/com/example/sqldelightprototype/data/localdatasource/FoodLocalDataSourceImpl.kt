@@ -45,4 +45,9 @@ class FoodLocalDataSourceImpl @Inject constructor(
                 .queries.foodQueries.deleteById(id = food.id)
         } ?: throw IllegalStateException("$TAG: food.id is null and must not be")
     }
+
+    override suspend fun deleteAll() {
+        foodDatabase
+            .queries.foodQueries.deleteAll()
+    }
 }

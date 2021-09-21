@@ -8,4 +8,5 @@ interface FoodLocalDataSource {
     suspend fun add(food: Food)
     suspend fun update(food: Food)
     suspend fun delete(food: Food)
+    suspend fun deleteAll()
 }
