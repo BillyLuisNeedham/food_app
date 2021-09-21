@@ -25,7 +25,6 @@ sealed class Screens(val route: String) {
 fun AppNavigation(
     navController: NavHostController
 ) {
-    val context = LocalContext.current
 
     NavHost(
         navController = navController,
@@ -34,21 +33,18 @@ fun AppNavigation(
         addFoodScreen(navController = navController)
         foodListScreen(
             navController = navController,
-            context = context
         )
     }
 }
 
 private fun NavGraphBuilder.foodListScreen(
     navController: NavHostController,
-    context: Context
 ) {
     composable(Screens.FoodListScreen.route) {
 
         val viewModel: FoodListScreenViewModel = hiltViewModel()
         val foodList =
-            viewModel.getAllFoods(context = context)
-                .collectAsState(listOf())
+            viewModel.foodList.collectAsState(listOf())
         val screenState = viewModel.state.collectAsState()
 
         FoodListScreen(
@@ -66,7 +62,7 @@ private fun NavGraphBuilder.foodListScreen(
             deleteAllFoods = {
                 viewModel.deleteAllFoods()
             },
-            setFoodListSort = viewModel::setFoodSortBy
+            setFoodListSort = viewModel::getAllFoods
         )
     }
 }

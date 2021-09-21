@@ -1,6 +1,5 @@
 package com.example.sqldelightprototype.presentation.mappers
 
-import android.content.Context
 import com.example.sqldelightprototype.domain.models.Food
 import com.example.sqldelightprototype.presentation.models.FoodUi
 import com.example.sqldelightprototype.presentation.util.ExpirationMessage
@@ -15,11 +14,10 @@ class FoodUiMapper @Inject constructor(
         private const val TAG = "FoodUiMapper"
     }
 
-    fun Food.toFoodUi(context: Context): FoodUi {
+    fun Food.toFoodUi(): FoodUi {
         val expirationMessage =
             expirationMessage.getMessageForTimeStamp(
-                timeStampInMilliSeconds = expirationDate,
-                context = context
+                timeStampInMilliSeconds = expirationDate
             )
 
         return FoodUi(

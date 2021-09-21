@@ -17,6 +17,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -46,25 +47,39 @@ class FoodListScreenViewModel @Inject constructor(
     val state: StateFlow<ResultOf<Unit>>
         get() = _state
 
-    private val _selectedSortFoodsBy = MutableStateFlow(SortFoods.ByName)
+    private val _foodList = MutableStateFlow(listOf<FoodUi>())
+    val foodList: StateFlow<List<FoodUi>>
+        get() = _foodList
 
-    fun setFoodSortBy(sortBy: SortFoods) {
-        _selectedSortFoodsBy.value = sortBy
+
+
+    init {
+        getAllFoods()
     }
 
-    // TODO change which use case is used dependant on selectedSortFoodsBy
-    fun getAllFoods(context: Context) = getFoodHandler(
-        context = context,
-        getFoodCallback = {
-            when(_selectedSortFoodsBy.value) {
-                SortFoods.ByName -> getAllFoodsSortedByNameUseCase.get()
-                SortFoods.ByExpiry -> getAllFoodsSortedByExpiryUseCase.get()
-                SortFoods.ByAmount -> TODO()
+    fun getAllFoods(
+        sortBy: SortFoods = SortFoods.ByName
+    ) {
+        viewModelScope.launch {
+
+            val foodMap = getFoodHandler {
+                when (sortBy) {
+                    SortFoods.ByName ->                 getAllFoodsSortedByNameUseCase.get()
+
+                    SortFoods.ByExpiry ->                 getAllFoodsSortedByExpiryUseCase.get()
+
+                    SortFoods.ByAmount ->                 getAllFoodsSortedByNameUseCase.get() // TODO update
+
+                }
             }
-        })
+
+            foodMap.collect {
+                _foodList.value = it
+            }
+        }
+    }
 
     private fun getFoodHandler(
-        context: Context,
         getFoodCallback: () -> Flow<ResultOf<List<Food>>>
     ) = getFoodCallback().map {
         when (it) {
@@ -80,12 +95,10 @@ class FoodListScreenViewModel @Inject constructor(
                 _state.value = ResultOf.Success(data = Unit)
                 mapSuccessToUiModel(
                     models = it,
-                    context = context
                 )
             }
         }
     }
-
 
     fun updateFood(foodUi: FoodUi) {
         runUseCase {
@@ -93,7 +106,6 @@ class FoodListScreenViewModel @Inject constructor(
             updateFoodUseCase.update(food = food)
         }
     }
-
 
     fun deleteFood(foodUi: FoodUi) {
         runUseCase {
@@ -130,10 +142,10 @@ class FoodListScreenViewModel @Inject constructor(
 
     private fun mapSuccessToUiModel(
         models: ResultOf.Success<List<Food>>,
-        context: Context
     ) = models.data.map { food ->
         with(foodUiMapper) {
-            food.toFoodUi(context = context)
+            food.toFoodUi()
         }
     }
 }
+

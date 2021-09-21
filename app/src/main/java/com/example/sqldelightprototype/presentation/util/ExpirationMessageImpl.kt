@@ -3,28 +3,27 @@ package com.example.sqldelightprototype.presentation.util
 import android.content.Context
 import com.example.sqldelightprototype.R
 import com.example.sqldelightprototype.data.utils.time.TimeManager
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class ExpirationMessageImpl @Inject constructor(
-    private val timeManager: TimeManager
+    private val timeManager: TimeManager,
+    @ApplicationContext val context: Context
 ) : ExpirationMessage {
 
     override fun getMessageForTimeStamp(
-        timeStampInMilliSeconds: Long,
-        context: Context
+        timeStampInMilliSeconds: Long
     ): String {
         val daysFromNow = timeManager.getAmountOfDaysFromNow(
             timeStampInMilliSeconds = timeStampInMilliSeconds
         )
         return getMessageForDays(
             days = daysFromNow + 1,
-            context = context
         )
     }
 
     private fun getMessageForDays(
         days: Long,
-        context: Context
     ): String =
         when {
             days < 0L -> context.getString(R.string.has_expired)
