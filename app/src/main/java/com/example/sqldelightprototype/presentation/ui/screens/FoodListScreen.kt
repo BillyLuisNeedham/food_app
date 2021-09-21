@@ -2,10 +2,13 @@ package com.example.sqldelightprototype.presentation.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.FabPosition
 import androidx.compose.material.FloatingActionButton
@@ -82,16 +85,27 @@ private fun FoodListContent(
     setFoodQuantity: (food: FoodUi) -> Unit,
     deleteFood: (food: FoodUi) -> Unit,
 ) {
-    LazyColumn(modifier = modifier.padding(bottom = 48.dp)) {
+    val listState = rememberLazyListState()
+
+    LazyColumn(
+        modifier = modifier.padding(top = 16.dp),
+        state = listState
+    ) {
         items(foodList) { food ->
             FoodListItem(
                 modifier = Modifier
                     .fillParentMaxWidth()
-                    .padding(top = 16.dp),
+                    .padding(
+                        bottom = 16.dp
+
+                    ),
                 food = food,
                 setFoodQuantity = setFoodQuantity,
                 deleteFood = deleteFood
             )
+        }
+        item {
+            Spacer(modifier = Modifier.height(60.dp))
         }
     }
 
