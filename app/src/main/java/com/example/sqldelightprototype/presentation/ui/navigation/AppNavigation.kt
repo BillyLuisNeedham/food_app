@@ -62,7 +62,8 @@ private fun NavGraphBuilder.foodListScreen(
             deleteFood = {
                 viewModel.deleteFood(foodUi = it)
             },
-            screenState = screenState.value
+            screenState = screenState.value,
+            deleteAllFoods = {TODO()}
         )
     }
 }

@@ -9,15 +9,23 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.FabPosition
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -26,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import com.example.sqldelightprototype.R
 import com.example.sqldelightprototype.domain.ResultOf
 import com.example.sqldelightprototype.presentation.models.FoodUi
+import com.example.sqldelightprototype.presentation.ui.components.ButtonBase
 import com.example.sqldelightprototype.presentation.ui.components.FoodListItem
 import com.example.sqldelightprototype.presentation.ui.theme.SqlDelightPrototypeTheme
 
@@ -35,9 +44,40 @@ fun FoodListScreen(
     onClickFab: () -> Unit,
     setFoodQuantity: (food: FoodUi) -> Unit,
     deleteFood: (food: FoodUi) -> Unit,
-    screenState: ResultOf<Unit>
+    screenState: ResultOf<Unit>,
+    deleteAllFoods: () -> Unit
 ) {
+    val (showMenu, setShowMenu) = remember { mutableStateOf(false) }
+    val (showDeleteAllWarning, setShowDeleteAllWarning) =
+        remember { mutableStateOf(false) }
+
     Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(stringResource(R.string.food_list_title))
+                },
+                actions = {
+                    IconButton(onClick = { setShowMenu(!showMenu) }) {
+                        Icon(
+                            Icons.Filled.MoreVert,
+                            contentDescription = stringResource(R.string.open_menu_content_description)
+                        )
+                    }
+                    DropdownMenu(
+                        expanded = showMenu,
+                        onDismissRequest = { setShowMenu(false) }
+                    ) {
+                        DropdownMenuItem(onClick = {
+                            setShowMenu(false)
+                            setShowDeleteAllWarning(true)
+                        }) {
+                            Text(stringResource(R.string.delete_all_foods))
+                        }
+                    }
+                }
+            )
+        },
         floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = {
             FloatingActionButton(
@@ -55,6 +95,44 @@ fun FoodListScreen(
             setFoodQuantity = setFoodQuantity,
             deleteFood = deleteFood,
             screenState = screenState
+        )
+        DeleteDialog(
+            showDialog = showDeleteAllWarning,
+            setShowDialog = setShowDeleteAllWarning,
+            deleteAllFoods = deleteAllFoods
+        )
+    }
+}
+
+@Composable
+fun DeleteDialog(
+    modifier: Modifier = Modifier,
+    showDialog: Boolean,
+    setShowDialog: (Boolean) -> Unit,
+    deleteAllFoods: () -> Unit
+) {
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { setShowDialog(false) },
+            title = { Text(stringResource(R.string.warning)) },
+            confirmButton = {
+                ButtonBase(onClick = {
+                    setShowDialog(false)
+                    deleteAllFoods()
+                }) {
+                    Text(stringResource(R.string.continue_dialog))
+                }
+            },
+            dismissButton = {
+                ButtonBase(onClick = {
+                    setShowDialog(false)
+                }) {
+                    Text(stringResource(R.string.cancel))
+                }
+            },
+            text = {
+                Text(stringResource(R.string.delete_warning))
+            }
         )
     }
 }
@@ -88,9 +166,12 @@ private fun FoodListContent(
     val listState = rememberLazyListState()
 
     LazyColumn(
-        modifier = modifier.padding(top = 16.dp),
+        modifier = modifier,
         state = listState
     ) {
+        item {
+            Spacer(modifier = Modifier.padding(top = 16.dp))
+        }
         items(foodList) { food ->
             FoodListItem(
                 modifier = Modifier
@@ -145,7 +226,8 @@ fun FoodListScreenPreview() {
             onClickFab = {},
             setFoodQuantity = {},
             deleteFood = {},
-            screenState = ResultOf.Success(data = Unit)
+            screenState = ResultOf.Success(data = Unit),
+            deleteAllFoods = {}
         )
     }
 }

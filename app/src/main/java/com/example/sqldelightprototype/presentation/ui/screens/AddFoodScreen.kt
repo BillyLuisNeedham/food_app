@@ -9,8 +9,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Snackbar
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -60,6 +67,56 @@ fun AddFoodScreen(
         )
     }
 
+    Scaffold(topBar = {
+        TopAppBar(
+            title = {
+                Text(stringResource(R.string.add_food_title))
+            },
+            navigationIcon = {
+                IconButton(onClick = navigateBack) {
+                    Icon(
+                        Icons.Filled.ArrowBack,
+                        contentDescription = stringResource(R.string.back_navigation_content_description)
+                    )
+                }
+            },
+
+        )
+    }) {
+        AddFoodScreenContent(
+            modifier = modifier,
+            name = name,
+            setName = setName,
+            amount = amount,
+            setAmount = setAmount,
+            expiryInDays = expiryInDays,
+            setExpiryInDays = setExpiryInDays,
+            keyboardController = keyboardController,
+            addFood = addFood,
+            setError = setError,
+            timeManager = timeManager,
+            error = error
+        )
+    }
+
+}
+
+@ExperimentalComposeUiApi
+@Composable
+fun AddFoodScreenContent(
+    modifier: Modifier = Modifier,
+    name: String,
+    setName: (String) -> Unit,
+    amount: String,
+    setAmount: (String) -> Unit,
+    expiryInDays: String,
+    setExpiryInDays: (String) -> Unit,
+    keyboardController: SoftwareKeyboardController?,
+    addFood: (Food) -> Unit,
+    setError: (Boolean) -> Unit,
+    timeManager: TimeManager,
+    error: Boolean
+) {
     Column(
         modifier = modifier.fillMaxSize()
             .padding(horizontal = 8.dp),
@@ -117,7 +174,7 @@ fun AddFoodScreen(
     }
 }
 
-fun handleActionsOnUploadState(
+private fun handleActionsOnUploadState(
     uploadState: ResultOf<Unit>?,
     onError: () -> Unit,
     onSuccess: () -> Unit

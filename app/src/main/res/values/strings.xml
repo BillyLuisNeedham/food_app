@@ -12,8 +12,21 @@
     <string name="days">Days</string>
     <string name="has_expired">Has expired</string>
     <string name="today">Today</string>
+    <string name="expires_in">Expires in:</string>
+
     <string name="reduce_amount_content_description">Reduce quantity of food</string>
     <string name="increase_amount_content_description">Increase amount of food</string>
-    <string name="expires_in">Expires in:</string>
     <string name="delete_food_content_description">Delete the food</string>
+    <string name="back_navigation_content_description">Navigates to previous screen</string>
+    <string name="open_menu_content_description">Opens the menu</string>
+
+    <string name="food_list_title">All Foods</string>
+    <string name="add_food_title">Add Food</string>
+
+    <string name="delete_all_foods">Delete all foods</string>
+
+    <string name="warning">Warning</string>
+    <string name="continue_dialog">Continue</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete_warning">This will delete all foods. This action cannot be undone.</string>
 </resources>
