@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sqldelightprototype.domain.ResultOf
 import com.example.sqldelightprototype.domain.models.Food
+import com.example.sqldelightprototype.domain.usecases.DeleteAllFoodsUseCase
 import com.example.sqldelightprototype.domain.usecases.DeleteFoodUseCase
 import com.example.sqldelightprototype.domain.usecases.GetAllFoodsUseCase
 import com.example.sqldelightprototype.domain.usecases.UpdateFoodUseCase
@@ -24,6 +25,7 @@ class FoodListScreenViewModel @Inject constructor(
     private val getAllFoodsUseCase: GetAllFoodsUseCase,
     private val deleteFoodUseCase: DeleteFoodUseCase,
     private val updateFoodUseCase: UpdateFoodUseCase,
+    private val deleteAllFoodsUseCase: DeleteAllFoodsUseCase,
     private val foodUiMapper: FoodUiMapper
 ) : ViewModel() {
 
@@ -55,29 +57,37 @@ class FoodListScreenViewModel @Inject constructor(
         }
     }
 
-    fun deleteFood(foodUi: FoodUi) {
-        viewModelScope.launch {
-            try {
-                _state.value = ResultOf.Loading
-                val food = foodUi.mapFoodUiToFood()
-                val result = deleteFoodUseCase.delete(food = food)
-                _state.value = result
-            } catch (e: Exception) {
-                Log.e(TAG, "exception within deleteFood: $e")
-                _state.value = ResultOf.Error(exception = e)
-            }
+    fun updateFood(foodUi: FoodUi) {
+        runUseCase {
+            val food = foodUi.mapFoodUiToFood()
+            updateFoodUseCase.update(food = food)
         }
     }
 
-    fun updateFood(foodUi: FoodUi) {
+
+    fun deleteFood(foodUi: FoodUi) {
+        runUseCase {
+            val food = foodUi.mapFoodUiToFood()
+            deleteFoodUseCase.delete(food = food)
+        }
+    }
+
+    fun deleteAllFoods() {
+        runUseCase {
+            deleteAllFoodsUseCase.deleteAll()
+        }
+    }
+
+    private fun runUseCase(callback: suspend () -> ResultOf<Unit>) {
         viewModelScope.launch {
             try {
                 _state.value = ResultOf.Loading
-                val food = foodUi.mapFoodUiToFood()
-                val result = updateFoodUseCase.update(food = food)
+
+                val result = callback()
                 _state.value = result
+
             } catch (e: Exception) {
-                Log.e(TAG, "exception within setFoodQuantity: $e")
+                Log.e(TAG, "exception within runUseCase: $e")
                 _state.value = ResultOf.Error(exception = e)
             }
         }
