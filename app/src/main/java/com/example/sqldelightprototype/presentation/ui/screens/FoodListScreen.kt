@@ -130,7 +130,8 @@ private fun FoodListContent(
     val listState = rememberLazyListState()
 
     LazyColumn(
-        modifier = modifier,
+        modifier = modifier
+            .padding(horizontal = 8.dp),
         state = listState
     ) {
         item {
