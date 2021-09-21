@@ -5,7 +5,7 @@ CREATE TABLE food_data (
     expiry_date INTEGER NOT NULL
 );
 
-selectAll:
+selectAllSortByName:
 SELECT *
 FROM food_data
 ORDER BY name;

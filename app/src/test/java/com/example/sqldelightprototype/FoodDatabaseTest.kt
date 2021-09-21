@@ -15,7 +15,7 @@ class FoodDatabaseTest {
 
     @Test
     fun smokeTest() {
-        val emptyItems = queries.selectAll().executeAsList()
+        val emptyItems = queries.selectAllSortByName().executeAsList()
         assertThat(emptyItems.size, `is`(0))
 
         queries.insertOrReplace(
@@ -25,7 +25,7 @@ class FoodDatabaseTest {
             expiry_date = 10L
         )
 
-        val items = queries.selectAll().executeAsList()
+        val items = queries.selectAllSortByName().executeAsList()
         assertThat(items.size, `is`(1))
 
         val testItem = queries.selectByName("test").executeAsOneOrNull()

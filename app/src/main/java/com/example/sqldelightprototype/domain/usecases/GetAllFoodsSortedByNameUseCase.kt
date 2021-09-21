@@ -6,8 +6,8 @@ import com.example.sqldelightprototype.domain.repositories.FoodRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetAllFoodsUseCase @Inject constructor(
+class GetAllFoodsSortedByNameUseCase @Inject constructor(
     private val foodRepository: FoodRepository
 ){
-    fun get(): Flow<ResultOf<List<Food>>> = foodRepository.getAllFoods()
+    fun get(): Flow<ResultOf<List<Food>>> = foodRepository.getAllFoodsSortedByName()
 }

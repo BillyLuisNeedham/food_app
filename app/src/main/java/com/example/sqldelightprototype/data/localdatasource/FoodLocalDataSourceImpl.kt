@@ -1,8 +1,6 @@
 package com.example.sqldelightprototype.data.localdatasource
 
 import com.example.sqldelightprototype.domain.models.Food
-import com.squareup.sqldelight.runtime.coroutines.asFlow
-import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.flow.Flow
 import java.lang.IllegalStateException
 import javax.inject.Inject
@@ -15,9 +13,9 @@ class FoodLocalDataSourceImpl @Inject constructor(
         private const val TAG = "FoodLocalDataSourceImpl"
     }
 
-    override fun getAll(): Flow<List<Food>> =
+    override fun getAllSortedByName(): Flow<List<Food>> =
         foodDatabase
-            .queries.foodQueries.selectAll(
+            .queries.foodQueries.selectAllSortByName(
                 mapper = { id, name, quantity, expirationDate ->
                     Food(
                         id = id,

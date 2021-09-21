@@ -8,7 +8,7 @@ import com.example.sqldelightprototype.domain.ResultOf
 import com.example.sqldelightprototype.domain.models.Food
 import com.example.sqldelightprototype.domain.usecases.DeleteAllFoodsUseCase
 import com.example.sqldelightprototype.domain.usecases.DeleteFoodUseCase
-import com.example.sqldelightprototype.domain.usecases.GetAllFoodsUseCase
+import com.example.sqldelightprototype.domain.usecases.GetAllFoodsSortedByNameUseCase
 import com.example.sqldelightprototype.domain.usecases.UpdateFoodUseCase
 import com.example.sqldelightprototype.presentation.mappers.FoodUiMapper
 import com.example.sqldelightprototype.presentation.models.FoodUi
@@ -22,7 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FoodListScreenViewModel @Inject constructor(
-    private val getAllFoodsUseCase: GetAllFoodsUseCase,
+    private val getAllFoodsSortedByNameUseCase: GetAllFoodsSortedByNameUseCase,
     private val deleteFoodUseCase: DeleteFoodUseCase,
     private val updateFoodUseCase: UpdateFoodUseCase,
     private val deleteAllFoodsUseCase: DeleteAllFoodsUseCase,
@@ -31,13 +31,19 @@ class FoodListScreenViewModel @Inject constructor(
 
     companion object {
         private const val TAG = "FoodListScreenViewModel"
+
+        private enum class SortFoods {
+            ByName,
+            ByExpiry,
+            ByAmount
+        }
     }
 
     private val _state = MutableStateFlow<ResultOf<Unit>>(ResultOf.Success(data = Unit))
     val state: StateFlow<ResultOf<Unit>>
         get() = _state
 
-    fun getAllFoods(context: Context) = getAllFoodsUseCase.get().map {
+    fun getAllFoods(context: Context) = getAllFoodsSortedByNameUseCase.get().map {
         when (it) {
             is ResultOf.Error -> {
                 _state.value = it

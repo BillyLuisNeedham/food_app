@@ -20,9 +20,9 @@ class FoodRepositoryImpl @Inject constructor(
         private const val TAG = "FoodRepositoryImpl"
     }
 
-    override fun getAllFoods(): Flow<ResultOf<List<Food>>> =
+    override fun getAllFoodsSortedByName(): Flow<ResultOf<List<Food>>> =
         try {
-            foodLocalDataSource.getAll().mapNotNull {
+            foodLocalDataSource.getAllSortedByName().mapNotNull {
                 ResultOf.Success(it)
             }
         } catch (e: Exception) {
