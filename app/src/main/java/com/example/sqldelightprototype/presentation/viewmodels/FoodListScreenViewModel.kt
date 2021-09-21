@@ -8,11 +8,13 @@ import com.example.sqldelightprototype.domain.ResultOf
 import com.example.sqldelightprototype.domain.models.Food
 import com.example.sqldelightprototype.domain.usecases.DeleteAllFoodsUseCase
 import com.example.sqldelightprototype.domain.usecases.DeleteFoodUseCase
+import com.example.sqldelightprototype.domain.usecases.GetAllFoodsSortedByExpiryUseCase
 import com.example.sqldelightprototype.domain.usecases.GetAllFoodsSortedByNameUseCase
 import com.example.sqldelightprototype.domain.usecases.UpdateFoodUseCase
 import com.example.sqldelightprototype.presentation.mappers.FoodUiMapper
 import com.example.sqldelightprototype.presentation.models.FoodUi
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -23,6 +25,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FoodListScreenViewModel @Inject constructor(
     private val getAllFoodsSortedByNameUseCase: GetAllFoodsSortedByNameUseCase,
+    private val getAllFoodsSortedByExpiryUseCase: GetAllFoodsSortedByExpiryUseCase,
     private val deleteFoodUseCase: DeleteFoodUseCase,
     private val updateFoodUseCase: UpdateFoodUseCase,
     private val deleteAllFoodsUseCase: DeleteAllFoodsUseCase,
@@ -50,7 +53,20 @@ class FoodListScreenViewModel @Inject constructor(
     }
 
     // TODO change which use case is used dependant on selectedSortFoodsBy
-    fun getAllFoods(context: Context) = getAllFoodsSortedByNameUseCase.get().map {
+    fun getAllFoods(context: Context) = getFoodHandler(
+        context = context,
+        getFoodCallback = {
+            when(_selectedSortFoodsBy.value) {
+                SortFoods.ByName -> getAllFoodsSortedByNameUseCase.get()
+                SortFoods.ByExpiry -> getAllFoodsSortedByExpiryUseCase.get()
+                SortFoods.ByAmount -> TODO()
+            }
+        })
+
+    private fun getFoodHandler(
+        context: Context,
+        getFoodCallback: () -> Flow<ResultOf<List<Food>>>
+    ) = getFoodCallback().map {
         when (it) {
             is ResultOf.Error -> {
                 _state.value = it
@@ -69,6 +85,7 @@ class FoodListScreenViewModel @Inject constructor(
             }
         }
     }
+
 
     fun updateFood(foodUi: FoodUi) {
         runUseCase {
