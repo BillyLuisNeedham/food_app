@@ -35,8 +35,11 @@ import com.example.sqldelightprototype.R
 import com.example.sqldelightprototype.domain.ResultOf
 import com.example.sqldelightprototype.presentation.models.FoodUi
 import com.example.sqldelightprototype.presentation.ui.components.ButtonBase
+import com.example.sqldelightprototype.presentation.ui.components.DeleteDialog
+import com.example.sqldelightprototype.presentation.ui.components.DropdownMenuFoodList
 import com.example.sqldelightprototype.presentation.ui.components.FoodListItem
 import com.example.sqldelightprototype.presentation.ui.theme.SqlDelightPrototypeTheme
+import com.example.sqldelightprototype.presentation.viewmodels.FoodListScreenViewModel
 
 @Composable
 fun FoodListScreen(
@@ -45,7 +48,8 @@ fun FoodListScreen(
     setFoodQuantity: (food: FoodUi) -> Unit,
     deleteFood: (food: FoodUi) -> Unit,
     screenState: ResultOf<Unit>,
-    deleteAllFoods: () -> Unit
+    deleteAllFoods: () -> Unit,
+    setFoodListSort: (FoodListScreenViewModel.Companion.SortFoods) -> Unit
 ) {
     val (showMenu, setShowMenu) = remember { mutableStateOf(false) }
     val (showDeleteAllWarning, setShowDeleteAllWarning) =
@@ -64,17 +68,13 @@ fun FoodListScreen(
                             contentDescription = stringResource(R.string.open_menu_content_description)
                         )
                     }
-                    DropdownMenu(
-                        expanded = showMenu,
-                        onDismissRequest = { setShowMenu(false) }
-                    ) {
-                        DropdownMenuItem(onClick = {
-                            setShowMenu(false)
-                            setShowDeleteAllWarning(true)
-                        }) {
-                            Text(stringResource(R.string.delete_all_foods))
-                        }
-                    }
+                    DropdownMenuFoodList(
+                        showMenu = showMenu,
+                        setShowMenu = setShowMenu,
+                        setShowDeleteAllWarning = setShowDeleteAllWarning,
+                        setFoodListSort = setFoodListSort
+                    )
+
                 }
             )
         },
@@ -99,40 +99,8 @@ fun FoodListScreen(
         DeleteDialog(
             showDialog = showDeleteAllWarning,
             setShowDialog = setShowDeleteAllWarning,
-            deleteAllFoods = deleteAllFoods
-        )
-    }
-}
-
-@Composable
-fun DeleteDialog(
-    modifier: Modifier = Modifier,
-    showDialog: Boolean,
-    setShowDialog: (Boolean) -> Unit,
-    deleteAllFoods: () -> Unit
-) {
-    if (showDialog) {
-        AlertDialog(
-            onDismissRequest = { setShowDialog(false) },
-            title = { Text(stringResource(R.string.warning)) },
-            confirmButton = {
-                ButtonBase(onClick = {
-                    setShowDialog(false)
-                    deleteAllFoods()
-                }) {
-                    Text(stringResource(R.string.continue_dialog))
-                }
-            },
-            dismissButton = {
-                ButtonBase(onClick = {
-                    setShowDialog(false)
-                }) {
-                    Text(stringResource(R.string.cancel))
-                }
-            },
-            text = {
-                Text(stringResource(R.string.delete_warning))
-            }
+            deleteAllFoods = deleteAllFoods,
+            message = stringResource(R.string.delete_warning)
         )
     }
 }
@@ -227,7 +195,8 @@ fun FoodListScreenPreview() {
             setFoodQuantity = {},
             deleteFood = {},
             screenState = ResultOf.Success(data = Unit),
-            deleteAllFoods = {}
+            deleteAllFoods = {},
+            setFoodListSort = {}
         )
     }
 }

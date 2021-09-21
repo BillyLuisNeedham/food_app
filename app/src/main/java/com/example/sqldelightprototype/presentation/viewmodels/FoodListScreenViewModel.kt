@@ -32,7 +32,7 @@ class FoodListScreenViewModel @Inject constructor(
     companion object {
         private const val TAG = "FoodListScreenViewModel"
 
-        private enum class SortFoods {
+        enum class SortFoods {
             ByName,
             ByExpiry,
             ByAmount
@@ -43,6 +43,13 @@ class FoodListScreenViewModel @Inject constructor(
     val state: StateFlow<ResultOf<Unit>>
         get() = _state
 
+    private val _selectedSortFoodsBy = MutableStateFlow(SortFoods.ByName)
+
+    fun setFoodSortBy(sortBy: SortFoods) {
+        _selectedSortFoodsBy.value = sortBy
+    }
+
+    // TODO change which use case is used dependant on selectedSortFoodsBy
     fun getAllFoods(context: Context) = getAllFoodsSortedByNameUseCase.get().map {
         when (it) {
             is ResultOf.Error -> {

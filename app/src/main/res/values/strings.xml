@@ -29,4 +29,7 @@
     <string name="continue_dialog">Continue</string>
     <string name="cancel">Cancel</string>
     <string name="delete_warning">This will delete all foods. This action cannot be undone.</string>
+    <string name="sort_food_by_name">Sort foods by name</string>
+    <string name="sort_food_by_expiry">Sort foods by expiry</string>
+    <string name="sort_food_by_amount">Sort foods by amount</string>
 </resources>
