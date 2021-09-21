@@ -1,6 +1,8 @@
 package com.example.sqldelightprototype.data.localdatasource
 
 import com.example.sqldelightprototype.domain.models.Food
+import com.squareup.sqldelight.runtime.coroutines.asFlow
+import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.flow.Flow
 import java.lang.IllegalStateException
 import javax.inject.Inject
