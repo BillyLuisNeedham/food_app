@@ -65,7 +65,8 @@ private fun NavGraphBuilder.foodListScreen(
             screenState = screenState.value,
             deleteAllFoods = {
                 viewModel.deleteAllFoods()
-            }
+            },
+            setFoodListSort = viewModel::setFoodSortBy
         )
     }
 }
