@@ -21,15 +21,24 @@ class FoodRepositoryImpl @Inject constructor(
     }
 
     override fun getAllFoodsSortedByName(): Flow<ResultOf<List<Food>>> =
+        getAll {
+            foodLocalDataSource.getAllSortedByName()
+        }
+
+    override fun getAllFoodsSortedByExpiry(): Flow<ResultOf<List<Food>>> =
+        getAll {
+            foodLocalDataSource.getAllSortedByExpiry()
+        }
+
+    private fun getAll(getCallback: () -> Flow<List<Food>>): Flow<ResultOf<List<Food>>> =
         try {
-            foodLocalDataSource.getAllSortedByName().mapNotNull {
+            getCallback().mapNotNull {
                 ResultOf.Success(it)
             }
         } catch (e: Exception) {
-            Log.e(TAG, "exception in getAllFoods: $e")
+            Log.e(TAG, "exception within getAll: $e")
             flow { emit(ResultOf.Error(exception = e)) }
         }
-
 
     override suspend fun addFood(food: Food): ResultOf<Unit> =
         withContext(Dispatchers.IO) {

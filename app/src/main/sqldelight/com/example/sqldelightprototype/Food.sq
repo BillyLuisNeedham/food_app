@@ -10,6 +10,11 @@ SELECT *
 FROM food_data
 ORDER BY name;
 
+selectAllSortByExpiry:
+SELECT *
+FROM food_data
+ORDER BY expiry_date;
+
 insertOrReplace:
 INSERT OR REPLACE INTO food_data
 VALUES (?, ?, ?, ?);
