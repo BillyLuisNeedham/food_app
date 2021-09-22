@@ -6,13 +6,12 @@
     <string name="add_food_description">Click to navigate to add food screen</string>
     <string name="error_getting_list">Error getting food list, please try again</string>
     <string name="error_adding_food">An error occurred while attempting to add food. Please try again</string>
-    <string name="expires_days_from_now">Expires in days</string>
-
     <string name="one_day">1 Day</string>
     <string name="days">Days</string>
     <string name="has_expired">Has expired</string>
     <string name="today">Today</string>
     <string name="expires_in">Expires in:</string>
+    <string name="expires">Expires:</string>
 
     <string name="reduce_amount_content_description">Reduce quantity of food</string>
     <string name="increase_amount_content_description">Increase amount of food</string>
@@ -35,4 +34,5 @@
     <string name="error_blank_name">Name must not be empty</string>
     <string name="error_blank_amount">Amount must not be empty</string>
     <string name="error_blank_expiry">Expiry must not be empty</string>
+    <string name="select_date_hint">Select date hint</string>
 </resources>

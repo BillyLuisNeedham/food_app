@@ -1,5 +1,6 @@
 package com.example.sqldelightprototype.presentation.ui.components
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -25,7 +26,9 @@ fun TextInput(
     label: String? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions(),
     keyboardActions: KeyboardActions = KeyboardActions { },
-    errorState: ErrorState = ErrorState(error = false)
+    errorState: ErrorState = ErrorState(error = false),
+    interactionSource: MutableInteractionSource = MutableInteractionSource(),
+    readOnly: Boolean = false
 ) {
     Column(modifier = modifier) {
         TextField(
@@ -39,7 +42,9 @@ fun TextInput(
             },
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
-            isError = errorState.error
+            interactionSource = interactionSource,
+            isError = errorState.error,
+            readOnly = readOnly
         )
         if (errorState.error && errorState.messageResource != null) {
             Text(
@@ -51,6 +56,7 @@ fun TextInput(
         }
     }
 }
+
 
 @Preview
 @Composable

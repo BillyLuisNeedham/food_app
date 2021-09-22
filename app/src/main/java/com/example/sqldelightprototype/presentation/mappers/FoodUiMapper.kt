@@ -2,7 +2,7 @@ package com.example.sqldelightprototype.presentation.mappers
 
 import com.example.sqldelightprototype.domain.models.Food
 import com.example.sqldelightprototype.presentation.models.FoodUi
-import com.example.sqldelightprototype.presentation.util.ExpirationMessage
+import com.example.sqldelightprototype.presentation.util.expirationmessage.ExpirationMessage
 import java.lang.IllegalStateException
 import javax.inject.Inject
 

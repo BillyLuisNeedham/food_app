@@ -1,4 +1,4 @@
-package com.example.sqldelightprototype.presentation.util
+package com.example.sqldelightprototype.presentation.util.expirationmessage
 
 import android.content.Context
 import com.example.sqldelightprototype.R

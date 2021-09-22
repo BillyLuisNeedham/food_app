@@ -1,5 +1,6 @@
 package com.example.sqldelightprototype.data.utils.time
 
+import java.util.*
 import javax.inject.Inject
 
 class TimeManagerImpl @Inject constructor() : TimeManager {
@@ -16,5 +17,15 @@ class TimeManagerImpl @Inject constructor() : TimeManager {
         val now = getCurrentTimeStamp()
         val difference = timeStampInMilliSeconds - now
         return difference / 1000 / 60 / 60 / 24
+    }
+
+    override fun getTimeStampForCurrentLocaleFrom(
+        year: Int,
+        month: Int,
+        day: Int
+    ): Long {
+        val c = Calendar.getInstance()
+        c.set(year, month, day)
+        return c.timeInMillis
     }
 }

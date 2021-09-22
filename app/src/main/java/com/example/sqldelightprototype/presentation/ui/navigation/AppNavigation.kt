@@ -8,7 +8,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.sqldelightprototype.presentation.ui.screens.AddFoodScreen
+import com.example.sqldelightprototype.presentation.ui.screens.addfoodscreen.AddFoodScreen
 import com.example.sqldelightprototype.presentation.ui.screens.FoodListScreen
 import com.example.sqldelightprototype.presentation.viewmodels.AddFoodScreenViewModel
 import com.example.sqldelightprototype.presentation.viewmodels.FoodListScreenViewModel
