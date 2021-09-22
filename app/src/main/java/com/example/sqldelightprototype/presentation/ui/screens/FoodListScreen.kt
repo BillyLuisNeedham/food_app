@@ -1,5 +1,7 @@
 package com.example.sqldelightprototype.presentation.ui.screens
 
+import android.graphics.drawable.shapes.Shape
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -9,6 +11,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.BottomAppBar
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.FabPosition
 import androidx.compose.material.FloatingActionButton
@@ -18,7 +24,9 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -52,6 +60,39 @@ fun FoodListScreen(
         remember { mutableStateOf(false) }
 
     Scaffold(
+        bottomBar = {
+            // TODO: 22/09/2021 Break into own component
+            BottomAppBar(
+                elevation = 10.dp,
+                cutoutShape = RoundedCornerShape(50.dp)
+            ) {
+                IconButton(
+                    onClick = {
+                        // TODO remove when done testing
+                        Log.d("billytest", "click")
+                    }
+                ) {
+                    Icon(
+                        Icons.Filled.Menu,
+                        contentDescription = stringResource(R.string.open_menu_content_description)
+                    )
+                }
+
+                Spacer(Modifier.weight(1f, true))
+
+                IconButton(
+                    onClick = {
+                        // TODO remove when done testing
+                        Log.d("billytest", "click2")
+                    }
+                ) {
+                    Icon(
+                        Icons.Filled.Person,
+                        contentDescription = null // TODO write
+                    )
+                }
+            }
+        },
         topBar = {
             TopAppBar(
                 title = {
@@ -74,7 +115,7 @@ fun FoodListScreen(
                 }
             )
         },
-        floatingActionButtonPosition = FabPosition.End,
+        floatingActionButtonPosition = FabPosition.Center,
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onClickFab
@@ -84,7 +125,8 @@ fun FoodListScreen(
                     contentDescription = stringResource(R.string.add_food_description)
                 )
             }
-        }
+        },
+        isFloatingActionButtonDocked = true
     ) {
         UiDisplayHandler(
             foodList = foodList,
