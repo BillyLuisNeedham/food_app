@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import com.example.sqldelightprototype.R
 import com.example.sqldelightprototype.domain.ResultOf
 import com.example.sqldelightprototype.presentation.models.FoodUi
+import com.example.sqldelightprototype.presentation.ui.components.BottomAppBarBase
 import com.example.sqldelightprototype.presentation.ui.components.DeleteDialog
 import com.example.sqldelightprototype.presentation.ui.components.DropdownMenuFoodList
 import com.example.sqldelightprototype.presentation.ui.components.FoodListItem
@@ -61,37 +62,11 @@ fun FoodListScreen(
 
     Scaffold(
         bottomBar = {
-            // TODO: 22/09/2021 Break into own component
-            BottomAppBar(
-                elevation = 10.dp,
-                cutoutShape = RoundedCornerShape(50.dp)
-            ) {
-                IconButton(
-                    onClick = {
-                        // TODO remove when done testing
-                        Log.d("billytest", "click")
-                    }
-                ) {
-                    Icon(
-                        Icons.Filled.Menu,
-                        contentDescription = stringResource(R.string.open_menu_content_description)
-                    )
-                }
+            BottomAppBarBase(onClickPerson = {
+                // TODO remove when done testing
+                Log.d("billytest", "click2")
+            })
 
-                Spacer(Modifier.weight(1f, true))
-
-                IconButton(
-                    onClick = {
-                        // TODO remove when done testing
-                        Log.d("billytest", "click2")
-                    }
-                ) {
-                    Icon(
-                        Icons.Filled.Person,
-                        contentDescription = null // TODO write
-                    )
-                }
-            }
         },
         topBar = {
             TopAppBar(
