@@ -41,4 +41,15 @@ class UserRepositoryImpl @Inject constructor(
                 ResultOf.Error(exception = e)
             }
         }
+
+    override suspend fun deleteUser(user: User): ResultOf<Unit> =
+        withContext(Dispatchers.IO) {
+            try {
+                userLocalDataSource.delete(user = user)
+                ResultOf.Success(data = Unit)
+            } catch (e: Exception) {
+                Log.e(TAG, "exception within deleteUser: $e")
+                ResultOf.Error(exception = e)
+            }
+        }
 }

@@ -5,11 +5,16 @@ import com.example.sqldelightprototype.domain.models.User
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.flow.Flow
+import java.lang.IllegalStateException
 import javax.inject.Inject
 
 class UserLocalDataSourceImpl @Inject constructor(
     private val foodDatabase: FoodDatabase
 ) : UserLocalDataSource {
+
+    companion object {
+        private const val TAG = "UserLocalDataSourceImpl"
+    }
 
     override fun getAllUsers(): Flow<List<User>> =
         foodDatabase
@@ -29,5 +34,13 @@ class UserLocalDataSourceImpl @Inject constructor(
             )
     }
 
-
+    override suspend fun delete(user: User) {
+        foodDatabase
+            .queries.userQueries.delete(
+                id = user.id
+                    ?: throw IllegalStateException(
+                        "$TAG: user.id is null and must not be"
+                    )
+            )
+    }
 }
