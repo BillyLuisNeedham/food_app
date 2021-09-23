@@ -5,22 +5,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.sqldelightprototype.presentation.ui.screens.addfoodscreen.AddFoodScreen
-import com.example.sqldelightprototype.presentation.ui.screens.foodlistscreen.FoodListScreen
 import com.example.sqldelightprototype.presentation.ui.screens.addfoodscreen.AddFoodScreenViewModel
 import com.example.sqldelightprototype.presentation.ui.screens.adduserscreen.AddUserScreen
 import com.example.sqldelightprototype.presentation.ui.screens.adduserscreen.AddUserScreenViewModel
+import com.example.sqldelightprototype.presentation.ui.screens.foodlistscreen.FoodListScreen
 import com.example.sqldelightprototype.presentation.ui.screens.foodlistscreen.FoodListScreenViewModel
 
 sealed class Screens(val route: String) {
     object FoodListScreen : Screens("foodList")
     object AddFoodScreen : Screens("addFood")
-    object AddUserScreen: Screens("addUser")
+    object AddUserScreen : Screens("addUser")
 }
 
 @ExperimentalMaterialApi
@@ -38,6 +37,7 @@ fun AppNavigation(
         foodListScreen(
             navController = navController,
         )
+        addUserScreen(navController = navController)
     }
 }
 
@@ -67,7 +67,12 @@ private fun NavGraphBuilder.foodListScreen(
             deleteAllFoods = {
                 viewModel.deleteAllFoods()
             },
-            setFoodListSort = viewModel::getAllFoods
+            setFoodListSort = viewModel::getAllFoods,
+            navigateToAddUserScreen = {
+                navController.navigate(
+                    Screens.AddUserScreen.route
+                )
+            }
         )
     }
 }

@@ -1,5 +1,6 @@
 package com.example.sqldelightprototype.presentation.ui.screens.adduserscreen
 
+import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -16,6 +17,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -46,6 +48,7 @@ fun AddUserScreen(
     }
     val (showLoading, setShowLoading) = remember { mutableStateOf(false) }
     val (showError, setShowError) = remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     LaunchedEffect(key1 = screenState) {
         setShowLoading(false)
@@ -100,18 +103,21 @@ fun AddUserScreen(
         ErrorUi(
             showDialog = showError,
             dismissDialog = { setShowError(false) },
-            message = getErrorMessage(screenState = screenState)
+            message = getErrorMessage(
+                screenState = screenState,
+                context = context
+            )
         )
         LoadingUi(showDialog = showLoading)
     }
 }
 
-private fun getErrorMessage(screenState: ResultOf<Unit>?): String =
+private fun getErrorMessage(screenState: ResultOf<Unit>?, context: Context): String =
     when {
         screenState is ResultOf.Error && screenState.message != null -> {
             screenState.message
         }
-        else -> stringResource(R.string.error_generic)
+        else -> context.getString(R.string.error_generic)
     }
 
 

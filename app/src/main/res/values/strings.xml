@@ -38,5 +38,7 @@
     <string name="add_user">Add user</string>
     <string name="add_user_content_description">Add the entered user</string>
     <string name="error">Error</string>
-    <string name="error_generic">Something went wrong and we\'re not too sure what... Please try again.</string>
+    <string name="error_generic">Something went wrong and we\'re not too sure what… Please try again.</string>
+    <string name="users">Users</string>
+    <string name="navigate_to_add_user_content_description">Navigate to add user screen</string>
 </resources>
