@@ -13,10 +13,13 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -48,6 +51,7 @@ fun AddUserScreen(
     }
     val (showLoading, setShowLoading) = remember { mutableStateOf(false) }
     val (showError, setShowError) = remember { mutableStateOf(false) }
+    val focusRequester = FocusRequester()
     val context = LocalContext.current
 
     LaunchedEffect(key1 = screenState) {
@@ -93,12 +97,18 @@ fun AddUserScreen(
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
             TextInput(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .focusRequester(focusRequester)
+                    .fillMaxWidth(),
                 text = name,
                 onTextChange = setName,
                 label = stringResource(R.string.name),
                 errorState = nameError,
             )
+        }
+        DisposableEffect(Unit) {
+            focusRequester.requestFocus()
+            onDispose {  }
         }
         ErrorUi(
             showDialog = showError,
