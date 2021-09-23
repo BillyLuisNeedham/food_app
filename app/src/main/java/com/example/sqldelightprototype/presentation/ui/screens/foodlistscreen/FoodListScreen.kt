@@ -32,6 +32,7 @@ import com.example.sqldelightprototype.presentation.models.FoodUi
 import com.example.sqldelightprototype.presentation.ui.components.BottomAppBarBase
 import com.example.sqldelightprototype.presentation.ui.components.DeleteDialog
 import com.example.sqldelightprototype.presentation.ui.components.DropdownMenuFoodList
+import com.example.sqldelightprototype.presentation.ui.components.LoadingUi
 import com.example.sqldelightprototype.presentation.ui.theme.SqlDelightPrototypeTheme
 import kotlinx.coroutines.launch
 
@@ -132,16 +133,7 @@ private fun UiDisplayHandler(
             deleteFood = deleteFood
         )
         is ResultOf.Error -> ErrorUi()
-        ResultOf.Loading -> LoadingUi()
-    }
-}
-
-
-
-@Composable
-private fun LoadingUi() {
-    CenteredContent {
-        CircularProgressIndicator()
+        ResultOf.Loading -> LoadingUi(showDialog = true)
     }
 }
 
