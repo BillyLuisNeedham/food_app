@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.sqldelightprototype.data.utils.time.TimeManager
 import com.example.sqldelightprototype.domain.ResultOf
 import com.example.sqldelightprototype.domain.models.Food
-import com.example.sqldelightprototype.domain.usecases.AddFoodUseCase
+import com.example.sqldelightprototype.domain.usecases.food.AddFoodUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

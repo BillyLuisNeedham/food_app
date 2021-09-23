@@ -7,5 +7,6 @@ import kotlinx.coroutines.flow.Flow
 interface UserRepository {
     fun getAllUsers(): Flow<ResultOf<List<User>>>
     suspend fun addUser(user: User): ResultOf<Unit>
+    suspend fun deleteUser(user: User): ResultOf<Unit>
 
 }

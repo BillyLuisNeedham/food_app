@@ -1,4 +1,4 @@
-package com.example.sqldelightprototype.domain.usecases
+package com.example.sqldelightprototype.domain.usecases.user
 
 import com.example.sqldelightprototype.domain.models.User
 import com.example.sqldelightprototype.domain.repositories.UserRepository

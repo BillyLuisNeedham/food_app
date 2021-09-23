@@ -1,4 +1,4 @@
-package com.example.sqldelightprototype.domain.usecases
+package com.example.sqldelightprototype.domain.usecases.food
 
 import com.example.sqldelightprototype.domain.ResultOf
 import com.example.sqldelightprototype.domain.models.Food
