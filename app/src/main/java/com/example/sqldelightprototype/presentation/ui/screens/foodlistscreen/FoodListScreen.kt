@@ -143,7 +143,9 @@ fun FoodListScreen(
                 showDialog = showDeleteAllWarning,
                 setShowDialog = setShowDeleteAllWarning,
                 deleteAllFoods = deleteAllFoods,
-                message = stringResource(R.string.delete_warning)
+                message = stringResource(
+                    R.string.delete_warning
+                )
             )
         }
     }
