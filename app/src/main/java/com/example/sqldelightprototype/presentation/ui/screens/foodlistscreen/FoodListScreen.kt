@@ -32,6 +32,7 @@ import com.example.sqldelightprototype.presentation.models.FoodUi
 import com.example.sqldelightprototype.presentation.ui.components.BottomAppBarBase
 import com.example.sqldelightprototype.presentation.ui.components.DeleteDialog
 import com.example.sqldelightprototype.presentation.ui.components.DropdownMenuFoodList
+import com.example.sqldelightprototype.presentation.ui.components.ErrorUi
 import com.example.sqldelightprototype.presentation.ui.components.LoadingUi
 import com.example.sqldelightprototype.presentation.ui.theme.SqlDelightPrototypeTheme
 import kotlinx.coroutines.launch
@@ -132,26 +133,12 @@ private fun UiDisplayHandler(
             setFoodQuantity = setFoodQuantity,
             deleteFood = deleteFood
         )
-        is ResultOf.Error -> ErrorUi()
+        is ResultOf.Error -> ErrorUi(
+            showDialog = true,
+            dismissDialog = {},
+            message = stringResource(R.string.error_getting_list)
+        )
         ResultOf.Loading -> LoadingUi(showDialog = true)
-    }
-}
-
-@Composable
-private fun ErrorUi() {
-    CenteredContent {
-        Text(text = stringResource(R.string.error_getting_list))
-    }
-}
-
-@Composable
-private fun CenteredContent(content: @Composable () -> Unit) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        content()
     }
 }
 
