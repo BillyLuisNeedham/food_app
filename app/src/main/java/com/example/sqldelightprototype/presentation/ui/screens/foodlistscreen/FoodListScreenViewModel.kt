@@ -1,4 +1,4 @@
-package com.example.sqldelightprototype.presentation.viewmodels
+package com.example.sqldelightprototype.presentation.ui.screens.foodlistscreen
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

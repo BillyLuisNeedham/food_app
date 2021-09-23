@@ -11,8 +11,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.sqldelightprototype.presentation.ui.screens.addfoodscreen.AddFoodScreen
 import com.example.sqldelightprototype.presentation.ui.screens.foodlistscreen.FoodListScreen
-import com.example.sqldelightprototype.presentation.viewmodels.AddFoodScreenViewModel
-import com.example.sqldelightprototype.presentation.viewmodels.FoodListScreenViewModel
+import com.example.sqldelightprototype.presentation.ui.screens.addfoodscreen.AddFoodScreenViewModel
+import com.example.sqldelightprototype.presentation.ui.screens.foodlistscreen.FoodListScreenViewModel
 
 sealed class Screens(val route: String) {
     object FoodListScreen : Screens("foodList")

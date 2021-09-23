@@ -6,7 +6,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.example.sqldelightprototype.R
-import com.example.sqldelightprototype.presentation.viewmodels.FoodListScreenViewModel
+import com.example.sqldelightprototype.presentation.ui.screens.foodlistscreen.FoodListScreenViewModel
 
 @Composable
 fun DropdownMenuFoodList(
