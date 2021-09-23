@@ -1,5 +1,6 @@
 package com.example.sqldelightprototype.presentation.ui.navigation
 
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -9,7 +10,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.sqldelightprototype.presentation.ui.screens.addfoodscreen.AddFoodScreen
-import com.example.sqldelightprototype.presentation.ui.screens.FoodListScreen
+import com.example.sqldelightprototype.presentation.ui.screens.foodlistscreen.FoodListScreen
 import com.example.sqldelightprototype.presentation.viewmodels.AddFoodScreenViewModel
 import com.example.sqldelightprototype.presentation.viewmodels.FoodListScreenViewModel
 
@@ -18,6 +19,7 @@ sealed class Screens(val route: String) {
     object AddFoodScreen : Screens("addFood")
 }
 
+@ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @Composable
 fun AppNavigation(
@@ -35,6 +37,7 @@ fun AppNavigation(
     }
 }
 
+@ExperimentalMaterialApi
 private fun NavGraphBuilder.foodListScreen(
     navController: NavHostController,
 ) {

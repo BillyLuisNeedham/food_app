@@ -7,10 +7,8 @@ import com.example.sqldelightprototype.domain.ResultOf
 import com.example.sqldelightprototype.domain.models.Food
 import com.example.sqldelightprototype.domain.usecases.AddFoodUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
