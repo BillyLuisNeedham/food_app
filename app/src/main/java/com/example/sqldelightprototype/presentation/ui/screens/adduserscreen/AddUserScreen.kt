@@ -12,6 +12,7 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -22,6 +23,8 @@ import com.example.sqldelightprototype.R
 import com.example.sqldelightprototype.domain.ResultOf
 import com.example.sqldelightprototype.domain.models.User
 import com.example.sqldelightprototype.presentation.models.ErrorState
+import com.example.sqldelightprototype.presentation.ui.components.ErrorUi
+import com.example.sqldelightprototype.presentation.ui.components.LoadingUi
 import com.example.sqldelightprototype.presentation.ui.components.NavigateBackButton
 import com.example.sqldelightprototype.presentation.ui.components.TextInput
 import com.example.sqldelightprototype.presentation.ui.theme.SqlDelightPrototypeTheme
@@ -40,6 +43,20 @@ fun AddUserScreen(
                 messageResource = R.string.error_blank_name
             )
         )
+    }
+    val (showLoading, setShowLoading) = remember { mutableStateOf(false) }
+    val (showError, setShowError) = remember { mutableStateOf(false) }
+
+    LaunchedEffect(key1 = screenState) {
+        setShowLoading(false)
+        setShowError(false)
+
+        when (screenState) {
+            is ResultOf.Error -> setShowError(true)
+            ResultOf.Loading -> setShowLoading(true)
+            is ResultOf.Success -> {
+            }
+        }
     }
 
     Scaffold(
@@ -81,8 +98,23 @@ fun AddUserScreen(
                 errorState = nameError,
             )
         }
+        ErrorUi(
+            showDialog = showError,
+            dismissDialog = { setShowError(false) },
+            message = getErrorMessage(screenState = screenState)
+        )
+        LoadingUi(showDialog = showLoading)
     }
 }
+
+private fun getErrorMessage(screenState: ResultOf<Unit>): String =
+    when {
+        screenState is ResultOf.Error && screenState.message != null -> {
+            screenState.message
+        }
+        else -> stringResource(R.string.error_generic)
+    }
+
 
 @Preview(showBackground = true)
 @Composable
