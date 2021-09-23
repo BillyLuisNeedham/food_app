@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -12,11 +13,14 @@ import androidx.navigation.compose.composable
 import com.example.sqldelightprototype.presentation.ui.screens.addfoodscreen.AddFoodScreen
 import com.example.sqldelightprototype.presentation.ui.screens.foodlistscreen.FoodListScreen
 import com.example.sqldelightprototype.presentation.ui.screens.addfoodscreen.AddFoodScreenViewModel
+import com.example.sqldelightprototype.presentation.ui.screens.adduserscreen.AddUserScreen
+import com.example.sqldelightprototype.presentation.ui.screens.adduserscreen.AddUserScreenViewModel
 import com.example.sqldelightprototype.presentation.ui.screens.foodlistscreen.FoodListScreenViewModel
 
 sealed class Screens(val route: String) {
     object FoodListScreen : Screens("foodList")
     object AddFoodScreen : Screens("addFood")
+    object AddUserScreen: Screens("addUser")
 }
 
 @ExperimentalMaterialApi
@@ -80,6 +84,20 @@ private fun NavGraphBuilder.addFoodScreen(navController: NavHostController) {
             uploadState = uploadState.value,
             navigateBack = { navController.navigateUp() },
             timeManager = viewModel.timeManager
+        )
+    }
+}
+
+private fun NavGraphBuilder.addUserScreen(navController: NavHostController) {
+    composable(Screens.AddUserScreen.route) {
+
+        val viewModel: AddUserScreenViewModel = hiltViewModel()
+        val screenState = viewModel.screenState.collectAsState()
+
+        AddUserScreen(
+            screenState = screenState.value,
+            navigateBack = { navController.navigateUp() },
+            addUser = viewModel::addUser
         )
     }
 }

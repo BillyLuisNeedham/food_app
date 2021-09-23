@@ -22,11 +22,11 @@ class AddUserScreenViewModel @Inject constructor(
         private const val TAG = "AddUserScreenViewModel"
     }
 
-    private val _screenState = MutableStateFlow<ResultOf<Unit>>(ResultOf.Success(data = Unit))
-    val screenState: StateFlow<ResultOf<Unit>>
+    private val _screenState = MutableStateFlow<ResultOf<Unit>?>(null)
+    val screenState: StateFlow<ResultOf<Unit>?>
         get() = _screenState
 
-    suspend fun addUser(user: User) {
+    fun addUser(user: User) {
         viewModelScope.launch {
             try {
                 _screenState.value = ResultOf.Loading

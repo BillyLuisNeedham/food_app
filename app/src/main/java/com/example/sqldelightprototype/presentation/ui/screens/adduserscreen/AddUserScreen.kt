@@ -31,7 +31,7 @@ import com.example.sqldelightprototype.presentation.ui.theme.SqlDelightPrototype
 
 @Composable
 fun AddUserScreen(
-    screenState: ResultOf<Unit>,
+    screenState: ResultOf<Unit>?,
     navigateBack: () -> Unit,
     addUser: (User) -> Unit
 ) {
@@ -54,8 +54,7 @@ fun AddUserScreen(
         when (screenState) {
             is ResultOf.Error -> setShowError(true)
             ResultOf.Loading -> setShowLoading(true)
-            is ResultOf.Success -> {
-            }
+            is ResultOf.Success -> navigateBack()
         }
     }
 
@@ -107,7 +106,7 @@ fun AddUserScreen(
     }
 }
 
-private fun getErrorMessage(screenState: ResultOf<Unit>): String =
+private fun getErrorMessage(screenState: ResultOf<Unit>?): String =
     when {
         screenState is ResultOf.Error && screenState.message != null -> {
             screenState.message
