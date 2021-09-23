@@ -72,7 +72,12 @@ fun FoodListScreen(
                     )
 
                     IconButton(
-                        onClick = navigateToAddUserScreen
+                        onClick = {
+                            coScope.launch {
+                                userDialogState.hide()
+                                navigateToAddUserScreen()
+                            }
+                        }
                     ) {
                         Icon(
                             Icons.Filled.Add,
