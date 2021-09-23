@@ -5,11 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sqldelightprototype.domain.ResultOf
 import com.example.sqldelightprototype.domain.models.Food
+import com.example.sqldelightprototype.domain.models.User
 import com.example.sqldelightprototype.domain.usecases.DeleteAllFoodsUseCase
 import com.example.sqldelightprototype.domain.usecases.DeleteFoodUseCase
 import com.example.sqldelightprototype.domain.usecases.GetAllFoodsSortedByAmountUseCase
 import com.example.sqldelightprototype.domain.usecases.GetAllFoodsSortedByExpiryUseCase
 import com.example.sqldelightprototype.domain.usecases.GetAllFoodsSortedByNameUseCase
+import com.example.sqldelightprototype.domain.usecases.GetAllUsersUseCase
 import com.example.sqldelightprototype.domain.usecases.UpdateFoodUseCase
 import com.example.sqldelightprototype.presentation.mappers.FoodUiMapper
 import com.example.sqldelightprototype.presentation.models.FoodUi
@@ -30,6 +32,7 @@ class FoodListScreenViewModel @Inject constructor(
     private val deleteFoodUseCase: DeleteFoodUseCase,
     private val updateFoodUseCase: UpdateFoodUseCase,
     private val deleteAllFoodsUseCase: DeleteAllFoodsUseCase,
+    private val getAllUsersUseCase: GetAllUsersUseCase,
     private val foodUiMapper: FoodUiMapper
 ) : ViewModel() {
 
@@ -51,9 +54,13 @@ class FoodListScreenViewModel @Inject constructor(
     val foodList: StateFlow<List<FoodUi>>
         get() = _foodList
 
+    private val _userList = MutableStateFlow(listOf<User>())
+    val userList: StateFlow<List<User>>
+        get() = _userList
 
     init {
         getAllFoods()
+        getAllUsers()
     }
 
     fun getAllFoods(
@@ -74,6 +81,33 @@ class FoodListScreenViewModel @Inject constructor(
             }
         }
     }
+
+    private fun getAllUsers() {
+        viewModelScope.launch {
+            val users =
+                getAllUsersUseCase.get().map {
+                    when (it) {
+                        is ResultOf.Error -> {
+                            _state.value = it
+                            listOf()
+                        }
+                        ResultOf.Loading -> {
+                            _state.value = ResultOf.Loading
+                            listOf()
+                        }
+                        is ResultOf.Success -> {
+                            _state.value = ResultOf.Success(data = Unit)
+                            it.data
+                        }
+                    }
+                }
+
+            users.collect {
+                _userList.value = it
+            }
+        }
+    }
+
 
     private fun getFoodHandler(
         getFoodCallback: () -> Flow<ResultOf<List<Food>>>

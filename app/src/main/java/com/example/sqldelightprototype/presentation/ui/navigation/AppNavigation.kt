@@ -51,6 +51,8 @@ private fun NavGraphBuilder.foodListScreen(
         val foodList =
             viewModel.foodList.collectAsState(listOf())
         val screenState = viewModel.state.collectAsState()
+        val userList =
+            viewModel.userList.collectAsState()
 
         FoodListScreen(
             foodList = foodList.value,
@@ -72,7 +74,8 @@ private fun NavGraphBuilder.foodListScreen(
                 navController.navigate(
                     Screens.AddUserScreen.route
                 )
-            }
+            },
+            userList = userList.value
         )
     }
 }
