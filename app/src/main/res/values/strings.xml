@@ -35,4 +35,5 @@
     <string name="error_blank_amount">Amount must not be empty</string>
     <string name="error_blank_expiry">Expiry must not be empty</string>
     <string name="select_date_hint">Select date hint</string>
+    <string name="add_user">Add user</string>
 </resources>

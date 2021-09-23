@@ -23,6 +23,7 @@ import com.example.sqldelightprototype.data.utils.time.TimeManagerImpl
 import com.example.sqldelightprototype.domain.ResultOf
 import com.example.sqldelightprototype.domain.models.Food
 import com.example.sqldelightprototype.presentation.models.ErrorState
+import com.example.sqldelightprototype.presentation.ui.components.NavigateBackButton
 import com.example.sqldelightprototype.presentation.ui.theme.SqlDelightPrototypeTheme
 
 @ExperimentalComposeUiApi
@@ -59,12 +60,7 @@ fun AddFoodScreen(
                 Text(stringResource(R.string.add_food_title))
             },
             navigationIcon = {
-                IconButton(onClick = navigateBack) {
-                    Icon(
-                        Icons.Filled.ArrowBack,
-                        contentDescription = stringResource(R.string.back_navigation_content_description)
-                    )
-                }
+                NavigateBackButton(onClick = navigateBack)
             },
 
             )
