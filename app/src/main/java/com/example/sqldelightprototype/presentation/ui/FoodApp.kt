@@ -1,5 +1,6 @@
 package com.example.sqldelightprototype.presentation.ui
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
@@ -12,6 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.sqldelightprototype.presentation.ui.navigation.AppNavigation
 import com.example.sqldelightprototype.presentation.ui.theme.SqlDelightPrototypeTheme
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @Composable
@@ -26,12 +28,4 @@ fun FoodApp() {
             AppNavigation(navController = navController)
         }
     }
-}
-
-@ExperimentalMaterialApi
-@ExperimentalComposeUiApi
-@Preview(showBackground = true)
-@Composable
-fun FoodAppPreview() {
-    FoodApp()
 }

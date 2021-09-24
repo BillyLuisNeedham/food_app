@@ -10,7 +10,7 @@ import com.example.sqldelightprototype.R
 fun DeleteDialog(
     showDialog: Boolean,
     setShowDialog: (Boolean) -> Unit,
-    deleteAllFoods: () -> Unit,
+    onConfirmClicked: () -> Unit,
     message: String
 ) {
     if (showDialog) {
@@ -20,7 +20,7 @@ fun DeleteDialog(
             confirmButton = {
                 ButtonBase(onClick = {
                     setShowDialog(false)
-                    deleteAllFoods()
+                    onConfirmClicked()
                 }) {
                     Text(stringResource(R.string.continue_dialog))
                 }

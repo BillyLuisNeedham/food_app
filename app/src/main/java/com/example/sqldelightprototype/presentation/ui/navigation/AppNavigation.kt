@@ -1,5 +1,6 @@
 package com.example.sqldelightprototype.presentation.ui.navigation
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -22,6 +23,7 @@ sealed class Screens(val route: String) {
     object AddUserScreen : Screens("addUser")
 }
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @Composable
@@ -41,6 +43,7 @@ fun AppNavigation(
     }
 }
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 private fun NavGraphBuilder.foodListScreen(
     navController: NavHostController,
@@ -53,7 +56,7 @@ private fun NavGraphBuilder.foodListScreen(
         val screenState = viewModel.state.collectAsState()
         val userList =
             viewModel.userList.collectAsState()
-        val selectedUserIds = viewModel.selectedUserIds.collectAsState()
+        val selectedUsers = viewModel.selectedUsers.collectAsState()
 
         FoodListScreen(
             foodList = foodList.value,
@@ -77,9 +80,10 @@ private fun NavGraphBuilder.foodListScreen(
                 )
             },
             userList = userList.value,
-            selectedUserIds = selectedUserIds.value,
+            selectedUsers = selectedUsers.value,
             onLongPressUserListItem = viewModel::addOrRemoveUserIdToSelectedUserIds,
-            clearSelectedUserIds = viewModel::clearSelectedUserIds
+            clearSelectedUserIds = viewModel::clearSelectedUserIds,
+            deleteAllSelectedUsers = viewModel::deleteAllSelectedUsers
         )
     }
 }

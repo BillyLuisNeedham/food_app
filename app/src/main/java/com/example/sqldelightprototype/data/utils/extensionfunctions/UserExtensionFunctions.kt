@@ -7,5 +7,13 @@ fun User.makeAllStringsLowerCase() = this.copy(
 )
 
 fun User.capitaliseStrings() = this.copy(
-    name = this.name.captialise()
+    name = capitaliseEachName(this.name)
 )
+
+private fun capitaliseEachName(name: String): String {
+    val names = name.split(" ")
+    val capitalisedNames = names.map {
+        it.captialise()
+    }
+    return ca //TODO write
+}

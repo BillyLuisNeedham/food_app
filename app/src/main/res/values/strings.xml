@@ -27,7 +27,7 @@
     <string name="warning">Warning</string>
     <string name="continue_dialog">Continue</string>
     <string name="cancel">Cancel</string>
-    <string name="delete_warning">This will delete all foods. This action cannot be undone.</string>
+    <string name="delete_food_warning">This will delete all foods. This action cannot be undone.</string>
     <string name="sort_food_by_name">Sort foods by name</string>
     <string name="sort_food_by_expiry">Sort foods by expiry</string>
     <string name="sort_food_by_amount">Sort foods by amount</string>
@@ -41,4 +41,6 @@
     <string name="error_generic">Something went wrong and we\'re not too sure what… Please try again.</string>
     <string name="users">Users</string>
     <string name="navigate_to_add_user_content_description">Navigate to add user screen</string>
+    <string name="delete_all_selected_users">Delete all selected users</string>
+    <string name="delete_users_warning">This will delete all selected users. This cannot be undone. Do you want to continue?</string>
 </resources>

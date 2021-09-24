@@ -50,12 +50,15 @@ fun FoodListScreen(
     setFoodListSort: (FoodListScreenViewModel.Companion.SortFoods) -> Unit,
     navigateToAddUserScreen: () -> Unit,
     userList: List<User>,
-    selectedUserIds: List<Long>,
+    selectedUsers: List<User>,
     onLongPressUserListItem: (User) -> Unit,
     clearSelectedUserIds: () -> Unit,
+    deleteAllSelectedUsers: () -> Unit,
 ) {
     val (showMenu, setShowMenu) = remember { mutableStateOf(false) }
-    val (showDeleteAllWarning, setShowDeleteAllWarning) =
+    val (showDeleteAllFoodWarning, setShowDeleteAllFoodWarning) =
+        remember { mutableStateOf(false) }
+    val (showDeleteAllUsersWarning, setShowDeleteAllUsersWarning) =
         remember { mutableStateOf(false) }
     val userDialogState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val coScope = rememberCoroutineScope()
@@ -75,7 +78,8 @@ fun FoodListScreen(
                     Log.d("FoodListScreen", "clicked $it.name")
                 },
                 onLongPressUser = onLongPressUserListItem,
-                selectedUserIds = selectedUserIds
+                selectedUsers = selectedUsers,
+                onClickDeleteUsers = { setShowDeleteAllUsersWarning(true) }
             )
         }
     ) {
@@ -102,7 +106,7 @@ fun FoodListScreen(
                         DropdownMenuFoodList(
                             showMenu = showMenu,
                             setShowMenu = setShowMenu,
-                            setShowDeleteAllWarning = setShowDeleteAllWarning,
+                            setShowDeleteAllWarning = setShowDeleteAllFoodWarning,
                             setFoodListSort = setFoodListSort
                         )
 
@@ -129,11 +133,19 @@ fun FoodListScreen(
                 screenState = screenState
             )
             DeleteDialog(
-                showDialog = showDeleteAllWarning,
-                setShowDialog = setShowDeleteAllWarning,
-                deleteAllFoods = deleteAllFoods,
+                showDialog = showDeleteAllFoodWarning,
+                setShowDialog = setShowDeleteAllFoodWarning,
+                onConfirmClicked = deleteAllFoods,
                 message = stringResource(
-                    R.string.delete_warning
+                    R.string.delete_food_warning
+                )
+            )
+            DeleteDialog(
+                showDialog = showDeleteAllUsersWarning,
+                setShowDialog = setShowDeleteAllUsersWarning,
+                onConfirmClicked = deleteAllSelectedUsers,
+                message = stringResource(
+                    R.string.delete_users_warning
                 )
             )
         }
@@ -179,9 +191,10 @@ fun FoodListScreenPreview() {
             setFoodListSort = {},
             navigateToAddUserScreen = {},
             userList = listOf(),
-            selectedUserIds = listOf(),
+            selectedUsers = listOf(),
             onLongPressUserListItem = {},
-            clearSelectedUserIds = {}
+            clearSelectedUserIds = {},
+            deleteAllSelectedUsers = {}
         )
     }
 }

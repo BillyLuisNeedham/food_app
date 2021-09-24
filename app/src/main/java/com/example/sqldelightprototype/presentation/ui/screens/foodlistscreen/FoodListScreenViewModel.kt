@@ -3,6 +3,7 @@ package com.example.sqldelightprototype.presentation.ui.screens.foodlistscreen
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.sqldelightprototype.data.utils.extensionfunctions.capitaliseStrings
 import com.example.sqldelightprototype.domain.ResultOf
 import com.example.sqldelightprototype.domain.models.Food
 import com.example.sqldelightprototype.domain.models.User
@@ -13,6 +14,7 @@ import com.example.sqldelightprototype.domain.usecases.food.GetAllFoodsSortedByE
 import com.example.sqldelightprototype.domain.usecases.food.GetAllFoodsSortedByNameUseCase
 import com.example.sqldelightprototype.domain.usecases.user.GetAllUsersUseCase
 import com.example.sqldelightprototype.domain.usecases.food.UpdateFoodUseCase
+import com.example.sqldelightprototype.domain.usecases.user.DeleteUserUseCase
 import com.example.sqldelightprototype.presentation.mappers.FoodUiMapper
 import com.example.sqldelightprototype.presentation.models.FoodUi
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,6 +35,7 @@ class FoodListScreenViewModel @Inject constructor(
     private val updateFoodUseCase: UpdateFoodUseCase,
     private val deleteAllFoodsUseCase: DeleteAllFoodsUseCase,
     private val getAllUsersUseCase: GetAllUsersUseCase,
+    private val deleteUserUseCase: DeleteUserUseCase,
     private val foodUiMapper: FoodUiMapper
 ) : ViewModel() {
 
@@ -58,9 +61,9 @@ class FoodListScreenViewModel @Inject constructor(
     val userList: StateFlow<List<User>>
         get() = _userList
 
-    private val _selectedUserIds = MutableStateFlow(listOf<Long>())
-    val selectedUserIds: StateFlow<List<Long>>
-        get() = _selectedUserIds
+    private val _selectedUsers = MutableStateFlow(listOf<User>())
+    val selectedUsers: StateFlow<List<User>>
+        get() = _selectedUsers
 
     init {
         getAllFoods()
@@ -107,8 +110,8 @@ class FoodListScreenViewModel @Inject constructor(
     }
 
     fun addOrRemoveUserIdToSelectedUserIds(user: User) {
-        when (user.id) {
-            in _selectedUserIds.value ->
+        when (user) {
+            in _selectedUsers.value ->
                 removeUserIdFromSelectedUserIds(user = user)
 
             else -> addUserIdToSelectedUserIds(user = user)
@@ -116,16 +119,28 @@ class FoodListScreenViewModel @Inject constructor(
     }
 
     fun clearSelectedUserIds() {
-        _selectedUserIds.value = listOf()
+        _selectedUsers.value = listOf()
+    }
+
+    fun deleteAllSelectedUsers() {
+        _selectedUsers.value.forEach {
+            deleteUser(user = it)
+        }
+    }
+
+    private fun deleteUser(user: User) {
+        runUseCase {
+            deleteUserUseCase.delete(user)
+        }
     }
 
     private fun removeUserIdFromSelectedUserIds(user: User) {
-        _selectedUserIds.value =
-            _selectedUserIds.value.filterNot { it == user.id }
+        _selectedUsers.value =
+            _selectedUsers.value.filterNot { it == user }
     }
 
     private fun addUserIdToSelectedUserIds(user: User) {
-        _selectedUserIds.value = _selectedUserIds.value.plus(user.id!!)
+        _selectedUsers.value = _selectedUsers.value.plus(user)
     }
 
     private fun getAllUsers() {
@@ -149,11 +164,12 @@ class FoodListScreenViewModel @Inject constructor(
                 }
 
             users.collect {
-                _userList.value = it
+                _userList.value = it.map { user ->
+                    user.capitaliseStrings()
+                }
             }
         }
     }
-
 
     private fun getFoodHandler(
         getFoodCallback: () -> Flow<ResultOf<List<Food>>>
