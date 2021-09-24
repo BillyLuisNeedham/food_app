@@ -53,6 +53,7 @@ private fun NavGraphBuilder.foodListScreen(
         val screenState = viewModel.state.collectAsState()
         val userList =
             viewModel.userList.collectAsState()
+        val selectedUserIds = viewModel.selectedUserIds.collectAsState()
 
         FoodListScreen(
             foodList = foodList.value,
@@ -75,7 +76,10 @@ private fun NavGraphBuilder.foodListScreen(
                     Screens.AddUserScreen.route
                 )
             },
-            userList = userList.value
+            userList = userList.value,
+            selectedUserIds = selectedUserIds.value,
+            onLongPressUserListItem = viewModel::addOrRemoveUserIdToSelectedUserIds,
+            clearSelectedUserIds = viewModel::clearSelectedUserIds
         )
     }
 }

@@ -58,6 +58,10 @@ class FoodListScreenViewModel @Inject constructor(
     val userList: StateFlow<List<User>>
         get() = _userList
 
+    private val _selectedUserIds = MutableStateFlow(listOf<Long>())
+    val selectedUserIds: StateFlow<List<Long>>
+        get() = _selectedUserIds
+
     init {
         getAllFoods()
         getAllUsers()
@@ -80,6 +84,48 @@ class FoodListScreenViewModel @Inject constructor(
                 _foodList.value = it
             }
         }
+    }
+
+    fun updateFood(foodUi: FoodUi) {
+        runUseCase {
+            val food = foodUi.mapFoodUiToFood()
+            updateFoodUseCase.update(food = food)
+        }
+    }
+
+    fun deleteFood(foodUi: FoodUi) {
+        runUseCase {
+            val food = foodUi.mapFoodUiToFood()
+            deleteFoodUseCase.delete(food = food)
+        }
+    }
+
+    fun deleteAllFoods() {
+        runUseCase {
+            deleteAllFoodsUseCase.deleteAll()
+        }
+    }
+
+    fun addOrRemoveUserIdToSelectedUserIds(user: User) {
+        when (user.id) {
+            in _selectedUserIds.value ->
+                removeUserIdFromSelectedUserIds(user = user)
+
+            else -> addUserIdToSelectedUserIds(user = user)
+        }
+    }
+
+    fun clearSelectedUserIds() {
+        _selectedUserIds.value = listOf()
+    }
+
+    private fun removeUserIdFromSelectedUserIds(user: User) {
+        _selectedUserIds.value =
+            _selectedUserIds.value.filterNot { it == user.id }
+    }
+
+    private fun addUserIdToSelectedUserIds(user: User) {
+        _selectedUserIds.value = _selectedUserIds.value.plus(user.id!!)
     }
 
     private fun getAllUsers() {
@@ -127,26 +173,6 @@ class FoodListScreenViewModel @Inject constructor(
                     models = it,
                 )
             }
-        }
-    }
-
-    fun updateFood(foodUi: FoodUi) {
-        runUseCase {
-            val food = foodUi.mapFoodUiToFood()
-            updateFoodUseCase.update(food = food)
-        }
-    }
-
-    fun deleteFood(foodUi: FoodUi) {
-        runUseCase {
-            val food = foodUi.mapFoodUiToFood()
-            deleteFoodUseCase.delete(food = food)
-        }
-    }
-
-    fun deleteAllFoods() {
-        runUseCase {
-            deleteAllFoodsUseCase.deleteAll()
         }
     }
 

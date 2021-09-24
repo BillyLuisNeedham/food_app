@@ -1,6 +1,7 @@
 package com.example.sqldelightprototype.presentation.ui.screens.foodlistscreen
 
 import android.util.Log
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FabPosition
@@ -36,6 +37,7 @@ import com.example.sqldelightprototype.presentation.ui.components.UserList
 import com.example.sqldelightprototype.presentation.ui.theme.SqlDelightPrototypeTheme
 import kotlinx.coroutines.launch
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
 fun FoodListScreen(
@@ -48,12 +50,19 @@ fun FoodListScreen(
     setFoodListSort: (FoodListScreenViewModel.Companion.SortFoods) -> Unit,
     navigateToAddUserScreen: () -> Unit,
     userList: List<User>,
+    selectedUserIds: List<Long>,
+    onLongPressUserListItem: (User) -> Unit,
+    clearSelectedUserIds: () -> Unit,
 ) {
     val (showMenu, setShowMenu) = remember { mutableStateOf(false) }
     val (showDeleteAllWarning, setShowDeleteAllWarning) =
         remember { mutableStateOf(false) }
     val userDialogState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val coScope = rememberCoroutineScope()
+
+    if (!userDialogState.isVisible) {
+        clearSelectedUserIds()
+    }
 
     ModalBottomSheetLayout(
         sheetState = userDialogState,
@@ -63,8 +72,10 @@ fun FoodListScreen(
                 onClickAddUser = navigateToAddUserScreen,
                 onClickUser = {
                     // TODO write
-                    Log.d("FoodListScreen", it.name)
-                }
+                    Log.d("FoodListScreen", "clicked $it.name")
+                },
+                onLongPressUser = onLongPressUserListItem,
+                selectedUserIds = selectedUserIds
             )
         }
     ) {
@@ -152,6 +163,7 @@ private fun UiDisplayHandler(
     }
 }
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Preview(showBackground = true)
 @Composable
@@ -166,7 +178,10 @@ fun FoodListScreenPreview() {
             deleteAllFoods = {},
             setFoodListSort = {},
             navigateToAddUserScreen = {},
-            userList = listOf()
+            userList = listOf(),
+            selectedUserIds = listOf(),
+            onLongPressUserListItem = {},
+            clearSelectedUserIds = {}
         )
     }
 }
