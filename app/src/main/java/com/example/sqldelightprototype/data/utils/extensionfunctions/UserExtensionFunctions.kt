@@ -15,5 +15,5 @@ private fun capitaliseEachName(name: String): String {
     val capitalisedNames = names.map {
         it.captialise()
     }
-    return ca //TODO write
+    return capitalisedNames.joinToString(" ")
 }
