@@ -71,7 +71,7 @@ class FoodListScreenViewModel @Inject constructor(
     }
 
     fun getAllFoods(
-        sortBy: SortFoods = SortFoods.ByName
+        sortBy: SortFoods = SortFoods.ByExpiry
     ) {
         viewModelScope.launch {
 
