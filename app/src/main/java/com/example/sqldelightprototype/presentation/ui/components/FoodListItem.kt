@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.sqldelightprototype.R
@@ -60,21 +61,32 @@ private fun FoodListItemContent(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            modifier = Modifier.padding(horizontal = 16.dp),
+            modifier = Modifier
+                .weight(3f)
+                .padding(horizontal = 16.dp),
             text = food.name,
             fontWeight = FontWeight.Bold,
-            style = MaterialTheme.typography.h5
+            style = MaterialTheme.typography.h5,
+            maxLines = 4,
+            overflow = TextOverflow.Ellipsis
 
         )
-        ExpiresDisplay(expiresMessage = food.expirationMessage)
+        ExpiresDisplay(
+            modifier = Modifier.weight(2f),
+            expiresMessage = food.expirationMessage
+        )
         QuantityDisplay(
+            modifier = Modifier.weight(2f),
             quantity = food.quantity,
             setQuantity = {
                 val newFood = food.copy(quantity = it)
                 setFoodQuantity(newFood)
             }
         )
-        DeleteFood(food = food, deleteFood = deleteFood)
+        DeleteFood(
+            modifier = Modifier.weight(1f),
+            food = food, deleteFood = deleteFood
+        )
     }
 }
 
@@ -148,7 +160,7 @@ private fun QuantityDisplay(
 private fun FoodListItemPreview() {
     val food = FoodUi(
         id = 1L,
-        name = "Apples",
+        name = "Apples that are really delicious Apples that are really delicious Apples that are really delicious Apples that are really delicious Apples that are really delicious Apples that are really delicious ",
         quantity = 3,
         expirationMessage = "4 Days",
         expirationDate = 10L
