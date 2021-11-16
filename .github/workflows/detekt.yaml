@@ -11,6 +11,5 @@ jobs:
         run : "ls -a"
       - name: "detekt"
         uses: natiginfo/action-detekt-all@1.19.0-RC1
-#         TODO restore when done testing
-#        with:
-#          args: --fail-fast --config detekt.yml
+        with:
+          args: --fail-fast --config app/detekt-config.yaml
