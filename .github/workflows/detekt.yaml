@@ -7,9 +7,10 @@ jobs:
     steps:
       - name: "checkout"
         uses: actions/checkout@v2
+#        TODO REMOVE WHEN DONE TESTING
       - name: "look around"
         run : "ls -a"
       - name: "detekt"
         uses: natiginfo/action-detekt-all@1.19.0-RC1
         with:
-          args: --fail-fast --config app/detekt-config.yaml
+          args: --fail-fast --config app/detekt-config.yaml --build-upon-default-config true
