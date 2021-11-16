@@ -18,5 +18,3 @@ jobs:
         with:
           github_token: ${{ secrets.github_token }}
           detekt_config: app/detekt-config.yaml --build-upon-default-config
-#          TODO remove when done building
-#          args: --fail-fast --config app/detekt-config.yaml --build-upon-default-config
