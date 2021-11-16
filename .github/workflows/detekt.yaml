@@ -1,13 +1,22 @@
-name: detekt
-on: [ pull_request ]
+name: reviewdog
+on: [pull_request]
+
 jobs:
   detekt:
+    name: Check Code Quality
     runs-on: ubuntu-latest
 
     steps:
-      - name: "checkout"
+      - name: Clone repo
         uses: actions/checkout@v2
-      - name: "detekt"
-        uses: natiginfo/action-detekt-all@1.19.0-RC1
         with:
-          args: --fail-fast --config app/detekt-config.yaml --build-upon-default-config
+          fetch-depth: 1
+          ref: ${{ github.head_ref }}
+
+      - name: detekt
+        uses: alaegin/Detekt-Action@v1.18.1.2
+        with:
+          github_token: ${{ secrets.github_token }}
+          detekt_config: app/detekt-config.yaml
+#          TODO remove when done building
+#          args: --fail-fast --config app/detekt-config.yaml --build-upon-default-config
