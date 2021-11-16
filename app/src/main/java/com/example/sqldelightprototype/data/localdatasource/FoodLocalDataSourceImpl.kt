@@ -3,9 +3,9 @@ package com.example.sqldelightprototype.data.localdatasource
 import com.example.sqldelightprototype.domain.models.Food
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
-import kotlinx.coroutines.flow.Flow
 import java.lang.IllegalStateException
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
 
 class FoodLocalDataSourceImpl @Inject constructor(
     private val foodDatabase: FoodDatabase
@@ -25,7 +25,8 @@ class FoodLocalDataSourceImpl @Inject constructor(
                         quantity = quantity.toInt(),
                         expirationDate = expirationDate
                     )
-                }).asFlow().mapToList()
+                }
+            ).asFlow().mapToList()
 
     override fun getAllSortedByExpiry(): Flow<List<Food>> =
         foodDatabase
@@ -37,7 +38,8 @@ class FoodLocalDataSourceImpl @Inject constructor(
                         quantity = quantity.toInt(),
                         expirationDate = expirationDate
                     )
-                }).asFlow().mapToList()
+                }
+            ).asFlow().mapToList()
 
     override fun getAllSortedByAmount(): Flow<List<Food>> =
         foodDatabase
@@ -49,9 +51,10 @@ class FoodLocalDataSourceImpl @Inject constructor(
                         quantity = quantity.toInt(),
                         expirationDate = expirationDate
                     )
-                }).asFlow().mapToList()
+                }
+            ).asFlow().mapToList()
 
-        override suspend fun add(food: Food) =
+    override suspend fun add(food: Food) =
         foodDatabase
             .queries.foodQueries.insertOrReplace(
                 id = food.id,

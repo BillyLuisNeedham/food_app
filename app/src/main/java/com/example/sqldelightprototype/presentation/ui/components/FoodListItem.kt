@@ -45,7 +45,6 @@ fun FoodListItem(
             deleteFood = deleteFood
         )
     }
-
 }
 
 @Composable
@@ -153,7 +152,6 @@ private fun QuantityDisplay(
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable

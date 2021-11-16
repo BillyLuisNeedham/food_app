@@ -6,9 +6,9 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 
 @Composable
-fun LoadingUi (
+fun LoadingUi(
     showDialog: Boolean
-    ) {
+) {
     if (showDialog) {
         Dialog(
             onDismissRequest = {},

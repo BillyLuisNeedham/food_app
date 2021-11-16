@@ -10,10 +10,10 @@ import androidx.compose.ui.res.stringResource
 import com.example.sqldelightprototype.R
 
 @Composable
-fun NavigateBackButton (
+fun NavigateBackButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
-    ) {
+) {
     IconButton(
         modifier = modifier,
         onClick = onClick

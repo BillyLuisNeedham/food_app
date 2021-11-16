@@ -1,6 +1,5 @@
 package com.example.sqldelightprototype.presentation.models
 
-
 data class FoodUi(
     val id: Long,
     val name: String,
@@ -8,4 +7,3 @@ data class FoodUi(
     val expirationDate: Long,
     val expirationMessage: String
 )
-

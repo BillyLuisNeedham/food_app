@@ -5,13 +5,13 @@ import com.example.sqldelightprototype.data.localdatasource.UserLocalDataSource
 import com.example.sqldelightprototype.domain.ResultOf
 import com.example.sqldelightprototype.domain.models.User
 import com.example.sqldelightprototype.domain.repositories.UserRepository
+import java.lang.Exception
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.withContext
-import java.lang.Exception
-import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
     private val userLocalDataSource: UserLocalDataSource

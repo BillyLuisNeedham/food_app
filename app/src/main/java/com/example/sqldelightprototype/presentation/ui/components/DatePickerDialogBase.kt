@@ -16,16 +16,16 @@ fun DatePickerDialogBase(
     setDate: (year: Int, month: Int, day: Int) -> Unit,
 ) {
     if (showDialog) {
-            Dialog(
-                onDismissRequest = { setShowDialog(false) },
-                properties = DialogProperties(),
-            ) {
-                Surface(
-                    modifier = Modifier
-                        .wrapContentWidth()
-                        .background(MaterialTheme.colors.surface)
+        Dialog(
+            onDismissRequest = { setShowDialog(false) },
+            properties = DialogProperties(),
+        ) {
+            Surface(
+                modifier = Modifier
+                    .wrapContentWidth()
+                    .background(MaterialTheme.colors.surface)
 
-                ) {
+            ) {
                 DatePickerView(
                     setDate = setDate,
                     dismissCalendar = { setShowDialog(false) }

@@ -75,16 +75,17 @@ fun AddUserScreen(
                     NavigateBackButton(onClick = navigateBack)
                 },
                 actions = {
-                    IconButton(onClick = {
-                        when {
-                            name.isBlank() -> setNameError(
-                                nameError.copy(error = true)
-                            )
-                            else -> addUser(
-                                User(name = name)
-                            )
+                    IconButton(
+                        onClick = {
+                            when {
+                                name.isBlank() -> setNameError(
+                                    nameError.copy(error = true)
+                                )
+                                else -> addUser(
+                                    User(name = name)
+                                )
+                            }
                         }
-                    }
                     ) {
                         Icon(
                             Icons.Filled.Done,
@@ -108,7 +109,7 @@ fun AddUserScreen(
         }
         DisposableEffect(Unit) {
             focusRequester.requestFocus()
-            onDispose {  }
+            onDispose { }
         }
         ErrorUi(
             showDialog = showError,
@@ -129,7 +130,6 @@ private fun getErrorMessage(screenState: ResultOf<Unit>?, context: Context): Str
         }
         else -> context.getString(R.string.error_generic)
     }
-
 
 @Preview(showBackground = true)
 @Composable
