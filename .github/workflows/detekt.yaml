@@ -7,8 +7,7 @@ jobs:
     steps:
       - name: "checkout"
         uses: actions/checkout@v2
-      - name: "ls"
-        uses: ls -a
+        run: ls
       - name: "detekt"
         uses: natiginfo/action-detekt-all@1.19.0-RC1
 #         TODO restore when done testing
