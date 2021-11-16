@@ -4,6 +4,7 @@ plugins {
     id 'com.squareup.sqldelight'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id "io.gitlab.arturbosch.detekt" version "1.19.0-RC1"
 }
 
 
@@ -82,7 +83,10 @@ dependencies {
 
     //Materal icons
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
+}
 
-
+detekt {
+    config = files("./detekt-config.yaml")
+    buildUponDefaultConfig = true
 }
 
