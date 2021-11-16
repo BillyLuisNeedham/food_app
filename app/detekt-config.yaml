@@ -20,4 +20,4 @@ style:
     ignorePropertyDeclaration: true
   UnnecessaryAbstractClass:
     active: true
-    excludeAnnotatedClasses: "dagger.Module"
+#    excludeAnnotatedClasses: "dagger.Module"
