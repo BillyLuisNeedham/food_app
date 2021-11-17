@@ -20,3 +20,4 @@ jobs:
           reviewdog_filter: nofilter
           reviewdog_reporter: github-pr-review
           detekt_config: app/detekt-config.yaml --build-upon-default-config
+          fail_on_error: true
