@@ -4,7 +4,7 @@ plugins {
     id 'com.squareup.sqldelight'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
-    id "io.gitlab.arturbosch.detekt" version "1.19.0-RC1"
+    id "io.gitlab.arturbosch.detekt" version "1.18.1"
 }
 
 
@@ -86,8 +86,6 @@ dependencies {
 }
 
 detekt {
-    toolVersion = "1.18.1"
-
     config = files("./detekt-config.yaml")
     buildUponDefaultConfig = true
 }
