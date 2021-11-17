@@ -17,4 +17,6 @@ jobs:
         uses: alaegin/Detekt-Action@v1.18.1.2
         with:
           github_token: ${{ secrets.github_token }}
+          reviewdog_filter: nofilter
+          reviewdog_reporter: github-pr-review
           detekt_config: app/detekt-config.yaml --build-upon-default-config
