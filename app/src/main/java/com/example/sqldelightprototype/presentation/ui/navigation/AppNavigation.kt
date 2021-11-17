@@ -17,11 +17,7 @@ import com.example.sqldelightprototype.presentation.ui.screens.adduserscreen.Add
 import com.example.sqldelightprototype.presentation.ui.screens.foodlistscreen.FoodListScreen
 import com.example.sqldelightprototype.presentation.ui.screens.foodlistscreen.FoodListScreenViewModel
 
-sealed class Screens(val route: String) {
-    object FoodListScreen : Screens("foodList")
-    object AddFoodScreen : Screens("addFood")
-    object AddUserScreen : Screens("addUser")
-}
+
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
