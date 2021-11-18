@@ -17,8 +17,6 @@ import com.example.sqldelightprototype.presentation.ui.screens.adduserscreen.Add
 import com.example.sqldelightprototype.presentation.ui.screens.foodlistscreen.FoodListScreen
 import com.example.sqldelightprototype.presentation.ui.screens.foodlistscreen.FoodListScreenViewModel
 
-
-
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @ExperimentalComposeUiApi
