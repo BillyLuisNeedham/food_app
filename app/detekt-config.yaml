@@ -3,10 +3,11 @@ complexity:
     ignoreDefaultParameters: true
 
 formatting:
-  android: true
   MultiLineIfElse:
     active: false
     autoCorrect: true
+  NoWildcardImports:
+    active: false
 
 naming:
   FunctionNaming:
@@ -26,8 +27,3 @@ style:
     ignorePropertyDeclaration: true
   UnnecessaryAbstractClass:
     active: true
-  WildcardImport:
-    active: false
-    excludes: [ '**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**' ]
-    excludeImports:
-      - 'java.util.*'
