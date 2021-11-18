@@ -18,7 +18,7 @@ jobs:
         with:
           github_token: ${{ secrets.github_token }}
           reviewdog_filter: nofilter
-#          TODO remove or restore
-#          reviewdog_reporter: github-pr-review
           detekt_config: app/detekt-config.yaml --build-upon-default-config
+          detekt_excludes: '**/test/**','**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**'
+
           fail_on_error: true
