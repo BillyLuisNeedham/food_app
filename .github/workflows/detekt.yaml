@@ -19,7 +19,5 @@ jobs:
           github_token: ${{ secrets.github_token }}
           reviewdog_filter: nofilter
           detekt_config: app/detekt-config.yaml --build-upon-default-config
-#          TODO remove or restore when done testing
-#          detekt_excludes: '**/test/**,**/androidTest/**,**/commonTest/**,**/jvmTest/**,**/jsTest/**,**/iosTest/**'
-
+          detekt_baseline: app/detekt-baseline.xml
           fail_on_error: true
