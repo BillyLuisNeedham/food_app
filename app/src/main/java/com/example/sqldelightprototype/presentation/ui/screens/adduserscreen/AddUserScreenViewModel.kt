@@ -7,11 +7,11 @@ import com.example.sqldelightprototype.domain.ResultOf
 import com.example.sqldelightprototype.domain.models.User
 import com.example.sqldelightprototype.domain.usecases.user.AddUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.lang.Exception
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import java.lang.Exception
-import javax.inject.Inject
 
 @HiltViewModel
 class AddUserScreenViewModel @Inject constructor(

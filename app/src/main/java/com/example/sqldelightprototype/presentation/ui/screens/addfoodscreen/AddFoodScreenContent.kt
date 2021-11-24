@@ -161,7 +161,6 @@ private fun TextInputs(
                             keyboardController?.hide()
                             setShowDatePicker(true)
                         }
-
                     }
                     .padding(start = 4.dp)
                     .weight(1f),
@@ -182,4 +181,3 @@ private fun TextInputs(
         )
     }
 }
-

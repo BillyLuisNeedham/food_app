@@ -12,19 +12,19 @@ import com.example.sqldelightprototype.domain.usecases.food.DeleteFoodUseCase
 import com.example.sqldelightprototype.domain.usecases.food.GetAllFoodsSortedByAmountUseCase
 import com.example.sqldelightprototype.domain.usecases.food.GetAllFoodsSortedByExpiryUseCase
 import com.example.sqldelightprototype.domain.usecases.food.GetAllFoodsSortedByNameUseCase
-import com.example.sqldelightprototype.domain.usecases.user.GetAllUsersUseCase
 import com.example.sqldelightprototype.domain.usecases.food.UpdateFoodUseCase
 import com.example.sqldelightprototype.domain.usecases.user.DeleteUserUseCase
+import com.example.sqldelightprototype.domain.usecases.user.GetAllUsersUseCase
 import com.example.sqldelightprototype.presentation.mappers.FoodUiMapper
 import com.example.sqldelightprototype.presentation.models.FoodUi
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class FoodListScreenViewModel @Inject constructor(
@@ -199,7 +199,6 @@ class FoodListScreenViewModel @Inject constructor(
 
                 val result = callback()
                 _state.value = result
-
             } catch (e: Exception) {
                 Log.e(TAG, "exception within runUseCase: $e")
                 _state.value = ResultOf.Error(exception = e)
@@ -220,4 +219,3 @@ class FoodListScreenViewModel @Inject constructor(
         }
     }
 }
-

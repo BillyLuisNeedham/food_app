@@ -109,7 +109,6 @@ fun FoodListScreen(
                             setShowDeleteAllWarning = setShowDeleteAllFoodWarning,
                             setFoodListSort = setFoodListSort
                         )
-
                     }
                 )
             },

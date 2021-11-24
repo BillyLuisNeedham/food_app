@@ -68,7 +68,6 @@ fun UserList(
                 setShowMenu = setShowMenu,
                 onClickDeleteUsers = onClickDeleteUsers
             )
-
         }
 
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
@@ -84,9 +83,7 @@ fun UserList(
                 )
             }
         }
-
     }
-
 }
 
 @Composable
@@ -97,7 +94,7 @@ private fun IconRow(
     showMenu: Boolean,
     setShowMenu: (Boolean) -> Unit,
     onClickDeleteUsers: () -> Unit,
-    ) {
+) {
     Row(modifier = modifier.wrapContentWidth()) {
 
         IconButton(
@@ -177,7 +174,6 @@ fun DropdownMenuUserList(
             Text(stringResource(R.string.delete_all_selected_users))
         }
     }
-
 }
 
 @ExperimentalFoundationApi

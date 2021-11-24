@@ -4,9 +4,9 @@ import com.example.sqldelightprototype.data.utils.extensionfunctions.makeAllStri
 import com.example.sqldelightprototype.domain.models.User
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
-import kotlinx.coroutines.flow.Flow
 import java.lang.IllegalStateException
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
 
 class UserLocalDataSourceImpl @Inject constructor(
     private val foodDatabase: FoodDatabase

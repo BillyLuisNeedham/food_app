@@ -45,7 +45,6 @@ fun FoodListItem(
             deleteFood = deleteFood
         )
     }
-
 }
 
 @Composable
@@ -154,13 +153,15 @@ private fun QuantityDisplay(
     }
 }
 
-
+@Suppress("UnusedPrivateMember")
 @Preview(showBackground = true)
 @Composable
 private fun FoodListItemPreview() {
     val food = FoodUi(
         id = 1L,
-        name = "Apples that are really delicious Apples that are really delicious Apples that are really delicious Apples that are really delicious Apples that are really delicious Apples that are really delicious ",
+        name = "Apples that are really delicious Apples that are really delicious Apples " +
+            "that are really delicious Apples that are really delicious Apples that " +
+            "are really delicious Apples that are really delicious ",
         quantity = 3,
         expirationMessage = "4 Days",
         expirationDate = 10L

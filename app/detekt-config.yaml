@@ -1,0 +1,29 @@
+complexity:
+  LongParameterList:
+    ignoreDefaultParameters: true
+
+formatting:
+  MultiLineIfElse:
+    active: false
+    autoCorrect: true
+  NoWildcardImports:
+    active: false
+
+naming:
+  FunctionNaming:
+    functionPattern: '([a-zA-Z][a-zA-Z0-9]*)|(`.*`)'
+  TopLevelPropertyNaming:
+    constantPattern: '[A-Z][A-Za-z0-9]*'
+
+style:
+  MagicNumber:
+    ignoreNumbers:
+      - '-1'
+      - '0'
+      - '1'
+      - '2'
+      - '3'
+      - '4'
+    ignorePropertyDeclaration: true
+  UnnecessaryAbstractClass:
+    active: true
