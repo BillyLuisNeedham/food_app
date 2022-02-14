@@ -14,8 +14,8 @@ import dagger.hilt.components.SingletonComponent
 abstract class RepositoryModule {
 
     @Binds
-    abstract fun bindFoodRepository(foodRepositoryImpl: FoodRepositoryImpl): FoodRepository
+    abstract fun bindFoodRepository(foodRepositoryImpl: FoodRepositoryImpl): com.billyluisneedham.foodapp.domain.repositories.FoodRepository
 
     @Binds
-    abstract fun bindUserRepository(userRepositoryImpl: UserRepositoryImpl): UserRepository
+    abstract fun bindUserRepository(userRepositoryImpl: UserRepositoryImpl): com.billyluisneedham.foodapp.domain.repositories.UserRepository
 }

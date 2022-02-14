@@ -2,11 +2,11 @@ package com.billyluisneedham.foodapp.data.utils.extensionfunctions
 
 import com.billyluisneedham.foodapp.domain.models.User
 
-fun User.makeAllStringsLowerCase() = this.copy(
+fun com.billyluisneedham.foodapp.domain.models.User.makeAllStringsLowerCase() = this.copy(
     name = this.name.lowercase()
 )
 
-fun User.capitaliseStrings() = this.copy(
+fun com.billyluisneedham.foodapp.domain.models.User.capitaliseStrings() = this.copy(
     name = capitaliseEachName(this.name)
 )
 

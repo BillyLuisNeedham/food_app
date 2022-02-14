@@ -14,7 +14,7 @@ class FoodUiMapper @Inject constructor(
         private const val TAG = "FoodUiMapper"
     }
 
-    fun Food.toFoodUi(): FoodUi {
+    fun com.billyluisneedham.foodapp.domain.models.Food.toFoodUi(): FoodUi {
         val expirationMessage =
             expirationMessage.getMessageForTimeStamp(
                 timeStampInMilliSeconds = expirationDate
@@ -29,7 +29,7 @@ class FoodUiMapper @Inject constructor(
         )
     }
 
-    fun FoodUi.toFood() = Food(
+    fun FoodUi.toFood() = com.billyluisneedham.foodapp.domain.models.Food(
         id = id,
         name = name,
         quantity = quantity,

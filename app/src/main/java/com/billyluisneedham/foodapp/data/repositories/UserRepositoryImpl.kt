@@ -15,41 +15,41 @@ import kotlinx.coroutines.withContext
 
 class UserRepositoryImpl @Inject constructor(
     private val userLocalDataSource: UserLocalDataSource
-) : UserRepository {
+) : com.billyluisneedham.foodapp.domain.repositories.UserRepository {
 
     companion object {
         private const val TAG = "UserRepositoryImpl"
     }
 
-    override fun getAllUsers(): Flow<ResultOf<List<User>>> =
+    override fun getAllUsers(): Flow<com.billyluisneedham.foodapp.domain.ResultOf<List<com.billyluisneedham.foodapp.domain.models.User>>> =
         try {
             userLocalDataSource.getAllUsers().mapNotNull {
-                ResultOf.Success(it)
+                com.billyluisneedham.foodapp.domain.ResultOf.Success(it)
             }
         } catch (e: Exception) {
             Log.e(TAG, "exception within getAllUsers: $e")
-            flow { emit(ResultOf.Error(exception = e)) }
+            flow { emit(com.billyluisneedham.foodapp.domain.ResultOf.Error(exception = e)) }
         }
 
-    override suspend fun addUser(user: User): ResultOf<Unit> =
+    override suspend fun addUser(user: com.billyluisneedham.foodapp.domain.models.User): com.billyluisneedham.foodapp.domain.ResultOf<Unit> =
         withContext(Dispatchers.IO) {
             try {
                 userLocalDataSource.add(user = user)
-                ResultOf.Success(data = Unit)
+                com.billyluisneedham.foodapp.domain.ResultOf.Success(data = Unit)
             } catch (e: Exception) {
                 Log.e(TAG, "exception within addUser: $e")
-                ResultOf.Error(exception = e)
+                com.billyluisneedham.foodapp.domain.ResultOf.Error(exception = e)
             }
         }
 
-    override suspend fun deleteUser(user: User): ResultOf<Unit> =
+    override suspend fun deleteUser(user: com.billyluisneedham.foodapp.domain.models.User): com.billyluisneedham.foodapp.domain.ResultOf<Unit> =
         withContext(Dispatchers.IO) {
             try {
                 userLocalDataSource.delete(user = user)
-                ResultOf.Success(data = Unit)
+                com.billyluisneedham.foodapp.domain.ResultOf.Success(data = Unit)
             } catch (e: Exception) {
                 Log.e(TAG, "exception within deleteUser: $e")
-                ResultOf.Error(exception = e)
+                com.billyluisneedham.foodapp.domain.ResultOf.Error(exception = e)
             }
         }
 }

@@ -26,9 +26,9 @@ import com.billyluisneedham.foodapp.presentation.ui.theme.SqlDelightPrototypeThe
 @Composable
 fun AddFoodScreen(
     modifier: Modifier = Modifier,
-    addFood: (Food) -> Unit,
+    addFood: (com.billyluisneedham.foodapp.domain.models.Food) -> Unit,
     navigateBack: () -> Unit,
-    uploadState: ResultOf<Unit>?,
+    uploadState: com.billyluisneedham.foodapp.domain.ResultOf<Unit>?,
     timeManager: TimeManager
 ) {
     val (name, setName) = remember { mutableStateOf("") }
@@ -102,18 +102,18 @@ fun AddFoodScreen(
 }
 
 private fun handleActionsOnUploadState(
-    uploadState: ResultOf<Unit>?,
+    uploadState: com.billyluisneedham.foodapp.domain.ResultOf<Unit>?,
     onError: () -> Unit,
     onSuccess: () -> Unit
 ) {
     when (uploadState) {
-        is ResultOf.Error -> {
+        is com.billyluisneedham.foodapp.domain.ResultOf.Error -> {
             onError()
         }
-        ResultOf.Loading -> {
+        com.billyluisneedham.foodapp.domain.ResultOf.Loading -> {
             // TODO write
         }
-        is ResultOf.Success -> {
+        is com.billyluisneedham.foodapp.domain.ResultOf.Success -> {
             onSuccess()
         }
     }
@@ -125,7 +125,7 @@ private fun onAddFood(
     amount: String,
     expiryTimeStamp: Long,
     keyboardController: SoftwareKeyboardController?,
-    addFood: (Food) -> Unit,
+    addFood: (com.billyluisneedham.foodapp.domain.models.Food) -> Unit,
     showError: (Boolean) -> Unit,
     setNameError: (ErrorState) -> Unit,
     setAmountError: (ErrorState) -> Unit,
@@ -158,7 +158,7 @@ private fun onAddFood(
             showError(false)
             keyboardController?.hide()
             addFood(
-                Food(
+                com.billyluisneedham.foodapp.domain.models.Food(
                     name = name,
                     quantity = amount.toInt(),
                     expirationDate = expiryTimeStamp

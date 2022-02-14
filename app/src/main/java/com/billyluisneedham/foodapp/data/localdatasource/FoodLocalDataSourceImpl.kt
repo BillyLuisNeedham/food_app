@@ -15,11 +15,11 @@ class FoodLocalDataSourceImpl @Inject constructor(
         private const val TAG = "FoodLocalDataSourceImpl"
     }
 
-    override fun getAllSortedByName(): Flow<List<Food>> =
+    override fun getAllSortedByName(): Flow<List<com.billyluisneedham.foodapp.domain.models.Food>> =
         foodDatabase
             .queries.foodQueries.selectAllSortByName(
                 mapper = { id, name, quantity, expirationDate ->
-                    Food(
+                    com.billyluisneedham.foodapp.domain.models.Food(
                         id = id,
                         name = name,
                         quantity = quantity.toInt(),
@@ -28,11 +28,11 @@ class FoodLocalDataSourceImpl @Inject constructor(
                 }
             ).asFlow().mapToList()
 
-    override fun getAllSortedByExpiry(): Flow<List<Food>> =
+    override fun getAllSortedByExpiry(): Flow<List<com.billyluisneedham.foodapp.domain.models.Food>> =
         foodDatabase
             .queries.foodQueries.selectAllSortByExpiry(
                 mapper = { id, name, quantity, expirationDate ->
-                    Food(
+                    com.billyluisneedham.foodapp.domain.models.Food(
                         id = id,
                         name = name,
                         quantity = quantity.toInt(),
@@ -41,11 +41,11 @@ class FoodLocalDataSourceImpl @Inject constructor(
                 }
             ).asFlow().mapToList()
 
-    override fun getAllSortedByAmount(): Flow<List<Food>> =
+    override fun getAllSortedByAmount(): Flow<List<com.billyluisneedham.foodapp.domain.models.Food>> =
         foodDatabase
             .queries.foodQueries.selectAllSortByAmount(
                 mapper = { id, name, quantity, expirationDate ->
-                    Food(
+                    com.billyluisneedham.foodapp.domain.models.Food(
                         id = id,
                         name = name,
                         quantity = quantity.toInt(),
@@ -54,7 +54,7 @@ class FoodLocalDataSourceImpl @Inject constructor(
                 }
             ).asFlow().mapToList()
 
-    override suspend fun add(food: Food) =
+    override suspend fun add(food: com.billyluisneedham.foodapp.domain.models.Food) =
         foodDatabase
             .queries.foodQueries.insertOrReplace(
                 id = food.id,
@@ -63,9 +63,9 @@ class FoodLocalDataSourceImpl @Inject constructor(
                 expiry_date = food.expirationDate
             )
 
-    override suspend fun update(food: Food) = add(food = food)
+    override suspend fun update(food: com.billyluisneedham.foodapp.domain.models.Food) = add(food = food)
 
-    override suspend fun delete(food: Food) {
+    override suspend fun delete(food: com.billyluisneedham.foodapp.domain.models.Food) {
         food.id?.let {
             foodDatabase
                 .queries.foodQueries.deleteById(id = food.id)

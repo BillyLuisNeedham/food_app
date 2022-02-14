@@ -6,8 +6,8 @@ import com.billyluisneedham.foodapp.domain.repositories.FoodRepository
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 
-class GetAllFoodsSortedByExpiryUseCase @Inject constructor(
+class GetAllFoodsSortedByNameUseCase @Inject constructor(
     private val foodRepository: FoodRepository
 ) {
-    fun get(): Flow<ResultOf<List<Food>>> = foodRepository.getAllFoodsSortedByExpiry()
+    fun get(): Flow<com.billyluisneedham.foodapp.domain.ResultOf<List<Food>>> = foodRepository.getAllFoodsSortedByName()
 }

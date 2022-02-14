@@ -3,7 +3,6 @@ package com.billyluisneedham.foodapp.presentation.ui.screens.foodlistscreen
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.billyluisneedham.foodapp.data.utils.extensionfunctions.capitaliseStrings
 import com.billyluisneedham.foodapp.domain.ResultOf
 import com.billyluisneedham.foodapp.domain.models.Food
 import com.billyluisneedham.foodapp.domain.models.User
@@ -22,20 +21,19 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class FoodListScreenViewModel @Inject constructor(
-    private val getAllFoodsSortedByNameUseCase: GetAllFoodsSortedByNameUseCase,
-    private val getAllFoodsSortedByExpiryUseCase: GetAllFoodsSortedByExpiryUseCase,
-    private val getAllFoodsSortedByAmountUseCase: GetAllFoodsSortedByAmountUseCase,
-    private val deleteFoodUseCase: DeleteFoodUseCase,
-    private val updateFoodUseCase: UpdateFoodUseCase,
-    private val deleteAllFoodsUseCase: DeleteAllFoodsUseCase,
-    private val getAllUsersUseCase: GetAllUsersUseCase,
-    private val deleteUserUseCase: DeleteUserUseCase,
+    private val getAllFoodsSortedByNameUseCase: com.billyluisneedham.foodapp.domain.usecases.food.GetAllFoodsSortedByNameUseCase,
+    private val getAllFoodsSortedByExpiryUseCase: com.billyluisneedham.foodapp.domain.usecases.food.GetAllFoodsSortedByExpiryUseCase,
+    private val getAllFoodsSortedByAmountUseCase: com.billyluisneedham.foodapp.domain.usecases.food.GetAllFoodsSortedByAmountUseCase,
+    private val deleteFoodUseCase: com.billyluisneedham.foodapp.domain.usecases.food.DeleteFoodUseCase,
+    private val updateFoodUseCase: com.billyluisneedham.foodapp.domain.usecases.food.UpdateFoodUseCase,
+    private val deleteAllFoodsUseCase: com.billyluisneedham.foodapp.domain.usecases.food.DeleteAllFoodsUseCase,
+    private val getAllUsersUseCase: com.billyluisneedham.foodapp.domain.usecases.user.GetAllUsersUseCase,
+    private val deleteUserUseCase: com.billyluisneedham.foodapp.domain.usecases.user.DeleteUserUseCase,
     private val foodUiMapper: FoodUiMapper
 ) : ViewModel() {
 
@@ -49,20 +47,20 @@ class FoodListScreenViewModel @Inject constructor(
         }
     }
 
-    private val _state = MutableStateFlow<ResultOf<Unit>>(ResultOf.Success(data = Unit))
-    val state: StateFlow<ResultOf<Unit>>
+    private val _state = MutableStateFlow<com.billyluisneedham.foodapp.domain.ResultOf<Unit>>(com.billyluisneedham.foodapp.domain.ResultOf.Success(data = Unit))
+    val state: StateFlow<com.billyluisneedham.foodapp.domain.ResultOf<Unit>>
         get() = _state
 
     private val _foodList = MutableStateFlow(listOf<FoodUi>())
     val foodList: StateFlow<List<FoodUi>>
         get() = _foodList
 
-    private val _userList = MutableStateFlow(listOf<User>())
-    val userList: StateFlow<List<User>>
+    private val _userList = MutableStateFlow(listOf<com.billyluisneedham.foodapp.domain.models.User>())
+    val userList: StateFlow<List<com.billyluisneedham.foodapp.domain.models.User>>
         get() = _userList
 
-    private val _selectedUsers = MutableStateFlow(listOf<User>())
-    val selectedUsers: StateFlow<List<User>>
+    private val _selectedUsers = MutableStateFlow(listOf<com.billyluisneedham.foodapp.domain.models.User>())
+    val selectedUsers: StateFlow<List<com.billyluisneedham.foodapp.domain.models.User>>
         get() = _selectedUsers
 
     init {
@@ -109,7 +107,7 @@ class FoodListScreenViewModel @Inject constructor(
         }
     }
 
-    fun addOrRemoveUserIdToSelectedUserIds(user: User) {
+    fun addOrRemoveUserIdToSelectedUserIds(user: com.billyluisneedham.foodapp.domain.models.User) {
         when (user) {
             in _selectedUsers.value ->
                 removeUserIdFromSelectedUserIds(user = user)
@@ -128,18 +126,18 @@ class FoodListScreenViewModel @Inject constructor(
         }
     }
 
-    private fun deleteUser(user: User) {
+    private fun deleteUser(user: com.billyluisneedham.foodapp.domain.models.User) {
         runUseCase {
             deleteUserUseCase.delete(user)
         }
     }
 
-    private fun removeUserIdFromSelectedUserIds(user: User) {
+    private fun removeUserIdFromSelectedUserIds(user: com.billyluisneedham.foodapp.domain.models.User) {
         _selectedUsers.value =
             _selectedUsers.value.filterNot { it == user }
     }
 
-    private fun addUserIdToSelectedUserIds(user: User) {
+    private fun addUserIdToSelectedUserIds(user: com.billyluisneedham.foodapp.domain.models.User) {
         _selectedUsers.value = _selectedUsers.value.plus(user)
     }
 
@@ -148,16 +146,16 @@ class FoodListScreenViewModel @Inject constructor(
             val users =
                 getAllUsersUseCase.get().map {
                     when (it) {
-                        is ResultOf.Error -> {
+                        is com.billyluisneedham.foodapp.domain.ResultOf.Error -> {
                             _state.value = it
                             listOf()
                         }
-                        ResultOf.Loading -> {
-                            _state.value = ResultOf.Loading
+                        com.billyluisneedham.foodapp.domain.ResultOf.Loading -> {
+                            _state.value = com.billyluisneedham.foodapp.domain.ResultOf.Loading
                             listOf()
                         }
-                        is ResultOf.Success -> {
-                            _state.value = ResultOf.Success(data = Unit)
+                        is com.billyluisneedham.foodapp.domain.ResultOf.Success -> {
+                            _state.value = com.billyluisneedham.foodapp.domain.ResultOf.Success(data = Unit)
                             it.data
                         }
                     }
@@ -172,19 +170,19 @@ class FoodListScreenViewModel @Inject constructor(
     }
 
     private fun getFoodHandler(
-        getFoodCallback: () -> Flow<ResultOf<List<Food>>>
+        getFoodCallback: () -> Flow<com.billyluisneedham.foodapp.domain.ResultOf<List<com.billyluisneedham.foodapp.domain.models.Food>>>
     ) = getFoodCallback().map {
         when (it) {
-            is ResultOf.Error -> {
+            is com.billyluisneedham.foodapp.domain.ResultOf.Error -> {
                 _state.value = it
                 listOf()
             }
-            ResultOf.Loading -> {
-                _state.value = ResultOf.Loading
+            com.billyluisneedham.foodapp.domain.ResultOf.Loading -> {
+                _state.value = com.billyluisneedham.foodapp.domain.ResultOf.Loading
                 listOf()
             }
-            is ResultOf.Success -> {
-                _state.value = ResultOf.Success(data = Unit)
+            is com.billyluisneedham.foodapp.domain.ResultOf.Success -> {
+                _state.value = com.billyluisneedham.foodapp.domain.ResultOf.Success(data = Unit)
                 mapSuccessToUiModel(
                     models = it,
                 )
@@ -192,27 +190,27 @@ class FoodListScreenViewModel @Inject constructor(
         }
     }
 
-    private fun runUseCase(callback: suspend () -> ResultOf<Unit>) {
+    private fun runUseCase(callback: suspend () -> com.billyluisneedham.foodapp.domain.ResultOf<Unit>) {
         viewModelScope.launch {
             try {
-                _state.value = ResultOf.Loading
+                _state.value = com.billyluisneedham.foodapp.domain.ResultOf.Loading
 
                 val result = callback()
                 _state.value = result
             } catch (e: Exception) {
                 Log.e(TAG, "exception within runUseCase: $e")
-                _state.value = ResultOf.Error(exception = e)
+                _state.value = com.billyluisneedham.foodapp.domain.ResultOf.Error(exception = e)
             }
         }
     }
 
-    private fun FoodUi.mapFoodUiToFood(): Food =
+    private fun FoodUi.mapFoodUiToFood(): com.billyluisneedham.foodapp.domain.models.Food =
         with(foodUiMapper) {
             this@mapFoodUiToFood.toFood()
         }
 
     private fun mapSuccessToUiModel(
-        models: ResultOf.Success<List<Food>>,
+        models: com.billyluisneedham.foodapp.domain.ResultOf.Success<List<com.billyluisneedham.foodapp.domain.models.Food>>,
     ) = models.data.map { food ->
         with(foodUiMapper) {
             food.toFoodUi()

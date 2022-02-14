@@ -36,9 +36,9 @@ import com.billyluisneedham.foodapp.presentation.ui.theme.SqlDelightPrototypeThe
 
 @Composable
 fun AddUserScreen(
-    screenState: ResultOf<Unit>?,
+    screenState: com.billyluisneedham.foodapp.domain.ResultOf<Unit>?,
     navigateBack: () -> Unit,
-    addUser: (User) -> Unit
+    addUser: (com.billyluisneedham.foodapp.domain.models.User) -> Unit
 ) {
     val (name, setName) = remember { mutableStateOf("") }
     val (nameError, setNameError) = remember {
@@ -59,9 +59,9 @@ fun AddUserScreen(
         setShowError(false)
 
         when (screenState) {
-            is ResultOf.Error -> setShowError(true)
-            ResultOf.Loading -> setShowLoading(true)
-            is ResultOf.Success -> navigateBack()
+            is com.billyluisneedham.foodapp.domain.ResultOf.Error -> setShowError(true)
+            com.billyluisneedham.foodapp.domain.ResultOf.Loading -> setShowLoading(true)
+            is com.billyluisneedham.foodapp.domain.ResultOf.Success -> navigateBack()
         }
     }
 
@@ -82,7 +82,7 @@ fun AddUserScreen(
                                     nameError.copy(error = true)
                                 )
                                 else -> addUser(
-                                    User(name = name)
+                                    com.billyluisneedham.foodapp.domain.models.User(name = name)
                                 )
                             }
                         }
@@ -123,9 +123,9 @@ fun AddUserScreen(
     }
 }
 
-private fun getErrorMessage(screenState: ResultOf<Unit>?, context: Context): String =
+private fun getErrorMessage(screenState: com.billyluisneedham.foodapp.domain.ResultOf<Unit>?, context: Context): String =
     when {
-        screenState is ResultOf.Error && screenState.message != null -> {
+        screenState is com.billyluisneedham.foodapp.domain.ResultOf.Error && screenState.message != null -> {
             screenState.message
         }
         else -> context.getString(R.string.error_generic)
@@ -136,7 +136,7 @@ private fun getErrorMessage(screenState: ResultOf<Unit>?, context: Context): Str
 fun AddUserScreenPreview() {
     SqlDelightPrototypeTheme {
         AddUserScreen(
-            screenState = ResultOf.Success(Unit),
+            screenState = com.billyluisneedham.foodapp.domain.ResultOf.Success(Unit),
             navigateBack = {},
             addUser = {}
         )

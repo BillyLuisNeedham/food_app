@@ -45,13 +45,13 @@ fun FoodListScreen(
     onClickFab: () -> Unit,
     setFoodQuantity: (food: FoodUi) -> Unit,
     deleteFood: (food: FoodUi) -> Unit,
-    screenState: ResultOf<Unit>,
+    screenState: com.billyluisneedham.foodapp.domain.ResultOf<Unit>,
     deleteAllFoods: () -> Unit,
     setFoodListSort: (FoodListScreenViewModel.Companion.SortFoods) -> Unit,
     navigateToAddUserScreen: () -> Unit,
-    userList: List<User>,
-    selectedUsers: List<User>,
-    onLongPressUserListItem: (User) -> Unit,
+    userList: List<com.billyluisneedham.foodapp.domain.models.User>,
+    selectedUsers: List<com.billyluisneedham.foodapp.domain.models.User>,
+    onLongPressUserListItem: (com.billyluisneedham.foodapp.domain.models.User) -> Unit,
     clearSelectedUserIds: () -> Unit,
     deleteAllSelectedUsers: () -> Unit,
 ) {
@@ -156,21 +156,21 @@ private fun UiDisplayHandler(
     foodList: List<FoodUi>,
     setFoodQuantity: (food: FoodUi) -> Unit,
     deleteFood: (food: FoodUi) -> Unit,
-    screenState: ResultOf<Unit>
+    screenState: com.billyluisneedham.foodapp.domain.ResultOf<Unit>
 ) {
     return when (screenState) {
-        is ResultOf.Success -> FoodListContent(
+        is com.billyluisneedham.foodapp.domain.ResultOf.Success -> FoodListContent(
             modifier = Modifier.fillMaxSize(),
             foodList = foodList,
             setFoodQuantity = setFoodQuantity,
             deleteFood = deleteFood
         )
-        is ResultOf.Error -> ErrorUi(
+        is com.billyluisneedham.foodapp.domain.ResultOf.Error -> ErrorUi(
             showDialog = true,
             dismissDialog = {},
             message = stringResource(R.string.error_getting_list)
         )
-        ResultOf.Loading -> LoadingUi(showDialog = true)
+        com.billyluisneedham.foodapp.domain.ResultOf.Loading -> LoadingUi(showDialog = true)
     }
 }
 
@@ -185,7 +185,7 @@ fun FoodListScreenPreview() {
             onClickFab = {},
             setFoodQuantity = {},
             deleteFood = {},
-            screenState = ResultOf.Success(data = Unit),
+            screenState = com.billyluisneedham.foodapp.domain.ResultOf.Success(data = Unit),
             deleteAllFoods = {},
             setFoodListSort = {},
             navigateToAddUserScreen = {},

@@ -16,16 +16,16 @@ class UserLocalDataSourceImpl @Inject constructor(
         private const val TAG = "UserLocalDataSourceImpl"
     }
 
-    override fun getAllUsers(): Flow<List<User>> =
+    override fun getAllUsers(): Flow<List<com.billyluisneedham.foodapp.domain.models.User>> =
         foodDatabase
             .queries.userQueries.selectAll { id, name ->
-                User(
+                com.billyluisneedham.foodapp.domain.models.User(
                     id = id,
                     name = name
                 )
             }.asFlow().mapToList()
 
-    override suspend fun add(user: User) {
+    override suspend fun add(user: com.billyluisneedham.foodapp.domain.models.User) {
         val lowerCaseUser = user.makeAllStringsLowerCase()
         foodDatabase
             .queries.userQueries.insertOrReplace(
@@ -34,7 +34,7 @@ class UserLocalDataSourceImpl @Inject constructor(
             )
     }
 
-    override suspend fun delete(user: User) {
+    override suspend fun delete(user: com.billyluisneedham.foodapp.domain.models.User) {
         foodDatabase
             .queries.userQueries.delete(
                 id = user.id

@@ -37,11 +37,11 @@ import com.billyluisneedham.foodapp.presentation.ui.theme.SqlDelightPrototypeThe
 @Composable
 fun UserList(
     modifier: Modifier = Modifier,
-    userList: List<User>,
+    userList: List<com.billyluisneedham.foodapp.domain.models.User>,
     onClickAddUser: () -> Unit,
-    onClickUser: (User) -> Unit,
-    onLongPressUser: (User) -> Unit,
-    selectedUsers: List<User>,
+    onClickUser: (com.billyluisneedham.foodapp.domain.models.User) -> Unit,
+    onLongPressUser: (com.billyluisneedham.foodapp.domain.models.User) -> Unit,
+    selectedUsers: List<com.billyluisneedham.foodapp.domain.models.User>,
     onClickDeleteUsers: () -> Unit,
 ) {
     val (showMenu, setShowMenu) = remember { mutableStateOf(false) }
@@ -90,7 +90,7 @@ fun UserList(
 private fun IconRow(
     modifier: Modifier = Modifier,
     onClickAddUser: () -> Unit,
-    selectedUsers: List<User>,
+    selectedUsers: List<com.billyluisneedham.foodapp.domain.models.User>,
     showMenu: Boolean,
     setShowMenu: (Boolean) -> Unit,
     onClickDeleteUsers: () -> Unit,
@@ -134,9 +134,9 @@ private fun IconRow(
 @Composable
 private fun UserListItem(
     modifier: Modifier = Modifier,
-    user: User,
-    onTap: (User) -> Unit,
-    onLongPress: (User) -> Unit,
+    user: com.billyluisneedham.foodapp.domain.models.User,
+    onTap: (com.billyluisneedham.foodapp.domain.models.User) -> Unit,
+    onLongPress: (com.billyluisneedham.foodapp.domain.models.User) -> Unit,
     selected: Boolean,
 ) {
     Surface(
@@ -183,10 +183,10 @@ fun UserListPreview() {
     SqlDelightPrototypeTheme {
         UserList(
             userList = listOf(
-                User(name = "Hello World"),
-                User(name = "Hello World"),
-                User(name = "Hello World"),
-                User(name = "Hello World"),
+                com.billyluisneedham.foodapp.domain.models.User(name = "Hello World"),
+                com.billyluisneedham.foodapp.domain.models.User(name = "Hello World"),
+                com.billyluisneedham.foodapp.domain.models.User(name = "Hello World"),
+                com.billyluisneedham.foodapp.domain.models.User(name = "Hello World"),
             ),
             onClickAddUser = {},
             onClickUser = {},
