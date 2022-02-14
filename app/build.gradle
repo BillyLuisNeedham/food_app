@@ -12,7 +12,7 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "com.example.sqldelightprototype"
+        applicationId "com.billyluisneedham.foodapp"
         minSdk 26
         targetSdk 31
         versionCode 1
