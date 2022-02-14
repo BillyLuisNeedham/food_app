@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.withContext
 
 class UserRepositoryImpl @Inject constructor(
-    private val userLocalDataSource: UserLocalDataSource
+    private val userLocalDataSource: com.billyluisneedham.foodapp.data.localdatasource.UserLocalDataSource
 ) : com.billyluisneedham.foodapp.domain.repositories.UserRepository {
 
     companion object {

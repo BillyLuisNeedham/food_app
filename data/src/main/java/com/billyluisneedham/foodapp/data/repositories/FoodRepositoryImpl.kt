@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.withContext
 
 class FoodRepositoryImpl @Inject constructor(
-    private val foodLocalDataSource: FoodLocalDataSource
+    private val foodLocalDataSource: com.billyluisneedham.foodapp.data.localdatasource.FoodLocalDataSource
 ) : com.billyluisneedham.foodapp.domain.repositories.FoodRepository {
 
     companion object {

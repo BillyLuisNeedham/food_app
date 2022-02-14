@@ -7,7 +7,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class ExpirationMessageImpl @Inject constructor(
-    private val timeManager: TimeManager,
+    private val timeManager: com.billyluisneedham.foodapp.data.utils.time.TimeManager,
     @ApplicationContext val context: Context
 ) : ExpirationMessage {
 

@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class AddFoodScreenViewModel @Inject constructor(
     private val addFoodUseCase: com.billyluisneedham.foodapp.domain.usecases.food.AddFoodUseCase,
-    val timeManager: TimeManager
+    val timeManager: com.billyluisneedham.foodapp.data.utils.time.TimeManager
 ) : ViewModel() {
 
     private val _uploadState: MutableStateFlow<com.billyluisneedham.foodapp.domain.ResultOf<Unit>?> = MutableStateFlow(null)

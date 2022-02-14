@@ -29,7 +29,7 @@ fun AddFoodScreen(
     addFood: (com.billyluisneedham.foodapp.domain.models.Food) -> Unit,
     navigateBack: () -> Unit,
     uploadState: com.billyluisneedham.foodapp.domain.ResultOf<Unit>?,
-    timeManager: TimeManager
+    timeManager: com.billyluisneedham.foodapp.data.utils.time.TimeManager
 ) {
     val (name, setName) = remember { mutableStateOf("") }
     val (amount, setAmount) = remember { mutableStateOf("") }
@@ -177,7 +177,7 @@ fun AddFoodScreenPreview() {
             addFood = { TODO() },
             navigateBack = {},
             uploadState = null,
-            timeManager = TimeManagerImpl()
+            timeManager = com.billyluisneedham.foodapp.data.utils.time.TimeManagerImpl()
         )
     }
 }
