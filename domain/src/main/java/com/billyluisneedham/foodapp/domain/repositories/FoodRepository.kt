@@ -5,11 +5,11 @@ import com.billyluisneedham.foodapp.domain.models.Food
 import kotlinx.coroutines.flow.Flow
 
 interface FoodRepository {
-    fun getAllFoodsSortedByName(): Flow<com.billyluisneedham.foodapp.domain.ResultOf<List<Food>>>
-    fun getAllFoodsSortedByExpiry(): Flow<com.billyluisneedham.foodapp.domain.ResultOf<List<Food>>>
-    fun getAllFoodsSortedByAmount(): Flow<com.billyluisneedham.foodapp.domain.ResultOf<List<Food>>>
-    suspend fun addFood(food: Food): com.billyluisneedham.foodapp.domain.ResultOf<Unit>
-    suspend fun updateFood(food: Food): com.billyluisneedham.foodapp.domain.ResultOf<Unit>
-    suspend fun deleteFood(food: Food): com.billyluisneedham.foodapp.domain.ResultOf<Unit>
-    suspend fun deleteAllFoods(): com.billyluisneedham.foodapp.domain.ResultOf<Unit>
+    fun getAllFoodsSortedByName(): Flow<ResultOf<List<Food>>>
+    fun getAllFoodsSortedByExpiry(): Flow<ResultOf<List<Food>>>
+    fun getAllFoodsSortedByAmount(): Flow<ResultOf<List<Food>>>
+    suspend fun addFood(food: Food): ResultOf<Unit>
+    suspend fun updateFood(food: Food): ResultOf<Unit>
+    suspend fun deleteFood(food: Food): ResultOf<Unit>
+    suspend fun deleteAllFoods(): ResultOf<Unit>
 }
